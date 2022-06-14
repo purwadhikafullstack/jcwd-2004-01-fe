@@ -17,21 +17,25 @@ export default function Home() {
 
   return (
     <>
-      <MobileHeader
-      firstProp={null}
-      secondProp={<SearchBar placeholder={"Hayo mau cari apa"}/>}
-      thirdProp={<Button variant={"outlineCustom"} h={"44px"} w={"114px"}>Masuk</Button>}
-      fourthProp={<Button variant={"fillCustom"} h={"44px"} w={"114px"}>Daftar</Button>}
-      classExtend={"hidden lg:flex"}/>
-      <MobileNavbar/>
+      <div className="mx-8">
+        <MobileHeader
+        firstProp={null}
+        secondProp={<SearchBar placeholder={"Hayo mau cari apa"}/>}
+        thirdProp={<Button variant={"outlineCustom"} h={"44px"} w={"114px"}>Masuk</Button>}
+        fourthProp={<Button variant={"fillCustom"} h={"44px"} w={"114px"}>Daftar</Button>}
+        classExtend={"hidden lg:flex"}/>
+        <MobileNavbar/>
+      </div>
 
-      <MobileHeader
-      firstProp={null}
-      secondProp={<SearchBar placeholder={"Hayo mau cari apa"}/>}
-      thirdProp={<IoNotificationsSharp/>}
-      fourthProp={<FaShoppingCart/>}
-      classExtend={"flex lg:hidden"}/>
-      <MobileNavbar/>
+      <div className="mx-8">
+        <MobileHeader
+        firstProp={null}
+        secondProp={<SearchBar placeholder={"Hayo mau cari apa"}/>}
+        thirdProp={<IoNotificationsSharp/>}
+        fourthProp={<FaShoppingCart/>}
+        classExtend={"flex lg:hidden"}/>
+        <MobileNavbar/>
+      </div>
 
       {/* <MobileCategoryCard 
       icon={<GiMedicines/>}

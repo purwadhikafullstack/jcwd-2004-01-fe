@@ -3,25 +3,25 @@ import { whiten } from "@chakra-ui/theme-tools";
 export const ButtonStyles = {
   baseStyle: {
     _focus: {
-      boxShadow: "orangeSecondary",
+      boxShadow: "blackPrimary",
     },
   },
   sizes: {},
   variants: {
     fillCustom: {
-      bg: "orangeSecondaryDarker",
+      bg: "blackPrimary",
       color: "white",
       _hover: {
-        bg: "orangeSecondaryDarkerer",
+        bg: whiten("blackPrimary", 20),
       },
     },
     outlineCustom: {
       bg: "none",
-      color: "orangeSecondaryDarker",
+      color: "blackPrimary",
       border: "2px solid",
-      borderColor: "orangeSecondaryDarker",
+      borderColor: "blackPrimary",
       _hover: {
-        bg: whiten("orangeSecondaryLighter", 80),
+        bg: whiten("blackPrimary", 90),
       },
     },
   },
