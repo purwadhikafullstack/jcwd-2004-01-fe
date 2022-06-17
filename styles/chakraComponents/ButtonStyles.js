@@ -13,6 +13,9 @@ export const ButtonStyles = {
       color: "white",
       _hover: {
         bg: whiten("blackPrimary", 20),
+        _disabled: {
+          bg: whiten("blackPrimary", 0),
+        },
       },
     },
     outlineCustom: {
@@ -22,6 +25,9 @@ export const ButtonStyles = {
       borderColor: "blackPrimary",
       _hover: {
         bg: whiten("blackPrimary", 90),
+        _disabled: {
+          bg: whiten("blackPrimary", 0),
+        },
       },
     },
   },
