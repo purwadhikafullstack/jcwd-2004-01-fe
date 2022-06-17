@@ -49,6 +49,7 @@ export const loginAction = ({ ...values }) => {
       dispatch({ type: "LOGIN", payload: { ...res.data } });
 
       Cookies.set("token", res.headers["x-token-access"]);
+      // Cookies.set("role", encryptrole);
       toast.success("🦄 Wow so easy!", {
         position: "bottom-center",
         autoClose: 5000,
