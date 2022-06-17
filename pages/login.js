@@ -24,7 +24,7 @@ const Login = ({ loginAction }) => {
 
   const router = useRouter();
 
-  const { isLogin } = useUser();
+  const { isLogin, role_id } = useUser();
 
   const formik = useFormik({
     initialValues: {
@@ -34,7 +34,7 @@ const Login = ({ loginAction }) => {
 
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(25, "Must contain 25 characters or less")
+        .max(255, "Must contain 25 characters or less")
         .required("Required"),
       password: Yup.string()
         .min(8, "Must contain 8 characters or more")
@@ -51,8 +51,10 @@ const Login = ({ loginAction }) => {
     },
   });
 
-  if (isLogin) {
-    router.push("/");
+  if (isLogin && role_id == 0) {
+    router.push("/home");
+  } else if (isLogin && role_id == 1) {
+    router.push("/admin/dashboard");
   }
 
   return (
