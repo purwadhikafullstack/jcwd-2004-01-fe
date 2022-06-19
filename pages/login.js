@@ -51,9 +51,10 @@ const Login = ({ loginAction }) => {
     },
   });
 
-  if (isLogin && role_id == 0) {
+  console.log(role_id, "role");
+  if (isLogin && role_id == "user") {
     router.push("/home");
-  } else if (isLogin && role_id == 1) {
+  } else if (isLogin && role_id == "admin") {
     router.push("/admin/dashboard");
   }
 
@@ -135,6 +136,11 @@ const Login = ({ loginAction }) => {
                 value={formik.values.password}
               />
             </div>
+            {formik.touched.password && formik.errors.password ? (
+              <p className="text-sm ml-3 text-pinktertiary">
+                {formik.errors.password}
+              </p>
+            ) : null}
           </div>
 
           <div className="flex justify-between items-center w-[327px] lg:w-[528px] mt-2">
