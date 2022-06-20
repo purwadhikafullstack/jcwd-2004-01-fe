@@ -56,9 +56,10 @@ const Login = ({ loginAction }) => {
     },
   });
 
-  if (isLogin && role_id == 0) {
-    router.push("/");
-  } else if (isLogin && role_id == 1) {
+  console.log(role_id, "role");
+  if (isLogin && role_id == "user") {
+    router.push("/home");
+  } else if (isLogin && role_id == "admin") {
     router.push("/admin/dashboard");
   }
 
