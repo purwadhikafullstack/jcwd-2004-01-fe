@@ -13,6 +13,16 @@ export const registerAction = ({ ...values }) => {
       });
 
       dispatch({ type: "LOGIN", payload: res1.data });
+      toast.success("Successfully registered!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
 
       Cookies.set("token", res1.headers["x-token-access"]);
     } catch (error) {
@@ -21,7 +31,6 @@ export const registerAction = ({ ...values }) => {
         payload: error.response.data.message || "Network Error",
       });
       toast.error(error.response.data.message, {
-        className: "toastify-color-error",
         position: "bottom-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -49,7 +58,7 @@ export const loginAction = ({ ...values }) => {
       dispatch({ type: "LOGIN", payload: { ...res.data } });
 
       Cookies.set("token", res.headers["x-token-access"]);
-      toast.success("🦄 Wow so easy!", {
+      toast.success("Welcome back!", {
         position: "bottom-center",
         autoClose: 5000,
         hideProgressBar: false,
@@ -64,7 +73,7 @@ export const loginAction = ({ ...values }) => {
         type: "ERROR",
         payload: error.response.data.message || "Network Error",
       });
-      toast.error("Heyya", {
+      toast.error(error.response.data.message, {
         position: "bottom-center",
         autoClose: 5000,
         hideProgressBar: false,

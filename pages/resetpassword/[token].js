@@ -12,10 +12,13 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import API_URL from "../../helpers/apiurl";
+import { toast } from "react-toastify";
 
 const ResetPassword = () => {
   const imageRegisterLogin = "/Frame.svg";
   const logo = "/LogoHealthymed.svg";
+
+  const [disable, setDisable] = useState(false);
 
   const router = useRouter();
 
@@ -46,15 +49,37 @@ const ResetPassword = () => {
 
     onSubmit: async (values) => {
       try {
+        setDisable(true);
         await axios.post(`${API_URL}/auth/resetpassword`, values, {
           headers: {
             authorization: `Bearer ${token}`,
           },
         });
-
+        toast.success("Password successfully reset!", {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
         router.push("/login");
       } catch (error) {
         console.log(error);
+        toast.error(error.response.data.message, {
+          position: "bottom-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } finally {
+        setDisable(false);
       }
     },
   });
@@ -144,14 +169,20 @@ const ResetPassword = () => {
           </div>
 
           <div className="w-[327px] lg:w-[528px] pt-8">
-            <Button type="submit" w="full" h="48px" variant={"fillCustom"}>
+            <Button
+              isDisabled={disable}
+              type="submit"
+              w="full"
+              h="48px"
+              variant={"fillCustom"}
+            >
               Reset Password
             </Button>
           </div>
 
           <p className="mt-10 pb-10 lg:pb-0">
             Belum punya akun?{" "}
-            <Link href="">
+            <Link href="/register">
               <span className="hover:cursor-pointer font-bold">Daftar</span>
             </Link>
           </p>
