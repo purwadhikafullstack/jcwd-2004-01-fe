@@ -53,7 +53,7 @@ export const loginAction = ({ ...values }) => {
       dispatch({ type: "LOADING" });
       let res = await axios.post(`${API_URL}/auth/login`, {
         ...values,
-        email: values.name,
+        email: values.username,
       });
       dispatch({ type: "LOGIN", payload: { ...res.data } });
 

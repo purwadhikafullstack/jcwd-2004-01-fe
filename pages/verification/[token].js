@@ -42,7 +42,7 @@ const Verification = () => {
 
   useEffect(() => {
     if (mounted.current) {
-      return verify();
+      verify();
     }
     mounted.current = true;
     return () => {};
