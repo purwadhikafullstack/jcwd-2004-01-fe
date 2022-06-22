@@ -31,12 +31,13 @@ const Login = ({ loginAction }) => {
 
   const formik = useFormik({
     initialValues: {
-      name: "",
+      username: "",
       password: "",
+      email: "",
     },
 
     validationSchema: Yup.object({
-      name: Yup.string()
+      username: Yup.string()
         .max(100, "Must contain 100 characters or less")
         .required("Required"),
       password: Yup.string()
@@ -58,7 +59,7 @@ const Login = ({ loginAction }) => {
 
   console.log(role_id, "role");
   if (isLogin && role_id == "user") {
-    router.push("/home");
+    router.push("/");
   } else if (isLogin && role_id == "admin") {
     router.push("/admin/dashboard");
   }
@@ -97,20 +98,20 @@ const Login = ({ loginAction }) => {
               <InputForm
                 leftIcon={<FaUserCircle />}
                 placeholder={"Username"}
-                name="name"
+                name="username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
+                value={formik.values.username}
               />
             </div>
             <div className="hidden lg:inline-block">
               <InputForm
                 leftIcon={<FaUserCircle />}
                 placeholder={"Username"}
-                name="name"
+                name="username"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                value={formik.values.name}
+                value={formik.values.username}
               />
             </div>
           </div>
