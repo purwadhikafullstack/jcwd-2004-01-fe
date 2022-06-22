@@ -58,12 +58,7 @@ export const loginAction = ({ ...values }) => {
       dispatch({ type: "LOGIN", payload: { ...res.data } });
 
       Cookies.set("token", res.headers["x-token-access"]);
-<<<<<<< HEAD
       toast.success("Welcome back!", {
-=======
-      // Cookies.set("role", encryptrole);
-      toast.success("🦄 Wow so easy!", {
->>>>>>> 07188dfc5c4f185f8e0d941d8126c4abc3e1dbf2
         position: "bottom-center",
         autoClose: 5000,
         hideProgressBar: false,
