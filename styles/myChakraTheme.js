@@ -3,8 +3,8 @@ import { ButtonStyles as Button, BoxStyles as Box } from "./chakraComponents";
 
 const theme = extendTheme({
   fonts: {
-    heading: "Open Sans",
-    body: "Open Sans",
+    heading: `Open sans`,
+    body: `Open sans`,
   },
   colors: {
     blackPrimary: "#1A191B",

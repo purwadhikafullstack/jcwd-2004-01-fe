@@ -15,12 +15,15 @@ import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
 import { registerAction } from "../redux/actions/user_action";
 import { useRouter } from "next/router";
+import { useState } from "react";
 
 const Register = ({ registerAction }) => {
   const line = "/Line30.svg";
   const lineDesktop = "/LineDesktop.svg";
   const imageRegisterLogin = "/Frame.svg";
   const logo = "/LogoHealthymed.svg";
+
+  const [disable, setDisable] = useState(false);
 
   const { isLogin } = useUser();
 
@@ -47,17 +50,20 @@ const Register = ({ registerAction }) => {
           /[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]+/g,
           "Should contain at least a special character"
         )
-        .matches(/^\S*$/, "Should not contain spaces"),
+        .matches(/^\S*$/, "Should not contain spaces")
+        .required("Required"),
     }),
 
     onSubmit: async (values) => {
       try {
+        setDisable(true);
         await registerAction(values);
         console.log("masuk sini");
       } catch (error) {
         console.log(error);
       } finally {
         console.log("finally");
+        setDisable(false);
       }
     },
   });
@@ -95,7 +101,7 @@ const Register = ({ registerAction }) => {
           </div>
           <div className="w-[327px] lg:w-[528px] mt-1">
             Sudah punya akun?{" "}
-            <Link href="">
+            <Link href="/login">
               <span className="hover:cursor-pointer font-bold">Masuk</span>
             </Link>
           </div>
@@ -252,7 +258,13 @@ const Register = ({ registerAction }) => {
           </div>
 
           <div className="w-[327px] lg:w-[528px] py-8 lg:pt-8 lg:pb-0">
-            <Button type="submit" w="full" h="48px" variant={"fillCustom"}>
+            <Button
+              isDisabled={disable}
+              type="submit"
+              w="full"
+              h="48px"
+              variant={"fillCustom"}
+            >
               Register
             </Button>
           </div>

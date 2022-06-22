@@ -7,7 +7,6 @@ import useUser from "../../hooks/useUser";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { BsFillXCircleFill } from "react-icons/bs";
 import Link from "next/link";
-import Swal from "sweetalert2";
 
 const Verification = () => {
   const router = useRouter();
@@ -49,36 +48,36 @@ const Verification = () => {
     return () => {};
   }, []);
 
-  const sendEmail = async () => {
-    try {
-      setloading(true);
-      await axios.post(`${API_URL}/auth/sendemail-verified`, {
-        id: id,
-        username,
-        email,
-      });
-      await Swal.fire({
-        title: "Email sent!",
-        text: "Please check your email",
-        icon: "success",
-        color: " #4FBF26",
-        iconColor: " #4FBF26",
-        background: "#1a1a1d",
-      });
-    } catch (error) {
-      console.log(error);
-      await Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        color: "#f44336",
-        iconColor: "#f44336",
-        background: "#1a1a1d",
-        text: error.response.data.message || "Network Error",
-      });
-    } finally {
-      setloading(false);
-    }
-  };
+  // const sendEmail = async () => {
+  //   try {
+  //     setloading(true);
+  //     await axios.post(`${API_URL}/auth/sendemail-verified`, {
+  //       id: id,
+  //       username,
+  //       email,
+  //     });
+  //     await Swal.fire({
+  //       title: "Email sent!",
+  //       text: "Please check your email",
+  //       icon: "success",
+  //       color: " #4FBF26",
+  //       iconColor: " #4FBF26",
+  //       background: "#1a1a1d",
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     await Swal.fire({
+  //       icon: "error",
+  //       title: "Oops...",
+  //       color: "#f44336",
+  //       iconColor: "#f44336",
+  //       background: "#1a1a1d",
+  //       text: error.response.data.message || "Network Error",
+  //     });
+  //   } finally {
+  //     setloading(false);
+  //   }
+  // };
 
   if (loading) {
     return (

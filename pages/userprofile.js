@@ -27,9 +27,16 @@ import axios from "axios";
 import API_URL from "../helpers/apiurl";
 import Cookies from "js-cookie";
 import useUser from "../hooks/useUser";
+import { toast } from "react-toastify";
+import Link from "next/link";
 
 const Profile = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenFullname,
+    onOpen: onOpenFullname,
+    onClose: onCloseFullname,
+  } = useDisclosure();
 
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
@@ -40,34 +47,49 @@ const Profile = () => {
   const [show2, setShow2] = useState(false);
   const handleClick2 = () => setShow2(!show2);
 
+  const [disable, setDisable] = useState(false);
+  const [disableFullname, setDisableFullname] = useState(false);
+
   const { is_verified } = useUser();
 
-  let token = Cookies.get("token");
-
-  const verifyMe = async () => {
-    try {
-      await axios.get(`${API_URL}/auth/verifyme`, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  //Edit input fullname
+  const [inputFullname, setinputFullname] = useState({
+    fullname: "",
+  });
+  const handleInputFullname = (e) => {
+    setinputFullname({ ...inputFullname, [e.target.name]: e.target.value });
   };
+  const submitFullname = () => {};
 
-  const changeNewPassword = async (values) => {
-    try {
-      console.log(token);
-      await axios.post(`${API_URL}/auth/changepassword`, values, {
-        headers: {
-          authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-    }
+  //Edit input email
+  const [inputEmail, setinputEmail] = useState({
+    email: "",
+  });
+  const handleInputEmail = (e) => {
+    setinputEmail({ ...inputEmail, [e.target.name]: e.target.value });
   };
+  const submitEmail = () => {};
+
+  //Edit input username
+  const [inputUsername, setinputUsername] = useState({
+    username: "",
+  });
+  const handleInputUsername = (e) => {
+    setinputUsername({ ...inputUsername, [e.target.name]: e.target.value });
+  };
+  const submitUsername = () => {};
+
+  //Edit input phonenumber
+  const [inputPhonenumber, setinputPhonenumber] = useState({
+    phonenumber: "",
+  });
+  const handleInputPhonenumber = (e) => {
+    setinputPhonenumber({
+      ...inputPhonenumber,
+      [e.target.name]: e.target.value,
+    });
+  };
+  const submitPhonenumber = () => {};
 
   const formik = useFormik({
     initialValues: {
@@ -96,27 +118,104 @@ const Profile = () => {
 
     onSubmit: async (values) => {
       try {
+        setDisable(true);
         await changeNewPassword(values);
         console.log("masuk sini");
       } catch (error) {
         console.log(error);
       } finally {
         console.log("finally");
+        setDisable(false);
+        onClose();
       }
     },
   });
 
+  let token = Cookies.get("token");
+
+  const verifyMe = async () => {
+    try {
+      await axios.get(`${API_URL}/auth/verifyme`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Email sent!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
+  const changeNewPassword = async (values) => {
+    try {
+      console.log(token);
+      await axios.post(`${API_URL}/auth/changepassword`, values, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Password changed!", {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message, {
+        position: "bottom-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
   return (
     <>
-      {/* navbar admin */}
+      {/* Navbar */}
       <div className="absolute">
         <NavbarProfile />
       </div>
       <NavbarAdminTop />
 
-      {/* Title, excell, and download PDF Button */}
-      <div className="flex ml-72 h-[32px] items-center mt-[16px] w-[72.6%] justify-between">
-        <p className="text-xl font-bold">Biodata</p>
+      {/* Title */}
+      <div className="flex ml-72 h-[32px] items-center mt-[16px] w-[72.6%] gap-9">
+        <Link href="">
+          <button className="text-xl font-bold text-blackPrimary">
+            Biodata
+          </button>
+        </Link>
+        <Link href="">
+          <button className="text-xl font-bold text-gray-400">Alamat</button>
+        </Link>
       </div>
 
       {/* Biodata */}
@@ -155,7 +254,7 @@ const Profile = () => {
           <div className="mt-3 flex gap-10">
             <div className="w-20 bg-green-400">Nama</div>
             <div>Andika Rizkx</div>
-            <button>Ubah</button>
+            <button onClick={onOpenFullname}>Ubah</button>
           </div>
           <div className="mt-1 flex gap-10">
             <div className="w-20">Username</div>
@@ -245,10 +344,55 @@ const Profile = () => {
             </ModalBody>
 
             <ModalFooter>
-              <Button type="submit" colorScheme="blue" mr={3}>
+              <Button
+                isDisabled={disable}
+                type="submit"
+                colorScheme="blue"
+                mr={3}
+              >
                 Save
               </Button>
-              <Button onClick={onClose}>Cancel</Button>
+              <Button type="button" onClick={onClose}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
+
+      {/* Modal Fullname */}
+      <Modal isOpen={isOpenFullname} onClose={onCloseFullname}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Ubah Nama</ModalHeader>
+          <ModalCloseButton />
+          <form onSubmit={""}>
+            <ModalBody pb={6}>
+              <FormControl mt={4}>
+                <FormLabel>Nama</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Masukkan nama"
+                  name="fullname"
+                  onChange={handleInputFullname}
+                  // onBlur={""}
+                  value={inputFullname.fullname}
+                />
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                isDisabled={disableFullname}
+                type="submit"
+                colorScheme="blue"
+                mr={3}
+              >
+                Save
+              </Button>
+              <Button type="button" onClick={onCloseFullname}>
+                Cancel
+              </Button>
             </ModalFooter>
           </form>
         </ModalContent>

@@ -15,12 +15,15 @@ import * as Yup from "yup";
 import { loginAction } from "../redux/actions/user_action";
 import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
+import { useState } from "react";
 
 const Login = ({ loginAction }) => {
   const line = "/Line30.svg";
   const lineDesktop = "/Line8.svg";
   const imageRegisterLogin = "/Frame.svg";
   const logo = "/LogoHealthymed.svg";
+
+  const [disable, setDisable] = useState(false);
 
   const router = useRouter();
 
@@ -34,7 +37,7 @@ const Login = ({ loginAction }) => {
 
     validationSchema: Yup.object({
       name: Yup.string()
-        .max(255, "Must contain 25 characters or less")
+        .max(100, "Must contain 100 characters or less")
         .required("Required"),
       password: Yup.string()
         .min(8, "Must contain 8 characters or more")
@@ -43,10 +46,12 @@ const Login = ({ loginAction }) => {
 
     onSubmit: async (values) => {
       try {
+        setDisable(true);
         await loginAction(values);
       } catch (error) {
         console.log(error);
       } finally {
+        setDisable(false);
       }
     },
   });
@@ -152,7 +157,13 @@ const Login = ({ loginAction }) => {
           </div>
 
           <div className="w-[327px] lg:w-[528px] pt-8">
-            <Button type="submit" w="full" h="48px" variant={"fillCustom"}>
+            <Button
+              isDisabled={disable}
+              type="submit"
+              w="full"
+              h="48px"
+              variant={"fillCustom"}
+            >
               Masuk
             </Button>
           </div>
@@ -212,7 +223,7 @@ const Login = ({ loginAction }) => {
 
           <p className="mt-10 pb-10 lg:pb-0">
             Belum punya akun?{" "}
-            <Link href="">
+            <Link href="/register">
               <span className="hover:cursor-pointer font-bold">Daftar</span>
             </Link>
           </p>
