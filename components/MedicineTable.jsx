@@ -4,12 +4,15 @@ import {
   InputRightElement,
   Select,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
 import { HiOutlineDownload } from "react-icons/hi";
 // import DetailTableObat from "./DetailTableObat";
-
+import ModalInputDrugs from "./ModalInputProduct";
 const MedicineTable = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <div className="shadow-xl rounded-lg w-[72.6%] h-[72.6vh] ml-80 mt-[19px]">
@@ -32,6 +35,7 @@ const MedicineTable = () => {
             </Select>
           </div>
           <Button
+            onClick={onOpen}
             variant="fillCustom"
             leftIcon={<HiOutlineDownload />}
             fontSize="12px"
@@ -43,6 +47,7 @@ const MedicineTable = () => {
             Tambah Obat
           </Button>
         </div>
+        <ModalInputDrugs isOpen={isOpen} onClose={onClose} />
         {/* <DetailTableObat /> */}
       </div>
     </>
