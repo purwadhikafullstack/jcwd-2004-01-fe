@@ -5,7 +5,6 @@ import { FaEnvelope } from "react-icons/fa";
 import { IoIosArrowBack } from "react-icons/io";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import Link from "next/link";
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
