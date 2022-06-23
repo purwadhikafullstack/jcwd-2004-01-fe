@@ -11,6 +11,7 @@ const AuthProvider = ({ children }) => {
 
   const keepLogin = async () => {
     try {
+      console.log(API_URL, "ini API");
       let token = Cookies.get("token");
       if (token) {
         let result = await axios.get(`${API_URL}/auth/keeplogin`, {
