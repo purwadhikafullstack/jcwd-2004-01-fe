@@ -8,9 +8,9 @@ const MobileHeader = ({firstProp, secondProp, thirdProp, fourthProp, classExtend
         <div className={`container-mobile-header ${classExtend}`}>
             <div className="hidden lg:inline-block"><img src={logo} alt="" /></div>
 
-            {firstProp ? <div className="icon-mobile-header">{firstProp}</div> : null}
+            {firstProp ? <div className="icon-mobile-header lg:hidden">{firstProp}</div> : null}
 
-            {secondProp && !thirdProp && !fourthProp ? <div className="text-2xl font-bold text-orangeprimary w-96 mb-1">{secondProp}</div> : <div className={`text-2xl font-bold text-${secondPropClassExtend} mb-1`}>{secondProp}</div>}
+            {secondProp && !thirdProp && !fourthProp ? <div className="text-2xl font-bold text-blackPrimary w-96 mb-1">{secondProp}</div> : <div className={`text-2xl font-bold text-${secondPropClassExtend} mb-1`}>{secondProp}</div>}
  
             {thirdProp ? <Link href=""><div className="icon-mobile-header">{thirdProp}</div></Link> : null}
 

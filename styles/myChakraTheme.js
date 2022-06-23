@@ -2,15 +2,12 @@ import { extendTheme } from "@chakra-ui/react";
 import { ButtonStyles as Button, BoxStyles as Box } from "./chakraComponents";
 
 const theme = extendTheme({
+  fonts: {
+    heading: `Open sans`,
+    body: `Open sans`,
+  },
   colors: {
-    primary: "#845EC2",
-    orangePrimary: "#EE4D2D",
-    orangePrimaryDarker: "#B40C00",
-    orangePrimaryLighter: "#ff8059",
-    orangeSecondary: "#ff6d00",
-    orangeSecondaryDarker: "#c43c00",
-    orangeSecondaryDarkerer: "#912C00",
-    orangeSecondaryLighter: "#ff9e40",
+    blackPrimary: "#1A191B",
   },
   components: {
     Button,

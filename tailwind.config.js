@@ -1,3 +1,5 @@
+/** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
@@ -5,11 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors:{
-        "orangePrimary":"#ee4d2d",
-        "bluesky":"#ffe3b7",
-      }
+      colors: {
+        blackPrimary: "#1A191B",
+        grayDisable: "#ACADAF",
+        bluesky: "#ffe3b7",
+      },
     },
   },
-  plugins: [],
-}
+  plugins: [
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar-hide"),
+  ],
+};
