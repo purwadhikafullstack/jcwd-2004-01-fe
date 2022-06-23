@@ -23,7 +23,9 @@ const MedicineTable = () => {
                 placeholder="Cari nama obat"
                 focusBorderColor="blackPrimary"
               />
-              <InputRightElement children={<GoSearch color="" />} />
+              <InputRightElement>
+                <GoSearch />
+              </InputRightElement>
             </InputGroup>
             <Select w="156px" h="42px" focusBorderColor="blackPrimary">
               <option value="Filter" color="gray.300">
