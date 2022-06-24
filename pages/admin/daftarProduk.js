@@ -4,6 +4,8 @@ import NavbarAdminTop from "../../components/NavbarAdminTop";
 import { MdOutlineFileDownload } from "react-icons/md";
 import { IoDocumentText } from "react-icons/io5";
 import MedicineTable from "../../components/MedicineTable";
+import { debounce } from "lodash";
+
 // import DetailTableObat from "../../components/DetailTableObat";
 const daftarProduk = () => {
   return (

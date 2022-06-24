@@ -8,10 +8,24 @@ import {
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
 import { HiOutlineDownload } from "react-icons/hi";
+import { debounce } from "lodash";
 // import DetailTableObat from "./DetailTableObat";
 import ModalInputDrugs from "./ModalInputProduct";
+import { useState } from "react";
+import PaginationProductAdmin from "./PaginationProductAdmin";
+
 const MedicineTable = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [input, setInput] = useState({
+    search: "",
+    filter: "",
+  });
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [totalData, setTotalData] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [limit, setLimit] = useState(10);
+  const [component, setComponent] = useState([]);
 
   return (
     <>
@@ -50,7 +64,16 @@ const MedicineTable = () => {
           </Button>
         </div>
         <ModalInputDrugs isOpen={isOpen} onClose={onClose} />
-        {/* <DetailTableObat /> */}
+        {/* <DetailTableObat */}
+        <div className="mt-[362.5px]">
+          <PaginationProductAdmin
+            page={page}
+            totalData={totalData}
+            limit={10}
+            setLimit={setLimit}
+            pageChangeHandler={setPage}
+          />
+        </div>
       </div>
     </>
   );
