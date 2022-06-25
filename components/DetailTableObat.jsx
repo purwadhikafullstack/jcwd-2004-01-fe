@@ -1,113 +1,81 @@
-// import {
-//   Table,
-//   Thead,
-//   Tbody,
-//   Tfoot,
-//   Tr,
-//   Th,
-//   Td,
-//   TableCaption,
-//   TableContainer,
-//   chakra,
-// } from "@chakra-ui/react";
-// import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-// import { useMemo } from "react";
-// import { useTable, useSortBy } from "react-table";
-// import MOCK_DATA from "../test/MOCK_DATA.json";
+import {
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Th,
+  Thead,
+  Tr,
+  SkeletonText,
+} from "@chakra-ui/react";
 
-// const DetailTableObat = () => {
-//   const data = useMemo(() => MOCK_DATA, []);
+import { FaSort } from "react-icons/fa";
+import { useSortBy, useTable } from "react-table";
 
-//   const columns = useMemo(
-//     () => [
-//       {
-//         Header: "No",
-//         accessor: "No",
-//       },
-//       {
-//         Header: "Nama Obat",
-//         accessor: "nama_obat",
-//       },
-//       {
-//         Header: "No. Obat",
-//         accessor: "no_obat",
-//       },
-//       {
-//         Header: "No. BPOM",
-//         accessor: "no_bpom",
-//       },
-//       {
-//         Header: "Kategori",
-//         accessor: "kategori",
-//       },
-//       {
-//         Header: "Stok",
-//         accessor: "Stok",
-//       },
-//       {
-//         Header: "Satuan",
-//         accessor: "satuan",
-//       },
-//       {
-//         Header: "Nilai Barang",
-//         accessor: "nilai_barang",
-//       },
-//       {
-//         Header: "Nilai Jual",
-//         accessor: "nilai_jual",
-//       },
-//       {
-//         Header: "Atur",
-//       },
-//     ],
-//     []
-//   );
+const DetailTableObat = ({ columns, data, isLoading }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data, manualPagination: true }, useSortBy);
 
-//   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-//     useTable({ columns, data }, useSortBy);
+  const arrayKosong = [...new Array(10)];
 
-//   return (
-//     <Table {...getTableProps()} variant="striped" colorScheme="blackAlpha">
-//       <Thead bg="blackPrimary">
-//         {headerGroups.map((headerGroup) => (
-//           <Tr {...headerGroup.getHeaderGroupProps()}>
-//             {headerGroup.headers.map((column) => (
-//               <Th
-//                 {...column.getHeaderProps(column.getSortByToggleProps())}
-//                 isNumeric={column.isNumeric}
-//                 textColor="white"
-//               >
-//                 {column.render("Header")}
-//                 <chakra.span pl="4">
-//                   {column.isSorted ? (
-//                     column.isSortedDesc ? (
-//                       <TriangleDownIcon aria-label="sorted descending" />
-//                     ) : (
-//                       <TriangleUpIcon aria-label="sorted ascending" />
-//                     )
-//                   ) : null}
-//                 </chakra.span>
-//               </Th>
-//             ))}
-//           </Tr>
-//         ))}
-//       </Thead>
-//       <Tbody {...getTableBodyProps()}>
-//         {rows.map((row) => {
-//           prepareRow(row);
-//           return (
-//             <Tr {...row.getRowProps()}>
-//               {row.cells.map((cell) => (
-//                 <Td {...cell.getCellProps()} isNumeric={cell.column.isNumeric}>
-//                   {cell.render("Cell")}
-//                 </Td>
-//               ))}
-//             </Tr>
-//           );
-//         })}
-//       </Tbody>
-//     </Table>
-//   );
-// };
+  return (
+    <div className="mt-[40px]">
+      <TableContainer
+        rounded="lg"
+        className="scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
+        scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+      >
+        <Table {...getTableProps()} variant="striped" colorScheme="blackAlpha">
+          <Thead>
+            {headerGroups.map((headerGroups) => (
+              <Tr
+                {...headerGroups.getHeaderGroupProps()}
+                backgroundColor="blackPrimary"
+              >
+                {headerGroups.headers.map((column) => (
+                  <Th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    textTransform={"capitalize"}
+                    textColor={"white"}
+                    isNumeric={column.isNumeric}
+                    className="truncate"
+                  >
+                    <div className="flex jus">
+                      {column.render("Header")}
+                      <FaSort />
+                    </div>
+                  </Th>
+                ))}
+              </Tr>
+            ))}
+          </Thead>
+          <Tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+              return (
+                <Tr {...row.getRowProps()}>
+                  {row.cells.map((cell) => (
+                    <Td
+                      {...cell.getCellProps()}
+                      maxWidth="200px"
+                      className="truncate"
+                      isNumeric={cell.column.isNumeric}
+                    >
+                      {!isLoading ? (
+                        <>{cell.render("Cell")}</>
+                      ) : (
+                        <SkeletonText noOfLines={1} mt={2} mb={1} />
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              );
+            })}
+          </Tbody>
+        </Table>
+      </TableContainer>
+    </div>
+  );
+};
 
-// export default DetailTableObat;
+export default DetailTableObat;

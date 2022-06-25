@@ -7,6 +7,7 @@ const PaginationProductAdmin = ({
   totalData,
   limit,
   setLimit,
+  updateLimit,
   pageChangeHandler,
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -58,59 +59,67 @@ const PaginationProductAdmin = ({
   }, [pageFirstRecord, limit, totalData]);
 
   return (
-    <div className="flex text-sm items-center justify-between mx-5">
-      <div>
-        <p>
-          Menampilkan {pageFirstRecord} - {pageLastRecord} dari {totalData}
-        </p>
-      </div>
-      <div className="flex items-center  w-[200px]">
-        <p>Baris per halaman</p>
-        <Select
-          focusBorderColor="blackPrimary"
-          w="70px"
-          ml="10px"
-          value={limit}
-        >
-          <option value="10">10</option>
-          <option value="15">15</option>
-          <option value="20">20</option>
-        </Select>
-      </div>
-      <div className="flex">
-        <button
-          onClick={onPrevPage}
-          disabled={currentPage === 0}
-          className="cursor-pointer"
-        >
-          <IoIosArrowBack />
-        </button>
-        <div className="flex ">
-          {pagination.map((val, index) => {
-            return (
-              <div className="flex" key={index}>
-                {val == currentPage + 1 ? (
-                  <button className="w-[26px] shadow-md text-white text-sm p-1 font-semibold rounded-full bg-blackPrimary mx-1">
-                    {val}
-                  </button>
-                ) : (
-                  <button
-                    key={index}
-                    onClick={() => onPageSelect(val - 1)}
-                    className="w-[28px] text-sm  text-slate-500 font-semibold mx-1"
-                  >
-                    {val}
-                  </button>
-                )}
-              </div>
-            );
-          })}
+    <>
+      {totalPage >= 1 ? (
+        <div className="flex text-sm items-center justify-between mx-5">
+          <div>
+            <p>
+              Menampilkan {pageFirstRecord} - {pageLastRecord} dari {totalData}
+            </p>
+          </div>
+          <div className="flex items-center  w-[200px]">
+            <p>Baris per halaman</p>
+            <Select
+              focusBorderColor="blackPrimary"
+              w="70px"
+              ml="10px"
+              value={limit}
+              onChange={(e) => updateLimit(e)}
+            >
+              <option value="10">10</option>
+              <option value="15">15</option>
+              <option value="20">20</option>
+            </Select>
+          </div>
+          <div className="flex">
+            <button
+              onClick={onPrevPage}
+              disabled={currentPage === 0}
+              className="cursor-pointer"
+            >
+              <IoIosArrowBack />
+            </button>
+            <div className="flex ">
+              {pagination.map((val, index) => {
+                return (
+                  <div className="flex" key={index}>
+                    {val == currentPage + 1 ? (
+                      <button className="w-[26px] shadow-md text-white text-sm p-1 font-semibold rounded-full bg-blackPrimary mx-1">
+                        {val}
+                      </button>
+                    ) : (
+                      <button
+                        key={index}
+                        onClick={() => onPageSelect(val - 1)}
+                        className="w-[28px] text-sm  text-slate-500 font-semibold mx-1"
+                      >
+                        {val}
+                      </button>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            <button
+              onClick={onNextPage}
+              disabled={totalPage - 1 === currentPage}
+            >
+              <IoIosArrowForward />
+            </button>
+          </div>
         </div>
-        <button onClick={onNextPage} disabled={totalPage - 1 === currentPage}>
-          <IoIosArrowForward />
-        </button>
-      </div>
-    </div>
+      ) : null}
+    </>
   );
 };
 
