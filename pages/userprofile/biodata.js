@@ -1,5 +1,5 @@
-import NavbarProfile from "../components/NavbarProfile";
-import NavbarAdminTop from "../components/NavbarAdminTop";
+import NavbarProfile from "../../components/NavbarProfile";
+import NavbarAdminTop from "../../components/NavbarAdminTop";
 import {
   Modal,
   ModalOverlay,
@@ -26,16 +26,16 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import API_URL from "../helpers/apiurl";
+import API_URL from "../../helpers/apiurl";
 import Cookies from "js-cookie";
-import useUser from "../hooks/useUser";
+import useUser from "../../hooks/useUser";
 import { toast } from "react-toastify";
 import Link from "next/link";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const dayjs = require("dayjs");
 
-const Profile = () => {
+const Biodata = () => {
   //Modal Hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -68,11 +68,6 @@ const Profile = () => {
     onOpen: onOpenGender,
     onClose: onCloseGender,
   } = useDisclosure();
-  const {
-    isOpen: isOpenProfilePicture,
-    onOpen: onOpenProfilePicture,
-    onClose: onCloseProfilePicture,
-  } = useDisclosure();
 
   //Toggle password
   const [show, setShow] = useState(false);
@@ -92,10 +87,18 @@ const Profile = () => {
   const [disablePhonenumber, setDisablePhonenumber] = useState(false);
   const [disableGender, setDisableGender] = useState(false);
   const [disableDOB, setDisableDOB] = useState(false);
-  const [disableProfPic, setDisableProfPic] = useState(false);
 
   //User Data state
-  const [userData, setUserData] = useState([]);
+  const [userData, setUserData] = useState({
+    fullname: "",
+    username: "",
+    profile_picture: "",
+    phonenumber: "",
+    email: "",
+  });
+  const userDataHandleChange = (e) => {
+    setUserData({ ...userData, [e.target.name]: e.target.value });
+  };
 
   const { is_verified } = useUser();
 
@@ -115,17 +118,13 @@ const Profile = () => {
   }, []);
 
   //Edit input fullname
-  const [fullname, setinputFullname] = useState("");
-  const handleInputFullname = (e) => {
-    setinputFullname(e.target.value);
-  };
   const submitFullname = async (e) => {
     e.preventDefault();
     try {
       setDisableFullname(true);
       await axios.post(
         `${API_URL}/profile/updatefullname`,
-        { fullname },
+        { fullname: userData.fullname },
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -161,22 +160,17 @@ const Profile = () => {
     }
   };
   const closeFullname = () => {
-    setinputFullname("");
     onCloseFullname();
   };
 
   //Edit input email
-  const [email, setinputEmail] = useState("");
-  const handleInputEmail = (e) => {
-    setinputEmail(e.target.value);
-  };
   const submitEmail = async (e) => {
     e.preventDefault();
     try {
       setDisableEmail(true);
       await axios.post(
         `${API_URL}/profile/updateemail`,
-        { email },
+        { email: userData.email },
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -212,22 +206,17 @@ const Profile = () => {
     }
   };
   const closeEmail = () => {
-    setinputEmail("");
     onCloseEmail();
   };
 
   //Edit input username
-  const [username, setinputUsername] = useState("");
-  const handleInputUsername = (e) => {
-    setinputUsername(e.target.value);
-  };
   const submitUsername = async (e) => {
     e.preventDefault();
     try {
       setDisableUsername(true);
       await axios.post(
         `${API_URL}/profile/updateusername`,
-        { username },
+        { username: userData.username },
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -263,22 +252,17 @@ const Profile = () => {
     }
   };
   const closeUsername = () => {
-    setinputUsername("");
     onCloseUsername();
   };
 
   //Edit input phonenumber
-  const [phonenumber, setinputPhonenumber] = useState("");
-  const handleInputPhonenumber = (e) => {
-    setinputPhonenumber(e.target.value);
-  };
   const submitPhonenumber = async (e) => {
     e.preventDefault();
     try {
       setDisablePhonenumber(true);
       await axios.post(
         `${API_URL}/profile/updatephonenumber`,
-        { phonenumber },
+        { phonenumber: userData.phonenumber },
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -314,7 +298,6 @@ const Profile = () => {
     }
   };
   const closePhonenumber = () => {
-    setinputPhonenumber("");
     onClosePhonenumber();
   };
 
@@ -365,7 +348,6 @@ const Profile = () => {
     }
   };
   const closeGender = () => {
-    setinputGender("");
     onCloseGender();
   };
 
@@ -576,73 +558,69 @@ const Profile = () => {
   };
 
   const renderUserprofileData = () => {
-    return userData.map((val, index) => {
-      return (
-        <div key={index} className="flex flex-col">
-          <div className="w-96 text-lg font-bold">Ubah Biodata Diri</div>
-          <div className="mt-4 flex gap-10 text-sm">
-            <div className="w-28">Nama</div>
-            <div>{val.fullname}</div>
-            <button onClick={onOpenFullname} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
-          <div className="mt-5 flex gap-10 text-sm">
-            <div className="w-28">Username</div>
-            <div>{val.username}</div>
-            <button onClick={onOpenUsername} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
-          <div className="mt-5 flex gap-10 text-sm">
-            <div className="w-28">Gender</div>
-            <div>{val.gender}</div>
-            <button onClick={onOpenGender} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
-          <div className="mt-5 flex gap-10 text-sm">
-            <div className="w-28">Tanggal Lahir</div>
-            <div>{dayjs(val.date_of_birth).format("DD/MM/YYYY")}</div>
-            <button onClick={onOpenDOB} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
-          <div className="w-96 text-lg font-bold mt-6">Ubah Kontak</div>
-          <div className="mt-4 flex gap-10 text-sm">
-            <div className="w-28">Email</div>
-            <div>{val.email}</div>
-            <button onClick={onOpenEmail} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
-          <div className="mt-5 flex gap-10 text-sm">
-            <div className="w-28">Nomor HP</div>
-            <div>{val.phonenumber}</div>
-            <button onClick={onOpenPhonenumber} className="text-cyan-500">
-              Ubah
-            </button>
-          </div>
+    return (
+      <div className="flex flex-col">
+        <div className="w-96 text-lg font-bold">Ubah Biodata Diri</div>
+        <div className="mt-4 flex gap-10 text-sm">
+          <div className="w-28">Nama</div>
+          <div>{userData.fullname}</div>
+          <button onClick={onOpenFullname} className="text-cyan-500">
+            Ubah
+          </button>
         </div>
-      );
-    });
+        <div className="mt-5 flex gap-10 text-sm">
+          <div className="w-28">Username</div>
+          <div>{userData.username}</div>
+          <button onClick={onOpenUsername} className="text-cyan-500">
+            Ubah
+          </button>
+        </div>
+        <div className="mt-5 flex gap-10 text-sm">
+          <div className="w-28">Gender</div>
+          <div>{userData.gender}</div>
+          <button onClick={onOpenGender} className="text-cyan-500">
+            Ubah
+          </button>
+        </div>
+        <div className="mt-5 flex gap-10 text-sm">
+          <div className="w-28">Tanggal Lahir</div>
+          <div>{dayjs(userData.date_of_birth).format("DD/MM/YYYY")}</div>
+          <button onClick={onOpenDOB} className="text-cyan-500">
+            Ubah
+          </button>
+        </div>
+        <div className="w-96 text-lg font-bold mt-6">Ubah Kontak</div>
+        <div className="mt-4 flex gap-10 text-sm">
+          <div className="w-28">Email</div>
+          <div>{userData.email}</div>
+          <button onClick={onOpenEmail} className="text-cyan-500">
+            Ubah
+          </button>
+        </div>
+        <div className="mt-5 flex gap-10 text-sm">
+          <div className="w-28">Nomor HP</div>
+          <div>{userData.phonenumber}</div>
+          <button onClick={onOpenPhonenumber} className="text-cyan-500">
+            Ubah
+          </button>
+        </div>
+      </div>
+    );
   };
 
   const renderUserProfilePhoto = () => {
-    return userData.map((val, index) => {
-      return (
-        <div key={index} className="">
-          <img
-            className="w-56 h-72 object-cover rounded-lg"
-            src={
-              val.profile_picture
-                ? `${API_URL}${val.profile_picture}`
-                : `${API_URL}/photos/defaultprofilepicture.png`
-            }
-          />
-        </div>
-      );
-    });
+    return (
+      <div className="">
+        <img
+          className="w-56 h-72 object-cover rounded-lg"
+          src={
+            userData.profile_picture
+              ? `${API_URL}${userData.profile_picture}`
+              : `${API_URL}/photos/defaultprofilepicture.png`
+          }
+        />
+      </div>
+    );
   };
 
   return (
@@ -655,12 +633,12 @@ const Profile = () => {
 
       {/* Title */}
       <div className="flex ml-72 h-[32px] items-center mt-[16px] w-[72.6%] gap-9">
-        <Link href="">
+        <Link href="/userprofile/biodata">
           <button className="text-xl font-bold text-blackPrimary">
             Biodata
           </button>
         </Link>
-        <Link href="">
+        <Link href="/userprofile/address">
           <button className="text-xl font-bold text-gray-400">Alamat</button>
         </Link>
       </div>
@@ -802,9 +780,9 @@ const Profile = () => {
                   type="text"
                   placeholder="Masukkan nama"
                   name="fullname"
-                  onChange={handleInputFullname}
+                  onChange={userDataHandleChange}
                   // onBlur={""}
-                  value={fullname}
+                  value={userData.fullname}
                 />
               </FormControl>
             </ModalBody>
@@ -840,9 +818,9 @@ const Profile = () => {
                   type="text"
                   placeholder="Masukkan nama"
                   name="username"
-                  onChange={handleInputUsername}
+                  onChange={userDataHandleChange}
                   // onBlur={""}
-                  value={username}
+                  value={userData.username}
                 />
               </FormControl>
             </ModalBody>
@@ -878,9 +856,9 @@ const Profile = () => {
                   type="text"
                   placeholder="Masukkan email"
                   name="email"
-                  onChange={handleInputEmail}
+                  onChange={userDataHandleChange}
                   // onBlur={""}
-                  value={email}
+                  value={userData.email}
                 />
               </FormControl>
             </ModalBody>
@@ -916,9 +894,9 @@ const Profile = () => {
                   type="text"
                   placeholder="Masukkan nomor telepon"
                   name="phonenumber"
-                  onChange={handleInputPhonenumber}
+                  onChange={userDataHandleChange}
                   // onBlur={""}
-                  value={phonenumber}
+                  value={userData.phonenumber}
                 />
               </FormControl>
             </ModalBody>
@@ -947,7 +925,7 @@ const Profile = () => {
           <ModalHeader>Ubah Gender</ModalHeader>
           <ModalCloseButton />
           <form onSubmit={submitGender}>
-            <ModalBody pb={6}>
+            <ModalBody pb={1}>
               <RadioGroup defaultValue="2" name="gender">
                 <Stack spacing={5} direction="row">
                   <Radio
@@ -1003,7 +981,7 @@ const Profile = () => {
               selected={date_of_birth}
               onChange={(date) => setinputDOB(date)}
               disabledKeyboardNavigation
-              placeholderText="Tanggal lahir"
+              placeholderText="Pilih tanggal lahir"
               peekNextMonth
               showMonthDropdown
               showYearDropdown
@@ -1030,4 +1008,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Biodata;
