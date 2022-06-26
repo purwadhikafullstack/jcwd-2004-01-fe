@@ -7,7 +7,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
-import { HiOutlineDownload } from "react-icons/hi";
+import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
 import { debounce } from "lodash";
 import DetailTableObat from "./DetailTableObat";
 import ModalInputDrugs from "./ModalInputProduct";
@@ -56,6 +56,23 @@ const MedicineTable = () => {
     );
   };
 
+  const DeleteButton = ({ val }) => {
+    return (
+      <div className="flex items-center">
+        <Button
+          variant="outlineCustom"
+          w="80px"
+          h="20px"
+          fontSize="xs"
+          onClick={() => console.log(val)}
+        >
+          Lihat Detail
+        </Button>
+        <HiOutlineDotsVertical className="hover:cursor-pointer h-[20px] w-[20px]" />
+      </div>
+    );
+  };
+
   const columns = useMemo(() => [
     {
       Header: "No",
@@ -98,6 +115,8 @@ const MedicineTable = () => {
     },
     {
       Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DeleteButton val={data.row.original.id} />,
     },
   ]);
 
@@ -147,7 +166,7 @@ const MedicineTable = () => {
 
   return (
     <>
-      <div className="shadow-xl rounded-lg w-[72.6%] h-[72.6vh] ml-80 mt-[19px]">
+      <div className="shadow-xl rounded-lg w-[72.6%] h-[78vh] ml-80 mt-[19px]">
         <div className="flex border-0 border-slate-900 h-[42px] justify-between mx-4">
           <div className="flex gap-4 mt-4">
             <InputGroup w="328px" h="42px">
@@ -196,11 +215,11 @@ const MedicineTable = () => {
         </div>
         <ModalInputDrugs isOpen={isOpen} onClose={onClose} />
         <DetailTableObat columns={columns} data={data} isLoading={isLoading} />
-        <div className="mt-[265px]">
+        <div className="mt-[10px]">
           <PaginationProductAdmin
             page={page}
             totalData={totalData}
-            limit={10}
+            limit={limit}
             setLimit={setLimit}
             updateLimit={updateLimit}
             pageChangeHandler={setPage}

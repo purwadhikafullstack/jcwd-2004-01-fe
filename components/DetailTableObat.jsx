@@ -19,13 +19,18 @@ const DetailTableObat = ({ columns, data, isLoading }) => {
   const arrayKosong = [...new Array(10)];
 
   return (
-    <div className="mt-[40px]">
+    <div className="mt-[25px]">
       <TableContainer
         rounded="lg"
         className="scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
         scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
-        <Table {...getTableProps()} variant="striped" colorScheme="blackAlpha">
+        <Table
+          {...getTableProps()}
+          variant="striped"
+          colorScheme="blackAlpha"
+          size="sm"
+        >
           <Thead>
             {headerGroups.map((headerGroups) => (
               <Tr
