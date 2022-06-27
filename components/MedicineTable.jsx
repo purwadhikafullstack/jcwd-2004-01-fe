@@ -30,11 +30,18 @@ import {
 import PaginationProductAdmin from "./PaginationProductAdmin";
 import API_URL from "../helpers/apiurl";
 import axios from "axios";
+import ModalEditProduct from "./ModalEditProduct";
+import Link from "next/link";
 
 const MedicineTable = () => {
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
   const [input, setInput] = useState({
     search: "",
     category: "",
@@ -121,7 +128,9 @@ const MedicineTable = () => {
             >
               Delete
             </MenuItem>
-            <MenuItem>Edit</MenuItem>
+            <Link href={`detailproduct/${val}`}>
+              <MenuItem>Edit</MenuItem>
+            </Link>
             <MenuItem>Close</MenuItem>
           </MenuList>
         </Menu>
