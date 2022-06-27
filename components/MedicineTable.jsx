@@ -13,6 +13,7 @@ import {
   MenuGroup,
   MenuOptionGroup,
   MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
 import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
@@ -31,6 +32,8 @@ import API_URL from "../helpers/apiurl";
 import axios from "axios";
 
 const MedicineTable = () => {
+  const toast = useToast();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [input, setInput] = useState({
     search: "",
@@ -70,9 +73,23 @@ const MedicineTable = () => {
         let response = await axios.patch(
           `${API_URL}/product/delete-product?id=${val}`
         );
+        toast({
+          title: "success!",
+          description: response.data.message || "product deleted!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
         console.log(response);
       } catch (error) {
         console.log(error);
+        toast({
+          title: "error",
+          description: error.response.data.message || "network error",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
       } finally {
         debouncedFetchData(page, input, (response) => {
           setTotalData(parseInt(response.headers["x-total-product"]));
