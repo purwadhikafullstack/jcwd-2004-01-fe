@@ -5,6 +5,14 @@ import {
   Select,
   Button,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
 import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
@@ -57,6 +65,23 @@ const MedicineTable = () => {
   };
 
   const DeleteButton = ({ val }) => {
+    const deleteProductHandler = async () => {
+      try {
+        let response = await axios.patch(
+          `${API_URL}/product/delete-product?id=${val}`
+        );
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        debouncedFetchData(page, input, (response) => {
+          setTotalData(parseInt(response.headers["x-total-product"]));
+          setData([...response.data]);
+          setIsLoading(false);
+        });
+      }
+    };
+
     return (
       <div className="flex items-center">
         <Button
@@ -68,7 +93,21 @@ const MedicineTable = () => {
         >
           Lihat Detail
         </Button>
-        <HiOutlineDotsVertical className="hover:cursor-pointer h-[20px] w-[20px]" />
+        <Menu>
+          <MenuButton>
+            <HiOutlineDotsVertical className="hover:cursor-pointer h-[20px] w-[20px]" />
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              textColor="red.500"
+              onClick={() => deleteProductHandler()}
+            >
+              Delete
+            </MenuItem>
+            <MenuItem>Edit</MenuItem>
+            <MenuItem>Close</MenuItem>
+          </MenuList>
+        </Menu>
       </div>
     );
   };
@@ -144,7 +183,9 @@ const MedicineTable = () => {
     console.log(response);
     cb(response);
   };
+
   //http://localhost:5000/product/get-all-product?search=&page=&category=&orderName=&orderPrice=DESC
+
   const debouncedFetchData = useCallback(
     debounce((page, input, cb) => {
       getDaftarProduk(page, input, cb);
