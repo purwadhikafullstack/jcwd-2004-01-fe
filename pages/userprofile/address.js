@@ -37,6 +37,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const dayjs = require("dayjs");
 import ModalInputAddress from "../../components/ModalInputAddress";
+import { flushSync } from "react-dom";
 
 const Address = () => {
   //Get token
@@ -72,7 +73,9 @@ const Address = () => {
         authorization: `Bearer ${token}`,
       },
     });
-    setuserAddress(res.data);
+    console.log("ini kedua");
+    console.log(res.data);
+    setuserAddress([...res.data]);
   };
 
   //Get province and city options
@@ -151,6 +154,7 @@ const Address = () => {
       });
     } finally {
       setDisableButtonAddress(false);
+      getUserAddress();
       setnewAddressData({
         ...newAddress,
         address: "",
@@ -172,6 +176,7 @@ const Address = () => {
           authorization: `Bearer ${token}`,
         },
       });
+      console.log("ini satu");
       toast.success("Default address successfully changed!", {
         position: "bottom-center",
         autoClose: 5000,
@@ -182,6 +187,9 @@ const Address = () => {
         progress: undefined,
         theme: "colored",
       });
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Network Error", {
@@ -195,7 +203,7 @@ const Address = () => {
         theme: "colored",
       });
     } finally {
-      getUserAddress();
+      //  getUserAddress();
     }
   };
 
