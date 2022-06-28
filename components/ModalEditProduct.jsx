@@ -31,11 +31,13 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import Image from "next/image";
 
-const ModalInputDrugs = ({ isOpen, onClose }) => {
+const ModalEditProduct = ({ isOpen, onClose, id }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
   const mounted = useRef(false);
+
+  const [loading, setLoading] = useState(true);
 
   const [optionsCategory, setOptionsCategory] = useState([]);
   const [optionsSymptom, setOptionsSymptom] = useState([]);
@@ -56,9 +58,17 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
   const [allValid, setAllValid] = useState(false);
 
   const onFileChange = (e) => {
-    // console.log("e.target.files[0]", e.target.files[0]);
-    if (e.target.files[0]) {
-      setselectedImage([...selectedImage, e.target.files[0]]);
+    console.log("e.target.files[0]", e.target.files[0]);
+    if (e.target && e.target.files[0]) {
+      setselectedImage([
+        ...selectedImage,
+        {
+          file: e.target.files[0],
+          filePreview: URL.createObjectURL(e.target.files[0]),
+          url: null,
+          path: null,
+        },
+      ]);
     }
   };
 
@@ -111,34 +121,17 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       symptom_name: Yup.array().min(1, "Pick at least 1"),
       category_name: Yup.array().min(1, "Pick at least 1"),
     }),
-
-    // onSubmit: async (values) => {
-    //   const valArr = Object.keys(values);
-    //   const formData = new FormData();
-    //   valArr.forEach((key) => {
-    //     formData.append(key, JSON.stringify(values[key]));
-    //   });
-
-    //   try {
-    //     console.log(values);
-    //     axios.post(`${API_URL}/product/input-product`, formData, {
-    //       headers: {
-    //         authorization: `Bearer ${token}`,
-    //       },
-    //     });
-    //   } catch (error) {
-    //     console.log(error);
-    //   } finally {
-    //   }
-    // },
   });
 
-  console.log(formik.values.symptom_name, "symptomName");
-  console.log(formik.values.name, "name");
+  console.log(kuantitas);
+  console.log(formik.values.symptom_name, "simptom");
+  console.log(formik.values.category_name, "kategori");
+  console.log(formik.values.type_name, "kategori");
 
   const submitHandler = async () => {
     const valArr = Object.keys(formik.values); //
     const formData = new FormData();
+    console.log(selectedImage, "line 135");
     valArr.forEach((key) => {
       if (["symptom_name", "category_name"].includes(key)) {
         let data = formik.values[key].map((val) => {
@@ -158,13 +151,20 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       }
     });
     formData.append("quantity", kuantitas);
+    let notSelectedImageArr = [];
     for (let i = 0; i < selectedImage.length; i++) {
-      formData.append(`image`, selectedImage[i]);
+      if (selectedImage[i].file) {
+        formData.append(`image`, selectedImage[i].file);
+      } else {
+        notSelectedImageArr.push(selectedImage[i].path);
+      }
     }
+    formData.append("product_id", id);
+    formData.append(`notDeletedImage`, JSON.stringify(notSelectedImageArr));
 
     try {
       setButtonLoadingSubmit(true);
-      let res = await axios.post(`${API_URL}/product/input-product`, formData, {
+      let res = await axios.patch(`${API_URL}/product/edit-product`, formData, {
         headers: {
           authorization: `Bearer ${token}`,
         },
@@ -219,11 +219,69 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
     setOptionsType(optionsType);
   };
 
+  const getProduct = async () => {
+    try {
+      let res = await axios.get(`${API_URL}/product/get-product?id=${id}`);
+      const { data } = res;
+      console.log(data);
+      let symptom = data.symptom.map((val) => ({
+        value: val.name,
+        label: capitalize(val.name),
+      }));
+
+      let category = data.categories.map((val) => ({
+        value: val.name,
+        label: capitalize(val.name),
+      }));
+
+      let imageProducts = data.imageProduct.map((val) => {
+        return {
+          file: null,
+          filePreview: null,
+          url: `${API_URL}${val.image}`,
+          path: val.image,
+        };
+      });
+      setselectedImage([...imageProducts]);
+      formik.setValues({
+        name: data.name,
+        original_price: data.original_price, //product table
+        price: data.price, //product table
+        unit: data.unit, //product table
+        no_bpom: data.no_bpom, //product table
+        no_obat: data.no_obat, //product table
+        indication: data.indication, //description table
+        composition: data.composition, //description table
+        packaging: data.packaging, //description table
+        med_classification: data.med_classification, //description table
+        need_receipt: data.need_receipt, //description table
+        storage_method: data.storage_method, //description table
+        principal: data.principal, //description table
+        nomor_ijin_edar: data.nomor_ijin_edar, //description table
+        warning: data.warning, //description table
+        usage: data.usage, //description table
+        brand_name: data.brand, //brand table
+        //? quantity: 0, //stock table
+        expired_at: new Date(), //stock table
+        type_name: { label: capitalize(data.type_name), value: data.type_name }, //type table
+        symptom_name: symptom, //symptom table
+        category_name: category, //symptom table
+      });
+
+      setKuantitas(data.total_stock);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (mounted.current) {
       getCategory();
       getSymptom();
       getType();
+      getProduct();
     }
     mounted.current = true;
     () => {};
@@ -242,7 +300,7 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
         <ModalOverlay />
         <form onSubmit={formik.handleSubmit}>
           <ModalContent maxWidth="792px">
-            <ModalHeader>{page == 4 ? null : " Tambah Obat"}</ModalHeader>
+            <ModalHeader>{page == 4 ? null : `Edit Produk ${id}`}</ModalHeader>
             <ModalCloseButton
               _focus={{ boxShadow: "none" }}
               onClick={() => {
@@ -804,7 +862,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
                   return (
                     <div className="relative w-[200px]" key={index}>
                       <img
-                        src={URL.createObjectURL(val)}
+                        src={
+                          val.filePreview == null ? val.url : val.filePreview
+                        }
                         className="object-cover w-full aspect-square relative"
                       />
                       {selectedImage.length < 3 ? (
@@ -891,4 +951,4 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
   );
 };
 
-export default ModalInputDrugs;
+export default ModalEditProduct;

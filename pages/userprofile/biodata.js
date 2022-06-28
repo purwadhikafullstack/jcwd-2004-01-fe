@@ -655,7 +655,7 @@ const Biodata = () => {
             onChange={onFileChange}
           />
           <label
-            for="profilePic"
+            htmlFor="profilePic"
             type="submit"
             className="p-2 mt-2 w-56 border-2 border-gray-400 rounded-md hover:cursor-pointer text-center font-bold"
           >

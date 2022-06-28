@@ -5,33 +5,266 @@ import {
   Select,
   Button,
   useDisclosure,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
+  useToast,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
-import { HiOutlineDownload } from "react-icons/hi";
-// import DetailTableObat from "./DetailTableObat";
+import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
+import { debounce } from "lodash";
+import DetailTableObat from "./DetailTableObat";
 import ModalInputDrugs from "./ModalInputProduct";
+import {
+  useState,
+  useMemo,
+  useTransition,
+  useCallback,
+  useEffect,
+} from "react";
+import PaginationProductAdmin from "./PaginationProductAdmin";
+import API_URL from "../helpers/apiurl";
+import axios from "axios";
+import ModalEditProduct from "./ModalEditProduct";
+import Link from "next/link";
+
 const MedicineTable = () => {
+  const toast = useToast();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const {
+    isOpen: isOpenEdit,
+    onOpen: onOpenEdit,
+    onClose: onCloseEdit,
+  } = useDisclosure();
+  const [input, setInput] = useState({
+    search: "",
+    category: "",
+  });
+  const [page, setPage] = useState(0);
+  const [data, setData] = useState([]);
+  const [totalData, setTotalData] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+  const [limit, setLimit] = useState(10);
+  const [component, setComponent] = useState([]);
+
+  console.log(data, "inidata");
+
+  const Categories = ({ val }) => {
+    return (
+      <div className="overflow-y-hidden scrollbar-hide">
+        {val.map((category, i) => {
+          return (
+            <>
+              <span
+                key={i}
+                className="bg-blackPrimary w-fit text-white font-semibold capitalize py-1 px-2 mr-1 text-sm rounded-xl"
+              >
+                {category.name}
+              </span>
+            </>
+          );
+        })}
+      </div>
+    );
+  };
+
+  const DeleteButton = ({ val }) => {
+    const deleteProductHandler = async () => {
+      try {
+        let response = await axios.patch(
+          `${API_URL}/product/delete-product?id=${val}`
+        );
+        toast({
+          title: "success!",
+          description: response.data.message || "product deleted!",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        console.log(response);
+      } catch (error) {
+        console.log(error);
+        toast({
+          title: "error",
+          description: error.response.data.message || "network error",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
+      } finally {
+        debouncedFetchData(page, input, (response) => {
+          setTotalData(parseInt(response.headers["x-total-product"]));
+          setData([...response.data]);
+          setIsLoading(false);
+        });
+      }
+    };
+
+    return (
+      <div className="flex items-center">
+        <Button
+          variant="outlineCustom"
+          w="80px"
+          h="20px"
+          fontSize="xs"
+          onClick={() => console.log(val)}
+        >
+          Lihat Detail
+        </Button>
+        <Menu>
+          <MenuButton>
+            <HiOutlineDotsVertical className="hover:cursor-pointer h-[20px] w-[20px]" />
+          </MenuButton>
+          <MenuList>
+            <MenuItem
+              textColor="red.500"
+              onClick={() => deleteProductHandler()}
+            >
+              Delete
+            </MenuItem>
+            <Link href={`detailproduct/${val}`}>
+              <MenuItem>Edit</MenuItem>
+            </Link>
+            <MenuItem>Close</MenuItem>
+          </MenuList>
+        </Menu>
+      </div>
+    );
+  };
+
+  const columns = useMemo(() => [
+    {
+      Header: "No",
+      accessor: "id",
+      isNumeric: true,
+    },
+    {
+      Header: "Nama Obat",
+      accessor: "name",
+    },
+    {
+      Header: "No Obat",
+      accessor: "no_obat",
+    },
+    {
+      Header: "No BPOM",
+      accessor: "no_bpom",
+    },
+    {
+      Header: "Kategori",
+      accessor: "categories",
+      Cell: ({ cell: { value } }) => <Categories val={value} />,
+    },
+    {
+      Header: "Stok",
+      accessor: "total_stock",
+      isNumeric: true,
+    },
+    {
+      Header: "Satuan",
+      accessor: "unit",
+    },
+    {
+      Header: "Nilai Barang",
+      accessor: "original_price",
+    },
+    {
+      Header: "Nilai Jual",
+      accessor: "price",
+    },
+    {
+      Header: "Atur",
+      // accessor: "id",
+      Cell: (data) => <DeleteButton val={data.row.original.id} />,
+    },
+  ]);
+
+  const updateLimit = (e) => {
+    setLimit(parseInt(e.target.value));
+  };
+
+  const handleInput = (e) => {
+    setInput({ ...input, [e.target.name]: e.target.value });
+    setPage(0);
+    // console.log(input);
+  };
+
+  const getComponent = async () => {
+    let response = await axios.get(`${API_URL}/product/get-category`);
+    setComponent([...response.data]);
+
+    // console.log(comp, "inicom");
+  };
+
+  const getDaftarProduk = async (page, input, cb) => {
+    let response = await axios.get(
+      `${API_URL}/product/get-all-product?page=${page}&search=${input.search}&category=${input.category}&orderName=&orderPrice=`
+    ); //! Dipersingkat querynya (dibuat conditional)
+    console.log(response);
+    cb(response);
+  };
+
+  //http://localhost:5000/product/get-all-product?search=&page=&category=&orderName=&orderPrice=DESC
+
+  const debouncedFetchData = useCallback(
+    debounce((page, input, cb) => {
+      getDaftarProduk(page, input, cb);
+    }, 1000),
+    []
+  );
+
+  useEffect(() => {
+    getComponent();
+  }, []);
+
+  useEffect(() => {
+    debouncedFetchData(page, input, (response) => {
+      setTotalData(parseInt(response.headers["x-total-product"]));
+      setData([...response.data]);
+      setIsLoading(false);
+    });
+  }, [page, input]);
 
   return (
     <>
-      <div className="shadow-xl rounded-lg w-[72.6%] h-[72.6vh] ml-80 mt-[19px]">
+      <div className="shadow-xl rounded-lg w-[72.6%] h-[78vh] ml-80 mt-[19px]">
         <div className="flex border-0 border-slate-900 h-[42px] justify-between mx-4">
           <div className="flex gap-4 mt-4">
             <InputGroup w="328px" h="42px">
               <Input
                 placeholder="Cari nama obat"
                 focusBorderColor="blackPrimary"
+                name="search"
+                value={input.search}
+                onChange={(e) => handleInput(e)}
               />
-              <InputRightElement children={<GoSearch color="" />} />
+              <InputRightElement>
+                <GoSearch />
+              </InputRightElement>
             </InputGroup>
-            <Select w="156px" h="42px" focusBorderColor="blackPrimary">
-              <option value="Filter" color="gray.300">
-                Filter
-              </option>
-              <option value="Obat Bebas">Obat Bebas</option>
-              <option value="Obat Racik">Obat Racik</option>
-              <option value="Obat Resep">Obat Resep</option>
+            <Select
+              w="156px"
+              h="42px"
+              focusBorderColor="blackPrimary"
+              placeholder="Filter"
+              name="category"
+              value={input.category}
+              onChange={(e) => handleInput(e)}
+            >
+              <option value="">All</option>
+              {component.map(({ id, name }) => {
+                return (
+                  <>
+                    <option value={id}>{name}</option>
+                  </>
+                );
+              })}
             </Select>
           </div>
           <Button
@@ -48,7 +281,17 @@ const MedicineTable = () => {
           </Button>
         </div>
         <ModalInputDrugs isOpen={isOpen} onClose={onClose} />
-        {/* <DetailTableObat /> */}
+        <DetailTableObat columns={columns} data={data} isLoading={isLoading} />
+        <div className="mt-[10px]">
+          <PaginationProductAdmin
+            page={page}
+            totalData={totalData}
+            limit={limit}
+            setLimit={setLimit}
+            updateLimit={updateLimit}
+            pageChangeHandler={setPage}
+          />
+        </div>
       </div>
     </>
   );
