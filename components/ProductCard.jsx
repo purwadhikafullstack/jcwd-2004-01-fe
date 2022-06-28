@@ -3,17 +3,16 @@ import { useMediaQuery, Center, Button, Tooltip } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import Image from "next/image";
 
-const ProductCard = ({ variant }) => {
-  const Product = {
-    imageUrl: "/obat/obat1.png",
-    imageAlt: "PANADOL 10 KAPLET HEHEHEHE",
-    title: "PANADOL 10 KAPLET HEHEHEHE",
-    discount: "17%",
-    originalPrice: "Rp.65.000",
-    formattedPrice: "Rp.35.000",
-    unit: "strip",
-  };
-
+const ProductCard = ({
+  variant,
+  imageUrl,
+  imageAlt,
+  title,
+  discount,
+  originalPrice,
+  formattedPrice,
+  unit,
+}) => {
   const [lg] = useMediaQuery("(min-width: 1024px)");
 
   switch (variant) {
@@ -30,12 +29,13 @@ const ProductCard = ({ variant }) => {
               flexDirection="column"
               position="relative"
               shadow="lg"
+              bg="white"
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -50,7 +50,7 @@ const ProductCard = ({ variant }) => {
               {/* Title */}
               <div className="absolute top-40 left-5 right-5">
                 <p className="font-sans text-sm font-bold text-blackPrimary">
-                  {Product.title}
+                  {title}
                 </p>
               </div>
               {/* Discount */}
@@ -62,13 +62,13 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute left-5 top-[238px] justify-between text-blackPrimary text-base">
-                <p className="font-bold">{Product.formattedPrice}</p>
-                <p className="font-normal">/{Product.unit}</p>
+                <p className="font-bold">{formattedPrice}</p>
+                <p className="font-normal">/{unit}</p>
               </div>
               {/* Button */}
               <Button
@@ -98,8 +98,8 @@ const ProductCard = ({ variant }) => {
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -113,9 +113,9 @@ const ProductCard = ({ variant }) => {
 
               {/* Title */}
               <div className="absolute top-[88px] w-[105px] h-[34px] left-2 right-2">
-                <Tooltip label={Product.title} fontSize="xs" placement="top">
+                <Tooltip label={title} fontSize="xs" placement="top">
                   <p className="font-sans text-[12px] line-clamp-2 font-bold text-blackPrimary">
-                    {Product.title}
+                    {title}
                   </p>
                 </Tooltip>
               </div>
@@ -128,14 +128,14 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute w-[28px] h-[28px] left-2 top-[155px] justify-between text-blackPrimary text-sm">
                 <span className="font-bold">
-                  {Product.formattedPrice}
-                  <p className="font-normal text-[10px]">/{Product.unit}</p>
+                  {formattedPrice}
+                  <p className="font-normal text-[10px]">/{unit}</p>
                 </span>
               </div>
               {/* Button */}
@@ -170,12 +170,13 @@ const ProductCard = ({ variant }) => {
               flexDirection="column"
               position="relative"
               shadow="lg"
+              bg="white"
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -190,7 +191,7 @@ const ProductCard = ({ variant }) => {
               {/* Title */}
               <div className="absolute top-40 left-5 right-5">
                 <p className="font-sans text-sm font-bold text-blackPrimary">
-                  {Product.title}
+                  {title}
                 </p>
               </div>
               {/* Discount */}
@@ -202,13 +203,13 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute left-5 top-[238px] justify-between w-[155px] text-blackPrimary text-base">
-                <p className="font-bold">{Product.formattedPrice}</p>
-                <p className="font-normal">/{Product.unit}</p>
+                <p className="font-bold">{formattedPrice}</p>
+                <p className="font-normal">/{unit}</p>
               </div>
               {/* Button */}
               <Button
@@ -238,8 +239,8 @@ const ProductCard = ({ variant }) => {
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -253,9 +254,9 @@ const ProductCard = ({ variant }) => {
 
               {/* Title */}
               <div className="absolute top-[98px] w-[105px] h-[34px] left-3 right-3">
-                <Tooltip label={Product.title} fontSize="xs" placement="top">
+                <Tooltip label={title} fontSize="xs" placement="top">
                   <p className="font-sans text-[12px] line-clamp-2 font-bold text-blackPrimary">
-                    {Product.title}
+                    {title}
                   </p>
                 </Tooltip>
               </div>
@@ -268,13 +269,13 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute w-[28px] h-[28px] left-3 top-[165px] justify-between text-blackPrimary text-sm">
-                <p className="font-bold">{Product.formattedPrice}</p>
-                <p className="font-normal text-[10px]">/{Product.unit}</p>
+                <p className="font-bold">{formattedPrice}</p>
+                <p className="font-normal text-[10px]">/{unit}</p>
               </div>
               {/* Button */}
               <Button
@@ -308,12 +309,13 @@ const ProductCard = ({ variant }) => {
               flexDirection="column"
               position="relative"
               shadow="lg"
+              bg="white"
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -328,7 +330,7 @@ const ProductCard = ({ variant }) => {
               {/* Title */}
               <div className="absolute top-40 left-6 right-6">
                 <p className="font-sans text-sm font-bold text-blackPrimary">
-                  {Product.title}
+                  {title}
                 </p>
               </div>
               {/* Discount */}
@@ -340,13 +342,13 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute w-[165px] left-6 top-[238px] justify-between text-blackPrimary text-base">
-                <p className="font-bold">{Product.formattedPrice}</p>
-                <p className="font-normal">/{Product.unit}</p>
+                <p className="font-bold">{formattedPrice}</p>
+                <p className="font-normal">/{unit}</p>
               </div>
               {/* Button */}
               <Button
@@ -372,12 +374,13 @@ const ProductCard = ({ variant }) => {
               flexDirection="column"
               position="relative"
               shadow="lg"
+              bg="white"
             >
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
                 <Image
-                  src={Product.imageUrl}
-                  alt={Product.imageAlt}
+                  src={imageUrl}
+                  alt={imageAlt}
                   layout="fill"
                   objectFit="cover"
                 />
@@ -391,9 +394,9 @@ const ProductCard = ({ variant }) => {
 
               {/* Title */}
               <div className="absolute top-[98px] w-[105px] h-[34px] left-3 right-3">
-                <Tooltip label={Product.title} fontSize="xs" placement="top">
+                <Tooltip label={title} fontSize="xs" placement="top">
                   <p className="font-sans text-[12px] line-clamp-2 font-bold text-blackPrimary">
-                    {Product.title}
+                    {title}
                   </p>
                 </Tooltip>
               </div>
@@ -406,13 +409,13 @@ const ProductCard = ({ variant }) => {
                 </div>
                 {/* Original Price */}
                 <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
+                  {originalPrice}
                 </p>
               </div>
               {/* Price/unit */}
               <div className="flex absolute w-[134px] h-[28px] left-3 top-[165px] justify-between text-blackPrimary text-sm">
-                <p className="font-bold">{Product.formattedPrice}</p>
-                <p className="font-normal text-[10px]">/{Product.unit}</p>
+                <p className="font-bold">{formattedPrice}</p>
+                <p className="font-normal text-[10px]">/{unit}</p>
               </div>
               {/* Button */}
               <Button
