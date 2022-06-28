@@ -53,8 +53,6 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
 
   const [selectedImage, setselectedImage] = useState([]);
 
-  console.log(selectedImage, "line 56");
-
   // postingan
 
   const [allValid, setAllValid] = useState(false);
@@ -68,6 +66,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
           file: e.target.files[0],
           filePreview: URL.createObjectURL(e.target.files[0]),
           url: null,
+          path: null,
         },
       ]);
     }
@@ -132,6 +131,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
   const submitHandler = async () => {
     const valArr = Object.keys(formik.values); //
     const formData = new FormData();
+    console.log(selectedImage, "line 135");
     valArr.forEach((key) => {
       if (["symptom_name", "category_name"].includes(key)) {
         let data = formik.values[key].map((val) => {
@@ -151,10 +151,16 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
       }
     });
     formData.append("quantity", kuantitas);
+    let notSelectedImageArr = [];
     for (let i = 0; i < selectedImage.length; i++) {
-      formData.append(`image`, selectedImage[i].file);
+      if (selectedImage[i].file) {
+        formData.append(`image`, selectedImage[i].file);
+      } else {
+        notSelectedImageArr.push(selectedImage[i].path);
+      }
     }
     formData.append("product_id", id);
+    formData.append(`notDeletedImage`, JSON.stringify(notSelectedImageArr));
 
     try {
       setButtonLoadingSubmit(true);
@@ -228,17 +234,15 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
         label: capitalize(val.name),
       }));
 
-      data.imageProduct.map((val) => {
-        setselectedImage([
-          ...selectedImage,
-          {
-            file: null,
-            filePreview: null,
-            url: `${API_URL}${val.image}`,
-          },
-        ]);
+      let imageProducts = data.imageProduct.map((val) => {
+        return {
+          file: null,
+          filePreview: null,
+          url: `${API_URL}${val.image}`,
+          path: val.image,
+        };
       });
-
+      setselectedImage([...imageProducts]);
       formik.setValues({
         name: data.name,
         original_price: data.original_price, //product table
