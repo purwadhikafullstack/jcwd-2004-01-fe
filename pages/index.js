@@ -15,11 +15,13 @@ import PrescriptionCard from "../components/mobile_card_upload_prescription";
 import MobileTitleCard from "../components/mobile_title_card";
 import HomeTitleCard from "../components/home_title_card";
 import HomePrescriptionCard from "../components/home_title_prescription";
-import CategoryCarousel from "../components/category_carousel";
 import HomeSubtitleCard from "../components/home_subtitle_card";
 import HomeCard from "../components/home_card";
 import PaymentMethod from "../components/payment_method";
 import Footer from "../components/footer";
+import CategoryCarousel from "../components/category_carousel";
+import HomeDiscount from "../components/home_today's_discount";
+import PopularCarousel from "../components/popular_carousel";
 
 export default function Home() {
   const logo = "/LogoHealthymed.svg";
@@ -95,8 +97,41 @@ export default function Home() {
         <CategoryCarousel />
       </div> */}
 
+      <div className="w-[1244px] mx-16 mt-12">
+        <div className="flex justify-between">
+          <div className="font-bold text-[24px]">Kategori</div>
+          <button className="text-[14px] font-bold text-[#3C5ABC] underline">
+            Lihat semua
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4 mx-16 w-[1244px]">
+        <CategoryCarousel />
+      </div>
+
+      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+
+      <div className="w-[1244px] mx-16 mt-10">
+        <div className="flex justify-between">
+          <div className="font-bold text-[24px]">Kejar Diskon Hari Ini</div>
+          <button className="text-[14px] font-bold text-[#3C5ABC] underline">
+            Lihat semua
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-4 relative">
+        <HomeDiscount />
+        {/* <div className="absolute top-0 left-20 z-20">
+          <DiscountCarousel />
+        </div> */}
+      </div>
+
+      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+
       {/* Home Subtitle Card */}
-      <div className="mx-16 mt-6 flex w-[1244px] justify-between">
+      <div className="mx-16 mt-14 flex w-[1244px] justify-between">
         <HomeSubtitleCard
           imgSrc="ProgramHamil.svg"
           title="Program Hamil"
@@ -111,7 +146,26 @@ export default function Home() {
         />
       </div>
 
-      <div className="ml-16 mt-6 font-bold text-[24px]">Jaminan Untuk Anda</div>
+      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+
+      <div className="w-[1244px] mx-16 mt-10">
+        <div className="flex justify-between">
+          <div className="font-bold text-[24px]">Popular Product</div>
+          <button className="text-[14px] font-bold text-[#3C5ABC] underline">
+            Lihat semua
+          </button>
+        </div>
+      </div>
+
+      <div className="w-[1300px] h-[350px] mx-10">
+        <PopularCarousel />
+      </div>
+
+      <img className="w-[1244px] mx-16 mt-16" src="HomeLine.svg" />
+
+      <div className="ml-16 mt-10 font-bold text-[24px]">
+        Jaminan Untuk Anda
+      </div>
       <div className="flex justify-between ml-16 mt-8 pb-5 w-[1244px]">
         <HomeCard
           asset={<img className="h-[92px] w-[75px]" src="ObatAsli.svg" />}
@@ -130,7 +184,7 @@ export default function Home() {
         />
       </div>
 
-      <div className="mt-24">
+      <div className="mt-20">
         <PaymentMethod />
       </div>
 

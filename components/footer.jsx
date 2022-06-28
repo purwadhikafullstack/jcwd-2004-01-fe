@@ -40,38 +40,42 @@ const Footer = () => {
           </div>
         </div>
         <div className="flex flex-col text-[14px] gap-10 mt-16">
-          <button className="text-left">Tentang Kami</button>
-          <button className="text-left">FAQ</button>
-          <button className="text-left">Kebijakan Privasi</button>
-          <button className="text-left">Syarat & Ketentuan</button>
-          <button className="text-left">Karir</button>
+          <button className="text-left hover:underline">Tentang Kami</button>
+          <button className="text-left hover:underline">FAQ</button>
+          <button className="text-left hover:underline">
+            Kebijakan Privasi
+          </button>
+          <button className="text-left hover:underline">
+            Syarat & Ketentuan
+          </button>
+          <button className="text-left hover:underline">Karir</button>
         </div>
         <div className="flex flex-col text-[14px] gap-10">
-          <button className="text-left">Blog</button>
-          <button className="text-left">Cara Belanja</button>
-          <button className="text-left">Promo</button>
-          <button className="text-left">Diagnosis</button>
+          <button className="text-left hover:underline">Blog</button>
+          <button className="text-left hover:underline">Cara Belanja</button>
+          <button className="text-left hover:underline">Promo</button>
+          <button className="text-left hover:underline">Diagnosis</button>
         </div>
         <div className="flex flex-col text-[14px]">
           <div className="text-[24px] font-bold">Ikuti Kami</div>
-          <div className="flex items-center gap-3 mt-6">
+          <button className="flex items-center gap-3 mt-6">
             <div className="text-3xl text-[#6B6B6B]">
               <CgFacebook />
             </div>
             <div className="font-bold">Facebook</div>
-          </div>
-          <div className="flex items-center gap-3 mt-3">
+          </button>
+          <button className="flex items-center gap-3 mt-3">
             <div className="text-3xl text-[#6B6B6B]">
               <AiOutlineTwitter />
             </div>
             <div className="font-bold">Twitter</div>
-          </div>
-          <div className="flex items-center gap-3 mt-3">
+          </button>
+          <button className="flex items-center gap-3 mt-3">
             <div className="text-3xl text-[#6B6B6B]">
               <AiFillInstagram />
             </div>
             <div className="font-bold">Instagram</div>
-          </div>
+          </button>
         </div>
       </div>
       <div className="w-[1349px] h-[100px] absolute bottom-0 bg-[#F7F7F7]"></div>

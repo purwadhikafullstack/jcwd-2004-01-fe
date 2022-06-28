@@ -5,11 +5,11 @@ const HomeTitleCard = () => {
   return (
     <div className="mt-10 w-[1244px] h-[226px] rounded-2xl bg-[#A7BFF4] drop-shadow-lg">
       <img
-        className="absolute right-0"
+        className="absolute right-3 rounded-2xl"
         src="HomeTitleCardBackground1.svg"
         alt=""
       />
-      <div className="h-[226px] w-[100px] absolute right-0 rounded-r-2xl bg-[#589EC1]"></div>
+      <div className="h-[226px] w-[100px] absolute right-0 rounded-2xl bg-[#589EC1]"></div>
       <img className="absolute right-12" src="HomeTitleCardImage.svg" alt="" />
       <div className="text-[20px] font-bold pt-11 pl-20">
         Selamat Datang di Healthymed

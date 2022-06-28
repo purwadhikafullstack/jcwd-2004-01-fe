@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const ProductCard = ({ variant }) => {
   const Product = {
-    imageUrl: "/obat/obat1.png",
+    imageUrl: "/Obat.svg",
     imageAlt: "PANADOL 10 KAPLET HEHEHEHE",
     title: "PANADOL 10 KAPLET HEHEHEHE",
     discount: "17%",
@@ -30,6 +30,7 @@ const ProductCard = ({ variant }) => {
               flexDirection="column"
               position="relative"
               shadow="lg"
+              bg="white"
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
