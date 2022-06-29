@@ -21,7 +21,6 @@ import {
 import { useDisclosure } from "@chakra-ui/react";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { BsEyeFill } from "react-icons/bs";
-import { IoAddCircleOutline } from "react-icons/io5";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useEffect, useState } from "react";

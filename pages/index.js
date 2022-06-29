@@ -1,18 +1,12 @@
 import MobileHeader from "../components/mobile_header";
 import MobileNavbar from "../components/mobile_navbar";
 import SearchBar from "../components/searchbar";
-import MobileCategoryCard from "../components/mobile_category_card";
-import MobileHomeCard from "../components/mobile_home_card";
-import InputForm from "../components/input_form";
 import { IoNotificationsSharp } from "react-icons/io5";
-import { IoLogoWhatsapp } from "react-icons/io";
 import { FaShoppingCart } from "react-icons/fa";
-import { GiMedicines } from "react-icons/gi";
 import { Button } from "@chakra-ui/react";
 import useUser from "../hooks/useUser";
 import { FaUserCircle } from "react-icons/fa";
 import PrescriptionCard from "../components/mobile_card_upload_prescription";
-import MobileTitleCard from "../components/mobile_title_card";
 import HomeTitleCard from "../components/home_title_card";
 import HomePrescriptionCard from "../components/home_title_prescription";
 import HomeSubtitleCard from "../components/home_subtitle_card";
