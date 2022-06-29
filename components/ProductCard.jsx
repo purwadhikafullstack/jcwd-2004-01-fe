@@ -3,7 +3,6 @@ import { useMediaQuery, Center, Button, Tooltip } from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import Image from "next/image";
 
-<<<<<<< HEAD
 const ProductCard = ({
   variant,
   imageUrl,
@@ -14,19 +13,6 @@ const ProductCard = ({
   formattedPrice,
   unit,
 }) => {
-=======
-const ProductCard = ({ variant }) => {
-  const Product = {
-    imageUrl: "/Obat.svg",
-    imageAlt: "PANADOL 10 KAPLET HEHEHEHE",
-    title: "PANADOL 10 KAPLET HEHEHEHE",
-    discount: "17%",
-    originalPrice: "Rp.65.000",
-    formattedPrice: "Rp.35.000",
-    unit: "strip",
-  };
-
->>>>>>> aaf0c03d949efaf0640dece08ff8f4f64a87dbef
   const [lg] = useMediaQuery("(min-width: 1024px)");
 
   switch (variant) {

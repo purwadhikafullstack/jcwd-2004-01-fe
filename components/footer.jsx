@@ -7,7 +7,7 @@ import { AiFillInstagram } from "react-icons/ai";
 
 const Footer = () => {
   return (
-    <div className="w-[1349px] h-[480px] bg-white relative">
+    <div className="hidden md:inline-block w-[100%] h-[480px] bg-white relative">
       <div className="flex justify-between items-center mx-16">
         <div className="flex flex-col mt-16">
           <img src="LogoHealthyMedBW.svg" alt="" />
