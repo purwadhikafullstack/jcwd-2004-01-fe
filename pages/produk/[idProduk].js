@@ -5,6 +5,7 @@ import SearchBar from "../../components/searchbar";
 import {
   IoNotificationsSharp,
   IoChatbubbleEllipsesSharp,
+  IoShareSocialSharp,
 } from "react-icons/io5";
 import { FaShoppingCart } from "react-icons/fa";
 import {
@@ -67,7 +68,7 @@ const DetailProdukUserSide = () => {
       );
 
       let { data } = response;
-      console.log(data.total, "line39");
+      console.log(data, "line39");
 
       let imageArr = [];
       for (let i = 0; i < data.imageProduct.length; i++) {
@@ -202,22 +203,22 @@ const DetailProdukUserSide = () => {
             fourthProp={<HiOutlineDotsVertical className="mr-8 text-xl" />}
             classExtend={"flex shadow-xl lg:hidden"}
           />
-          <div className="hiddes md:inline-block md:ml-[120px] md:mt-4">
+          <div className="hidden md:inline-block md:ml-[120px] md:my-11">
             <Breadcrumb fontSize="12px">
               <BreadcrumbItem>
                 <BreadcrumbLink href="#">Beranda</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">Kategori</BreadcrumbLink>
+                <BreadcrumbLink href="#">produk</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink>Obat</BreadcrumbLink>
+                <BreadcrumbLink>{name}</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
           </div>
-          <div className="flex-none md:flex">
+          <div className="flex-none md:flex md:mr-16">
             <div className="w-fit h-fit mx-auto md:inline-block md:w-[405px] md:h-[300px] md:shadow-2xl rounded-lg">
               <div className="w-[150.52px] h-[150.52px] md:w-[225px] md:h-[225px] mt-8 mx-auto">
                 <Slider {...settings} className="">
@@ -233,22 +234,36 @@ const DetailProdukUserSide = () => {
                   })}
                 </Slider>
               </div>
+              <div className="hidden md:flex gap-2 mt-16">
+                <Button
+                  variant="solid"
+                  w="145px"
+                  h="46px"
+                  fontSize="12px"
+                  bg="#EFEFEF"
+                  leftIcon={<IoChatbubbleEllipsesSharp className="text-xl" />}
+                  rounded="full"
+                >
+                  Chat Admin
+                </Button>
+                <Button
+                  variant="solid"
+                  w="145px"
+                  h="46px"
+                  fontSize="12px"
+                  bg="#EFEFEF"
+                  leftIcon={<IoShareSocialSharp className="text-xl" />}
+                  rounded="full"
+                >
+                  Bagikan
+                </Button>
+              </div>
             </div>
-            <Button
-              variant="outlineCustom"
-              w="145px"
-              h="46px"
-              fontSize="12px"
-              leftIcon={<IoChatbubbleEllipsesSharp />}
-              rounded="full"
-            >
-              Chat Admin
-            </Button>
 
             <Divider variant="solid" mt="26px" className="md:hidden" />
             {/* brand, nama, quantity, unit product */}
-            <div className="md:flex-col md:bg-red-200 md:w-[616px]">
-              <div className="flex-col mx-6 mt-6 bg-green-400 md:w-fit">
+            <div className="md:flex-col  md:w-[616px]">
+              <div className="flex-col mx-6 mt-6  md:w-fit">
                 <p className="text-xs font-bold md:text-sm">{brand}</p>
                 <p className="text-lg md:text-[22px]">{capitalizeName}</p>
                 <span className="">
@@ -324,7 +339,7 @@ const DetailProdukUserSide = () => {
               </div>
               <Divider
                 variant="solid"
-                mt="26px"
+                mt="100px"
                 className="hidden md:inline-block"
               />
 
@@ -376,9 +391,10 @@ const DetailProdukUserSide = () => {
                   <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
                 </div>
               </div>
-              <Divider variant="solid" mt="26px" />
+              <Divider variant="solid" mt="26px" className="md:hidden" />
             </div>
           </div>
+          <Divider className="hidden md:inline-block md:mt-[72px] md:mb-[60px]" />
           {/* Product Terkait */}
           <div className="mx-8 mt-6">
             <p className="font-bold text-sm mb-[26px]">Produk Terkait</p>
