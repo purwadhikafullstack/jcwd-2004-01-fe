@@ -33,7 +33,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
@@ -97,7 +97,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
@@ -174,7 +174,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
@@ -238,7 +238,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
@@ -313,7 +313,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
@@ -378,7 +378,7 @@ const ProductCard = ({
             >
               {/* image */}
               <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <Image
+                <img
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"

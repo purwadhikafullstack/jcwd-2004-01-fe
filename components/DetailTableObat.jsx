@@ -32,18 +32,20 @@ const DetailTableObat = ({ columns, data, isLoading }) => {
           size="sm"
         >
           <Thead>
-            {headerGroups.map((headerGroups) => (
+            {headerGroups.map((headerGroups, i) => (
               <Tr
                 {...headerGroups.getHeaderGroupProps()}
                 backgroundColor="blackPrimary"
+                key={i}
               >
-                {headerGroups.headers.map((column) => (
+                {headerGroups.headers.map((column, i) => (
                   <Th
                     {...column.getHeaderProps(column.getSortByToggleProps())}
                     textTransform={"capitalize"}
                     textColor={"white"}
                     isNumeric={column.isNumeric}
                     className="truncate"
+                    key={i}
                   >
                     <div className="flex jus">
                       {column.render("Header")}
@@ -55,16 +57,17 @@ const DetailTableObat = ({ columns, data, isLoading }) => {
             ))}
           </Thead>
           <Tbody {...getTableBodyProps()}>
-            {rows.map((row) => {
+            {rows.map((row, i) => {
               prepareRow(row);
               return (
-                <Tr {...row.getRowProps()}>
-                  {row.cells.map((cell) => (
+                <Tr {...row.getRowProps()} key={i}>
+                  {row.cells.map((cell, i) => (
                     <Td
                       {...cell.getCellProps()}
                       maxWidth="200px"
                       className="truncate"
                       isNumeric={cell.column.isNumeric}
+                      key={i}
                     >
                       {!isLoading ? (
                         <>{cell.render("Cell")}</>

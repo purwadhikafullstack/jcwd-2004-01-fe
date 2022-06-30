@@ -17,6 +17,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbSeparator,
+  Spinner,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import useUser from "../../hooks/useUser";
@@ -31,6 +32,7 @@ import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import ProductCard from "../../components/ProductCard";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
+import Footer from "../../components/footer";
 
 const DetailProdukUserSide = () => {
   const router = useRouter();
@@ -54,12 +56,58 @@ const DetailProdukUserSide = () => {
   );
   unit = unit.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
 
+  const [data, setData] = useState({
+    brand: "",
+    categories: [{}],
+    composition: "",
+    id: 0,
+    brand: "",
+    imageProduct: [{}],
+    indication: "",
+    med_classification: "",
+    name: "",
+    need_receipt: "",
+    no_bpom: "",
+    no_obat: "",
+    nomor_ijin_edar: "",
+    original_price: "",
+    packaging: "",
+    price: "",
+    principal: "",
+    storage_method: "",
+    symptom: [{ id: 0 }],
+    total_stock: "",
+    type_name: "",
+    unit: "",
+    usage: "",
+    warning: "",
+  });
+
+  const [productTerkait, setProductTerkait] = useState([]);
+  console.log(productTerkait, "line 87");
+
   const rupiah = (number) => {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
     }).format(number);
   };
+
+  console.log(data.symptom[0].id);
+
+  const getProdcutTerkait = async (idSymptom) => {
+    try {
+      let response = await axios.get(
+        `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
+      );
+      let data = response.data;
+
+      setProductTerkait(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const getProduct = async () => {
     try {
       setPageLoading(true);
@@ -80,6 +128,9 @@ const DetailProdukUserSide = () => {
       setBrand(data.brand);
       setName(data.name);
       setUnit(data.unit);
+      setData(data);
+      let idSymptom = data.symptom[0].id;
+      getProdcutTerkait(idSymptom);
     } catch (error) {
       console.log(error);
     } finally {
@@ -224,12 +275,18 @@ const DetailProdukUserSide = () => {
                 <Slider {...settings} className="">
                   {image.map((val, i) => {
                     return (
-                      <img
-                        key={i}
-                        src={`${API_URL}${val}`}
-                        alt=""
-                        className="object-cover"
-                      />
+                      <>
+                        {pageLoading ? (
+                          <Spinner key={i} />
+                        ) : (
+                          <img
+                            key={i}
+                            src={`${API_URL}${val}`}
+                            alt=""
+                            className="object-cover"
+                          />
+                        )}
+                      </>
                     );
                   })}
                 </Slider>
@@ -348,47 +405,35 @@ const DetailProdukUserSide = () => {
                 <p className="font-bold">Deskripsi</p>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Indikasi / Kegunaan</p>
-                  <p className="mt-1 text-xs">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Facere, ad? Dolorum quidem, minima, odit suscipit sequi
-                    facere distinctio architecto perspiciatis, exercitationem
-                    quis maxime eos corporis esse corrupti deserunt harum
-                    nesciunt.
-                  </p>
+                  <p className="mt-1 text-xs">{data.indication}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Kandungan / Komposisi</p>
-                  <p className="mt-1 text-xs">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Facere, ad? Dolorum quidem, minima, odit suscipit sequi
-                    facere distinctio architecto perspiciatis, exercitationem
-                    quis maxime eos corporis esse corrupti deserunt harum
-                    nesciunt.
-                  </p>
+                  <p className="mt-1 text-xs">{data.composition}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Kemasan</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.packaging}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Golongan</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.med_classification}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Butuh Resep</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.need_receipt}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Cara Penyimpanan</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.storage_method}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Principal</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.principal}</p>
                 </div>
                 <div className="mt-4">
                   <p className="text-sm font-bold">Nomor Ijin Edar (NIE)</p>
-                  <p className="mt-1 text-xs">Lorem, ipsum dolor sit amet.</p>
+                  <p className="mt-1 text-xs">{data.nomor_ijin_edar}</p>
                 </div>
               </div>
               <Divider variant="solid" mt="26px" className="md:hidden" />
@@ -399,7 +444,23 @@ const DetailProdukUserSide = () => {
           <div className="mx-8 mt-6">
             <p className="font-bold text-sm mb-[26px]">Produk Terkait</p>
             <Slider {...settingsProdukTerkait}>
-              <div className="w-[20px] h-[270px]">
+              {productTerkait.map((val, i) => {
+                return (
+                  <div className="w-[20px] h-[270px]">
+                    <ProductCard
+                      variant="popular"
+                      imageUrl={`${API_URL}${val.imageProduct}`}
+                      imageAlt={val.name}
+                      title={val.name}
+                      discount="17%"
+                      originalPrice="Rp.65.000"
+                      formattedPrice={rupiah(val.price)}
+                      unit={val.unit}
+                    />
+                  </div>
+                );
+              })}
+              {/* <div className="w-[20px]">
                 <ProductCard
                   variant="popular"
                   imageUrl="/Barbara_ProfilePicture.jpg"
@@ -458,19 +519,7 @@ const DetailProdukUserSide = () => {
                   formattedPrice="Rp.35.000"
                   unit="strip"
                 />
-              </div>
-              <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div>
+              </div> */}
             </Slider>
           </div>
 
@@ -493,6 +542,9 @@ const DetailProdukUserSide = () => {
                 Beli Sekarang
               </Button>
             </div>
+          </div>
+          <div className="">
+            <Footer />
           </div>
         </div>
       )}

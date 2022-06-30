@@ -19,6 +19,7 @@ import {
   RadioGroup,
   Stack,
   Flex,
+  Textarea,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { BsCheckLg } from "react-icons/bs";
@@ -154,7 +155,6 @@ const Address = () => {
       });
     } finally {
       setDisableButtonAddress(false);
-      getUserAddress();
       setnewAddressData({
         ...newAddress,
         address: "",
@@ -165,6 +165,9 @@ const Address = () => {
         address_label: "",
       });
       onCloseAddress();
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
     }
   };
 
@@ -187,9 +190,6 @@ const Address = () => {
         progress: undefined,
         theme: "colored",
       });
-      setTimeout(() => {
-        getUserAddress();
-      }, 500);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Network Error", {
@@ -204,6 +204,9 @@ const Address = () => {
       });
     } finally {
       //  getUserAddress();
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
     }
   };
 
@@ -284,6 +287,7 @@ const Address = () => {
         scrollBehavior="inside"
         isOpen={isOpenAddress}
         onClose={closeModal}
+        size="xl"
       >
         <ModalOverlay />
         <ModalContent>
@@ -353,13 +357,14 @@ const Address = () => {
                 })}
               </Select>
               <FormLabel mt={3}>Alamat</FormLabel>
-              <Input
+              <Textarea
                 type="text"
                 placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
                 name="address"
                 onChange={newAddressHandleChange}
                 // onBlur={""}
                 value={newAddress.address}
+                resize="none"
               />
               <Flex justify="end">
                 <Button
