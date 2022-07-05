@@ -5,7 +5,6 @@ const INITIAL_STATE = {
   role_id: 0,
   email: "",
   fullname: "",
-  checkout: [],
 };
 
 const userReducer = (state = INITIAL_STATE, action) => {
