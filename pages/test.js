@@ -1,166 +1,295 @@
-import InputForm from "../components/input_form";
-import MobileHeader from "../components/mobile_header";
-import { Button } from "@chakra-ui/react";
-import { FaUserCircle } from "react-icons/fa";
-import { AiFillLock } from "react-icons/ai";
-import { BsEyeSlashFill } from "react-icons/bs";
-import { BsEyeFill } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { FaShoppingCart } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import Footer from "../components/footer";
+import { useState } from "react";
+import prettyBytes from "pretty-bytes";
+import { IoAddSharp, IoClose } from "react-icons/io5";
+import { toast } from "react-toastify";
+import SearchBar from "../components/searchbar";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  Select,
+  InputGroup,
+  InputRightElement,
+  Radio,
+  RadioGroup,
+  Stack,
+  Flex,
+  Textarea,
+} from "@chakra-ui/react";
 
-const ResetPassword = () => {
-  const imageRegisterLogin = "/Frame.svg";
-  const logo = "/LogoHealthymed.svg";
-
-  const router = useRouter();
-
-  const { token } = router.query;
-
-  const formik = useFormik({
-    initialValues: {
-      password: "",
-      confirmPassword: "",
-    },
-
-    validationSchema: Yup.object({
-      password: Yup.string()
-        .min(8, "Must contain 8 characters or more")
-        .matches(/[A-Z]/g, "Should contain at least an uppercase letter")
-        .matches(/[a-z]/g, "Should contain at least a lowercase letter")
-        .matches(/[0-9]/g, "Should contain at least a number letter")
-        .matches(
-          /[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]+/g,
-          "Should contain at least a special character"
-        )
-        .matches(/^\S*$/, "Should not contain spaces"),
-      confirmPassword: Yup.string().oneOf(
-        [Yup.ref("password"), null],
-        "Passwords must match"
-      ),
-    }),
-
-    onSubmit: async (values) => {
-      try {
-        await axios.post(
-          `${API_URL}/auth/forgotpassword/resetpassword`,
-          values,
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        router.push("/login");
-      } catch (error) {
-        console.log(error);
-      }
-    },
-  });
-
+const Test = () => {
   return (
-    <div className="flex">
-      <div className="hidden w-[720px] h-fit lg:flex lg:flex-col items-center">
-        <div>
-          <img className="absolute top-8 left-16" src={logo} alt="" />
-          <img src={imageRegisterLogin} alt="" />
+    <div className="w-[375px] lg:w-[1349px] h-[1212px] lg:h[1366px]">
+      <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
+        <div className="ml-[16px] lg:ml-[76px] text-lg">
+          <div className="lg:hidden">
+            <IoIosArrowBack />
+          </div>
+          <img
+            className="hidden lg:inline-block"
+            src="/LogoHealthymedBW.svg"
+            alt=""
+          />
+        </div>
+        <div className="ml-[8px] font-bold text-[16px] text-blackPrimary lg:hidden">
+          Alamat Pengiriman
+        </div>
+        <div className="ml-[36px] w-[744px] hidden lg:inline-block">
+          <SearchBar
+            placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
+          />
+        </div>
+        <div className="ml-[60px] text-2xl hidden lg:inline-block">
+          <FaShoppingCart />
+        </div>
+        <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
+          <FaUserCircle />
         </div>
       </div>
-      <div>
-        <form
-          className="w-[375px] h-fit lg:w-[720px] flex flex-col items-center mx-8 lg:mx-0"
-          onSubmit={formik.handleSubmit}
-        >
-          <div className="w-[327px] lg:hidden">
-            <MobileHeader
-              firstProp={<IoIosArrowBack />}
-              classExtend={"w-full"}
-              secondPropClassExtend={"white"}
+
+      <div className="h-[1369px] lg:hidden">
+        <div className="mt-[32px] border-b-2 border-gray-400 pb-[32px]">
+          <div className="mx-[24px]">
+            <FormLabel fontSize="14px" fontWeight="bold">
+              Label Alamat
+            </FormLabel>
+            <Input
+              type="text"
+              placeholder="Masukkan nama alamat"
+              name="address_label"
+              w="328px"
+              h="36px"
+              // onChange={newAddressHandleChange}
+              // value={newAddress.address_label}
             />
           </div>
+        </div>
+        <div className="mt-[24px] mx-[24px]">
+          <FormLabel fontSize="14px" fontWeight="bold" mt={4} mb={4}>
+            Info Penerima
+          </FormLabel>
+          <FormLabel fontSize="12px" mt="20px">
+            Nama Penerima
+          </FormLabel>
+          <Input
+            type="text"
+            placeholder="Masukkan nama penerima"
+            name="recipient_name"
+            w="328px"
+            h="36px"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.recipient_name}
+          />
+          <FormLabel fontSize="12px" mt="20px">
+            Nomor HP
+          </FormLabel>
+          <Input
+            type="text"
+            placeholder="Masukkan nomor telepon"
+            name="recipient_number"
+            w="328px"
+            h="36px"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.recipient_number}
+          />
+          <FormLabel fontSize="14px" fontWeight="bold" mt="56px">
+            Alamat Penerima
+          </FormLabel>
 
-          <div className="w-[327px] lg:w-[528px] text-2xl font-bold lg:hidden">
-            Reset Password
-          </div>
-          <div className="w-[327px] lg:w-[528px] text-2xl font-bold hidden lg:inline-block lg:mt-14">
-            Reset Password
-          </div>
-
-          <div className="mt-20 space-y-1">
-            <p className="text-blackPrimary font-bold">Password</p>
-            <div className="lg:hidden">
-              <InputForm
-                leftIcon={<AiFillLock />}
-                placeholder={"Password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-            </div>
-            <div className="hidden lg:inline-block">
-              <InputForm
-                leftIcon={<AiFillLock />}
-                placeholder={"Password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
-              />
-            </div>
-          </div>
-
-          <div className="mt-3 space-y-1">
-            <p className="text-blackPrimary font-bold">Confirm Password</p>
-            <div className="lg:hidden">
-              <InputForm
-                leftIcon={<AiFillLock />}
-                placeholder={"Confirm password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
-              />
-            </div>
-            <div className="hidden lg:inline-block">
-              <InputForm
-                leftIcon={<AiFillLock />}
-                placeholder={"Confirm password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
-                name="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
-              />
-            </div>
-          </div>
-
-          <div className="w-[327px] lg:w-[528px] pt-8">
-            <Button type="submit" w="full" h="48px" variant={"fillCustom"}>
-              Reset Password
+          <FormLabel fontSize="12px" mt="20px">
+            Provinsi
+          </FormLabel>
+          <Select
+            placeholder="Provinsi"
+            name="province_id"
+            w="328px"
+            h="36px"
+            // onChange={provinceHandleChange}
+          >
+            {/* {provinceOption.map((val, index) => {
+              return (
+                <option key={index} value={val.id}>
+                  {val.name}
+                </option>
+              );
+            })} */}
+          </Select>
+          <FormLabel fontSize="12px" mt="20px">
+            Kota/Kabupaten
+          </FormLabel>
+          <Select
+            placeholder="Kota"
+            name="city_id"
+            w="328px"
+            h="36px"
+            // onChange={newAddressHandleChange}
+            // isDisabled={newAddress.province_id == ""}
+          >
+            {/* {cityOption.map((val, index) => {
+              return (
+                <option key={index} value={val.id}>
+                  {val.name}
+                </option>
+              );
+            })} */}
+          </Select>
+          <FormLabel fontSize="12px" mt="20px">
+            Alamat
+          </FormLabel>
+          <Textarea
+            type="text"
+            placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
+            name="address"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.address}
+            resize="none"
+          />
+        </div>
+        <div className="flex gap-2 mt-[86px] mx-[24px]">
+          <div>
+            <Button variant={"outlineCustom"} w={"157px"} h={"48px"}>
+              Batalkan
             </Button>
           </div>
-
-          <p className="mt-10 pb-10 lg:pb-0">
-            Belum punya akun?{" "}
-            <Link href="">
-              <span className="hover:cursor-pointer font-bold">Daftar</span>
-            </Link>
-          </p>
-        </form>
+          <div>
+            <Button variant={"fillCustom"} w={"157px"} h={"48px"}>
+              Simpan Alamat
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="hidden lg:inline-block h-[668px] w-full mx-[412px]">
+        <div className="mx-[24px]">
+          <div className="text-[24px] mt-[96px] font-bold">
+            Alamat Pengiriman
+          </div>
+          <FormLabel fontSize="16px" fontWeight="bold" mt="68px">
+            Label Alamat
+          </FormLabel>
+          <Input
+            type="text"
+            placeholder="Masukkan nama alamat"
+            name="address_label"
+            w="616px"
+            h="44px"
+            mt="16px"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.address_label}
+          />
+        </div>
+        <div className="mt-[24px] mx-[24px]">
+          <FormLabel fontSize="16px" fontWeight="bold" mt="52px" mb={4}>
+            Info Penerima
+          </FormLabel>
+          <FormLabel fontSize="14px" mt="36px">
+            Nama Penerima
+          </FormLabel>
+          <Input
+            type="text"
+            placeholder="Masukkan nama penerima"
+            name="recipient_name"
+            w="616px"
+            h="44px"
+            mt="16px"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.recipient_name}
+          />
+          <FormLabel fontSize="14px" mt="36px">
+            Nomor HP
+          </FormLabel>
+          <Input
+            type="text"
+            placeholder="Masukkan nomor telepon"
+            name="recipient_number"
+            w="616px"
+            h="44px"
+            mt="16px"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.recipient_number}
+          />
+          <FormLabel fontSize="14px" mt="36px">
+            Provinsi
+          </FormLabel>
+          <Select
+            placeholder="Provinsi"
+            name="province_id"
+            w="616px"
+            h="44px"
+            mt="16px"
+            // onChange={provinceHandleChange}
+          >
+            {/* {provinceOption.map((val, index) => {
+              return (
+                <option key={index} value={val.id}>
+                  {val.name}
+                </option>
+              );
+            })} */}
+          </Select>
+          <FormLabel fontSize="14px" mt="36px">
+            Kota/Kabupaten
+          </FormLabel>
+          <Select
+            placeholder="Kota"
+            name="city_id"
+            w="616px"
+            h="44px"
+            mt="16px"
+            // onChange={newAddressHandleChange}
+            // isDisabled={newAddress.province_id == ""}
+          >
+            {/* {cityOption.map((val, index) => {
+              return (
+                <option key={index} value={val.id}>
+                  {val.name}
+                </option>
+              );
+            })} */}
+          </Select>
+          <FormLabel fontSize="14px" mt="36px">
+            Alamat
+          </FormLabel>
+          <Textarea
+            type="text"
+            placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
+            name="address"
+            // onChange={newAddressHandleChange}
+            // value={newAddress.address}
+            resize="none"
+            mt="16px"
+            w="616px"
+          />
+        </div>
+        <div className="flex gap-2 mt-[68px] mx-[26px]">
+          <div>
+            <Button variant={"outlineCustom"} w={"300px"} h={"52px"}>
+              Batalkan
+            </Button>
+          </div>
+          <div>
+            <Button variant={"fillCustom"} w={"300px"} h={"52px"}>
+              Simpan Alamat
+            </Button>
+          </div>
+        </div>
+      </div>
+      <div className="hidden lg:inline-block mt-[158px]">
+        <Footer />
       </div>
     </div>
   );
 };
 
-export default ResetPassword;
+export default Test;
