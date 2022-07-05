@@ -37,7 +37,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
@@ -80,6 +80,7 @@ const ProductCard = ({
                 left="0px"
                 right="0px"
                 position="absolute"
+                fontSize="12px"
               >
                 Keranjang
               </Button>
@@ -101,7 +102,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
@@ -178,7 +179,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
@@ -221,6 +222,7 @@ const ProductCard = ({
                 left="0px"
                 right="0px"
                 position="absolute"
+                fontSize="12px"
               >
                 Keranjang
               </Button>
@@ -242,7 +244,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
@@ -317,7 +319,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
@@ -360,6 +362,7 @@ const ProductCard = ({
                 left="0px"
                 right="0px"
                 position="absolute"
+                fontSize="12px"
               >
                 Keranjang
               </Button>
@@ -382,7 +385,7 @@ const ProductCard = ({
                   src={imageUrl}
                   alt={imageAlt}
                   layout="fill"
-                  objectFit="cover"
+                  objectfit="cover"
                 />
               </div>
               {/* like button */}
