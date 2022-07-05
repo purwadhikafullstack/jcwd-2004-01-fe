@@ -19,9 +19,10 @@ import {
   RadioGroup,
   Stack,
   Flex,
+  Textarea,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
-import { BsCheckLg } from "react-icons/bs";
+import { BsCheckLg, BsCashStack } from "react-icons/bs";
 import { BsEyeFill } from "react-icons/bs";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { useFormik } from "formik";
@@ -38,10 +39,35 @@ import "react-datepicker/dist/react-datepicker.css";
 const dayjs = require("dayjs");
 import ModalInputAddress from "../../components/ModalInputAddress";
 import { flushSync } from "react-dom";
+import { IoIosArrowBack } from "react-icons/io";
+import { IoLocationSharp } from "react-icons/io5";
+import { FaShoppingCart, FaListUl } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
+import SearchBar from "../../components/searchbar";
+import Footer from "../../components/footer";
 
 const Address = () => {
   //Get token
   let token = Cookies.get("token");
+
+  //UserData
+  const [userData, setUserData] = useState({
+    fullname: "",
+    profile_picture: "",
+  });
+
+  const getUserData = async () => {
+    let res = await axios.get(`${API_URL}/profile/getuserprofile`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    setUserData(res.data);
+  };
+
+  useEffect(() => {
+    getUserData();
+  }, []);
 
   //Add address modal
   const {
@@ -130,8 +156,8 @@ const Address = () => {
           },
         }
       );
-      toast.success("Address successfully changed!", {
-        position: "bottom-center",
+      toast.success("Address successfully added!", {
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -143,7 +169,7 @@ const Address = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Network Error", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -154,7 +180,9 @@ const Address = () => {
       });
     } finally {
       setDisableButtonAddress(false);
-      getUserAddress();
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
       setnewAddressData({
         ...newAddress,
         address: "",
@@ -178,7 +206,7 @@ const Address = () => {
       });
       console.log("ini satu");
       toast.success("Default address successfully changed!", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -187,13 +215,10 @@ const Address = () => {
         progress: undefined,
         theme: "colored",
       });
-      setTimeout(() => {
-        getUserAddress();
-      }, 500);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Network Error", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -204,6 +229,9 @@ const Address = () => {
       });
     } finally {
       //  getUserAddress();
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
     }
   };
 
@@ -212,7 +240,9 @@ const Address = () => {
       return (
         <div
           key={index}
-          className="ml-72 mr-16 mt-5 border-2 border-blackPrimary rounded-lg"
+          className={`mt-5 border-2 border-blackPrimary rounded-lg ${
+            index == 0 ? "bg-cyan-100" : null
+          }`}
         >
           <div className="flex justify-between m-3 items-center">
             <div className="flex flex-col gap-0">
@@ -246,139 +276,218 @@ const Address = () => {
   return (
     <>
       {/* Navbar */}
-      <div className="absolute">
-        <NavbarProfile />
+      <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
+        <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
+          <div className="ml-[16px] lg:ml-[76px] text-lg">
+            <div className="lg:hidden">
+              <IoIosArrowBack />
+            </div>
+            <img
+              className="hidden lg:inline-block"
+              src="/LogoHealthymedBW.svg"
+              alt=""
+            />
+          </div>
+          <div className="ml-[36px] w-[744px] hidden lg:inline-block">
+            <SearchBar
+              placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
+            />
+          </div>
+          <div className="ml-[60px] text-2xl hidden lg:inline-block">
+            <FaShoppingCart />
+          </div>
+          <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
+            <FaUserCircle />
+          </div>
+        </div>
+
+        <div className="flex mx-[96px] mt-[56px] gap-[46px]">
+          <div className="w-[300px] h-[484px] rounded-2xl bg-white drop-shadow-lg">
+            <div className="w-full h-[80px] border-b-2 border-gray-400">
+              <div className="w-[220px] mx-[40px] pt-[28px] flex gap-[40px] items-center">
+                <img
+                  className="rounded-full w-[20px] h-[20px] object-cover"
+                  src={
+                    userData.profile_picture
+                      ? `${API_URL}${userData.profile_picture}`
+                      : `${API_URL}/photos/defaultprofilepicture.png`
+                  }
+                />
+                <div>{userData.fullname}</div>
+              </div>
+            </div>
+            <div className="w-full h-full">
+              <Link href="/userprofile/biodata">
+                <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                  <FaUserCircle /> Profil
+                </div>
+              </Link>
+
+              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                <FaListUl /> Proses Pemesanan
+              </div>
+
+              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                <BsCashStack /> Metode Pembayaran
+              </div>
+
+              <Link href="/userprofile/address">
+                <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer font-bold">
+                  <IoLocationSharp /> Alamat Pengiriman
+                </div>
+              </Link>
+            </div>
+          </div>
+          <div className="w-[900px]">
+            <div className="flex h-[32px] items-center w-[72.6%] gap-9">
+              <Link href="/userprofile/biodata">
+                <button className="text-xl font-bold text-gray-400">
+                  Biodata
+                </button>
+              </Link>
+              <Link href="/userprofile/address">
+                <button className="text-xl font-bold text-blackPrimary">
+                  Alamat
+                </button>
+              </Link>
+            </div>
+
+            {/* Add Address */}
+            <div>
+              <div className="justify-between items-center flex mt-5 ">
+                <div className="text-blackPrimary font-bold text-2xl">
+                  Daftar Alamat
+                </div>
+                <button
+                  onClick={onOpenAddress}
+                  className="py-3 px-4 bg-cyan-500 text-white font-bold rounded-lg"
+                >
+                  Tambah Alamat
+                </button>
+              </div>
+
+              {/* Address Card */}
+            </div>
+            {userAddress.length ? (
+              <div className="h-[500px] overflow-y-auto mt-6 pb-10 border-2 border-gray-400 rounded-2xl px-6">
+                {addressCard()}
+              </div>
+            ) : (
+              <div className="h-[50px] mt-6 border-2 border-gray-400 rounded-2xl px-6 text-center pt-2 font-bold text-cyan-600 tracking-wider">
+                Silahkan tambah alamat pengiriman
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Add Address modal */}
+        <Modal
+          scrollBehavior="inside"
+          isOpen={isOpenAddress}
+          onClose={closeModal}
+          size="xl"
+        >
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Tambah alamat</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody pb={6}>
+              <form onSubmit={submitNewAddress}>
+                <FormLabel fontSize="xl" fontWeight="bold">
+                  Label Alamat
+                </FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Masukkan nama alamat"
+                  name="address_label"
+                  onChange={newAddressHandleChange}
+                  // onBlur={""}
+                  value={newAddress.address_label}
+                />
+                <FormLabel fontSize="xl" fontWeight="bold" mt={4} mb={4}>
+                  Info Penerima
+                </FormLabel>
+                <FormLabel>Nama Penerima</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Masukkan nama penerima"
+                  name="recipient_name"
+                  onChange={newAddressHandleChange}
+                  // onBlur={""}
+                  value={newAddress.recipient_name}
+                />
+                <FormLabel mt={3}>Nomor HP</FormLabel>
+                <Input
+                  type="text"
+                  placeholder="Masukkan nomor telepon"
+                  name="recipient_number"
+                  onChange={newAddressHandleChange}
+                  // onBlur={""}
+                  value={newAddress.recipient_number}
+                />
+                <FormLabel mt={3}>Provinsi</FormLabel>
+                <Select
+                  placeholder="Provinsi"
+                  name="province_id"
+                  onChange={provinceHandleChange}
+                >
+                  {provinceOption.map((val, index) => {
+                    return (
+                      <option key={index} value={val.id}>
+                        {val.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+                <FormLabel mt={3}>Kota/Kabupaten</FormLabel>
+                <Select
+                  placeholder="Kota"
+                  name="city_id"
+                  onChange={newAddressHandleChange}
+                  isDisabled={newAddress.province_id == ""}
+                >
+                  {cityOption.map((val, index) => {
+                    return (
+                      <option key={index} value={val.id}>
+                        {val.name}
+                      </option>
+                    );
+                  })}
+                </Select>
+                <FormLabel mt={3}>Alamat</FormLabel>
+                <Textarea
+                  type="text"
+                  placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
+                  name="address"
+                  onChange={newAddressHandleChange}
+                  // onBlur={""}
+                  value={newAddress.address}
+                  resize="none"
+                />
+                <Flex justify="end">
+                  <Button
+                    isDisabled={disableButtonAddress}
+                    type="submit"
+                    colorScheme="blue"
+                    mr={3}
+                    mt={6}
+                  >
+                    Simpan
+                  </Button>
+                  <Button type="button" onClick={closeModal} mt={6}>
+                    Batalkan
+                  </Button>
+                </Flex>
+              </form>
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </div>
-      <NavbarAdminTop />
 
       {/* Title */}
-      <div className="flex ml-72 h-[32px] items-center mt-[16px] w-[72.6%] gap-9">
-        <Link href="/userprofile/biodata">
-          <button className="text-xl font-bold text-gray-400">Biodata</button>
-        </Link>
-        <Link href="/userprofile/address">
-          <button className="text-xl font-bold text-blackPrimary">
-            Alamat
-          </button>
-        </Link>
+      <div>
+        <Footer />
       </div>
-
-      {/* Add Address */}
-      <div className="ml-72 justify-between items-center mr-16 flex mt-5 ">
-        <div className="text-blackPrimary font-bold text-2xl">
-          Daftar Alamat
-        </div>
-        <button
-          onClick={onOpenAddress}
-          className="py-3 px-4 bg-cyan-500 text-white font-bold rounded-lg"
-        >
-          Tambah Alamat
-        </button>
-      </div>
-
-      {/* Address Card */}
-      {addressCard()}
-
-      {/* Add Address modal */}
-      <Modal
-        scrollBehavior="inside"
-        isOpen={isOpenAddress}
-        onClose={closeModal}
-      >
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>Tambah alamat</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody pb={6}>
-            <form onSubmit={submitNewAddress}>
-              <FormLabel fontSize="xl" fontWeight="bold">
-                Label Alamat
-              </FormLabel>
-              <Input
-                type="text"
-                placeholder="Masukkan nama alamat"
-                name="address_label"
-                onChange={newAddressHandleChange}
-                // onBlur={""}
-                value={newAddress.address_label}
-              />
-              <FormLabel fontSize="xl" fontWeight="bold" mt={4} mb={4}>
-                Info Penerima
-              </FormLabel>
-              <FormLabel>Nama Penerima</FormLabel>
-              <Input
-                type="text"
-                placeholder="Masukkan nama penerima"
-                name="recipient_name"
-                onChange={newAddressHandleChange}
-                // onBlur={""}
-                value={newAddress.recipient_name}
-              />
-              <FormLabel mt={3}>Nomor HP</FormLabel>
-              <Input
-                type="text"
-                placeholder="Masukkan nomor telepon"
-                name="recipient_number"
-                onChange={newAddressHandleChange}
-                // onBlur={""}
-                value={newAddress.recipient_number}
-              />
-              <FormLabel mt={3}>Provinsi</FormLabel>
-              <Select
-                placeholder="Provinsi"
-                name="province_id"
-                onChange={provinceHandleChange}
-              >
-                {provinceOption.map((val, index) => {
-                  return (
-                    <option key={index} value={val.id}>
-                      {val.name}
-                    </option>
-                  );
-                })}
-              </Select>
-              <FormLabel mt={3}>Kota/Kabupaten</FormLabel>
-              <Select
-                placeholder="Kota"
-                name="city_id"
-                onChange={newAddressHandleChange}
-                isDisabled={newAddress.province_id == ""}
-              >
-                {cityOption.map((val, index) => {
-                  return (
-                    <option key={index} value={val.id}>
-                      {val.name}
-                    </option>
-                  );
-                })}
-              </Select>
-              <FormLabel mt={3}>Alamat</FormLabel>
-              <Input
-                type="text"
-                placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
-                name="address"
-                onChange={newAddressHandleChange}
-                // onBlur={""}
-                value={newAddress.address}
-              />
-              <Flex justify="end">
-                <Button
-                  isDisabled={disableButtonAddress}
-                  type="submit"
-                  colorScheme="blue"
-                  mr={3}
-                  mt={6}
-                >
-                  Simpan
-                </Button>
-                <Button type="button" onClick={closeModal} mt={6}>
-                  Batalkan
-                </Button>
-              </Flex>
-            </form>
-          </ModalBody>
-        </ModalContent>
-      </Modal>
     </>
   );
 };

@@ -34,7 +34,7 @@ const ForgotPassword = () => {
         email: inputEmail.email,
       });
       toast.success("Email sent!", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -47,7 +47,7 @@ const ForgotPassword = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message, {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

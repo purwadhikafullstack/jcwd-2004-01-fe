@@ -16,6 +16,7 @@ import Footer from "../components/footer";
 import CategoryCarousel from "../components/category_carousel";
 import HomeDiscount from "../components/home_today's_discount";
 import PopularCarousel from "../components/popular_carousel";
+import Link from "next/link";
 
 export default function Home() {
   const logo = "/LogoHealthymed.svg";
@@ -33,9 +34,11 @@ export default function Home() {
               isLogin ? (
                 <FaShoppingCart />
               ) : (
-                <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
-                  Masuk
-                </Button>
+                <Link href="/login">
+                  <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
+                    Masuk
+                  </Button>
+                </Link>
               )
             }
             fourthProp={
@@ -45,9 +48,11 @@ export default function Home() {
                   <div className="text-base">{fullname}</div>
                 </div>
               ) : (
-                <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
-                  Daftar
-                </Button>
+                <Link href="/register">
+                  <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
+                    Daftar
+                  </Button>
+                </Link>
               )
             }
             classExtend={"hidden lg:flex"}
@@ -94,9 +99,11 @@ export default function Home() {
       <div className="w-[1244px] mx-16 mt-12">
         <div className="flex justify-between">
           <div className="font-bold text-[24px]">Kategori</div>
-          <button className="text-[14px] font-bold text-[#3C5ABC] underline">
-            Lihat semua
-          </button>
+          <Link href="/products">
+            <button className="text-[14px] font-bold text-[#3C5ABC] underline">
+              Lihat semua
+            </button>
+          </Link>
         </div>
       </div>
 
