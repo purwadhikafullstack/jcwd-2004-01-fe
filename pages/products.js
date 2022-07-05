@@ -148,9 +148,9 @@ const Products = () => {
       <div className="w-[1244px] h-[2497px] mx-16 pt-10 flex justify-between">
         <div className="w-[300px] h-[60px]">
           {/* Category Menu */}
-          <div class="collapse collapse-arrow rounded-box drop-shadow-lg">
-            <input type="checkbox" class="peer" />
-            <div class="collapse-title text-black bg-white text-[16px] font-bold">
+          <div className="collapse collapse-arrow rounded-box drop-shadow-lg">
+            <input type="checkbox" className="peer" />
+            <div className="collapse-title text-black bg-white text-[16px] font-bold">
               Kategori
             </div>
             <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
@@ -187,9 +187,9 @@ const Products = () => {
               </Button>
             </div>
             {/* Collapse Keluhan */}
-            <div class="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
-              <input type="checkbox" class="peer" />
-              <div class="collapse-title text-black bg-white text-[16px] font-bold">
+            <div className="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
+              <input type="checkbox" className="peer" />
+              <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Keluhan
               </div>
               <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
@@ -209,26 +209,26 @@ const Products = () => {
               </div>
             </div>
             {/* Filter Harga */}
-            <div class="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
-              <input type="checkbox" class="peer" />
-              <div class="collapse-title text-black bg-white text-[16px] font-bold">
+            <div className="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
+              <input type="checkbox" className="peer" />
+              <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Harga
               </div>
-              <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
                 <InputGroup>
-                  <InputLeftAddon children="Rp" />
+                  {/* <InputLeftAddon children="Rp" /> */}
                   <Input type="tel" placeholder="Harga Minimum" />
                 </InputGroup>
                 <InputGroup>
-                  <InputLeftAddon children="Rp" />
+                  {/* <InputLeftAddon children="Rp" /> */}
                   <Input type="tel" placeholder="Harga Maksimal" />
                 </InputGroup>
               </div>
             </div>
 
-            <div class="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
-              <input type="checkbox" class="peer" />
-              <div class="collapse-title text-black bg-white text-[16px] font-bold">
+            <div className="collapse collapse-arrow border-b-2 border-[#D5D7DD]">
+              <input type="checkbox" className="peer" />
+              <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Jenis Obat
               </div>
               <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
@@ -248,9 +248,9 @@ const Products = () => {
               </div>
             </div>
 
-            <div class="collapse collapse-arrow">
-              <input type="checkbox" class="peer" />
-              <div class="collapse-title text-black bg-white text-[16px] font-bold">
+            <div className="collapse collapse-arrow">
+              <input type="checkbox" className="peer" />
+              <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Brand Obat
               </div>
               <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">

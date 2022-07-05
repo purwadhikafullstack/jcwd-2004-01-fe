@@ -193,6 +193,9 @@ const Address = () => {
         address_label: "",
       });
       onCloseAddress();
+      setTimeout(() => {
+        getUserAddress();
+      }, 500);
     }
   };
 
@@ -488,6 +491,125 @@ const Address = () => {
       <div>
         <Footer />
       </div>
+
+      {/* Add Address */}
+      <div className="ml-72 justify-between items-center mr-16 flex mt-5 ">
+        <div className="text-blackPrimary font-bold text-2xl">
+          Daftar Alamat
+        </div>
+        <button
+          onClick={onOpenAddress}
+          className="py-3 px-4 bg-cyan-500 text-white font-bold rounded-lg"
+        >
+          Tambah Alamat
+        </button>
+      </div>
+
+      {/* Address Card */}
+      {addressCard()}
+
+      {/* Add Address modal */}
+      <Modal
+        scrollBehavior="inside"
+        isOpen={isOpenAddress}
+        onClose={closeModal}
+        size="xl"
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Tambah alamat</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={6}>
+            <form onSubmit={submitNewAddress}>
+              <FormLabel fontSize="xl" fontWeight="bold">
+                Label Alamat
+              </FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nama alamat"
+                name="address_label"
+                onChange={newAddressHandleChange}
+                // onBlur={""}
+                value={newAddress.address_label}
+              />
+              <FormLabel fontSize="xl" fontWeight="bold" mt={4} mb={4}>
+                Info Penerima
+              </FormLabel>
+              <FormLabel>Nama Penerima</FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nama penerima"
+                name="recipient_name"
+                onChange={newAddressHandleChange}
+                // onBlur={""}
+                value={newAddress.recipient_name}
+              />
+              <FormLabel mt={3}>Nomor HP</FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nomor telepon"
+                name="recipient_number"
+                onChange={newAddressHandleChange}
+                // onBlur={""}
+                value={newAddress.recipient_number}
+              />
+              <FormLabel mt={3}>Provinsi</FormLabel>
+              <Select
+                placeholder="Provinsi"
+                name="province_id"
+                onChange={provinceHandleChange}
+              >
+                {provinceOption.map((val, index) => {
+                  return (
+                    <option key={index} value={val.id}>
+                      {val.name}
+                    </option>
+                  );
+                })}
+              </Select>
+              <FormLabel mt={3}>Kota/Kabupaten</FormLabel>
+              <Select
+                placeholder="Kota"
+                name="city_id"
+                onChange={newAddressHandleChange}
+                isDisabled={newAddress.province_id == ""}
+              >
+                {cityOption.map((val, index) => {
+                  return (
+                    <option key={index} value={val.id}>
+                      {val.name}
+                    </option>
+                  );
+                })}
+              </Select>
+              <FormLabel mt={3}>Alamat</FormLabel>
+              <Textarea
+                type="text"
+                placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
+                name="address"
+                onChange={newAddressHandleChange}
+                // onBlur={""}
+                value={newAddress.address}
+                resize="none"
+              />
+              <Flex justify="end">
+                <Button
+                  isDisabled={disableButtonAddress}
+                  type="submit"
+                  colorScheme="blue"
+                  mr={3}
+                  mt={6}
+                >
+                  Simpan
+                </Button>
+                <Button type="button" onClick={closeModal} mt={6}>
+                  Batalkan
+                </Button>
+              </Flex>
+            </form>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
