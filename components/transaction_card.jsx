@@ -37,9 +37,24 @@ const TransactionCard = () => {
                     Sanmol 500 gr 4 Tablet
                   </div>
                   <div className="text-[12px] mt-[2px]">2 x 13.000</div>
-                  <div className="text-[12px] font-bold mt-[13px]">
-                    dropdown ngasal
+                  {/* <div className="text-[12px] font-bold mt-[13px]"> */}
+                  <div class="dropdown dropdown-end text-[12px] font-bold mt-[13px] absolute">
+                    <label tabindex="0" class="btn m-1">
+                      Dropdown ngasal
+                    </label>
+                    <ul
+                      tabindex="0"
+                      class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52"
+                    >
+                      <li>
+                        <a>Item 1</a>
+                      </li>
+                      <li>
+                        <a>Item 2</a>
+                      </li>
+                    </ul>
                   </div>
+                  {/* </div> */}
                 </div>
               </div>
             </div>
