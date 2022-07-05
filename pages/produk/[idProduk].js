@@ -18,6 +18,7 @@ import {
   BreadcrumbLink,
   BreadcrumbSeparator,
   Spinner,
+  useToast,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import useUser from "../../hooks/useUser";
@@ -33,15 +34,20 @@ import ProductCard from "../../components/ProductCard";
 import { AiOutlineHeart } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import Footer from "../../components/footer";
+import Cookies from "js-cookie";
 
 const DetailProdukUserSide = () => {
   const router = useRouter();
+  let token = Cookies.get("token");
+
+  const toast = useToast();
+
   const { idProduk } = router.query;
   const { isLogin, fullname } = useUser();
 
   const [pageLoading, setPageLoading] = useState(false);
 
-  const [kuantitas, setKuantitas] = useState(0);
+  const [kuantitas, setKuantitas] = useState(1);
   const [maxInput, setMaxInput] = useState(0);
 
   const [image, setImage] = useState([]);
@@ -50,6 +56,8 @@ const DetailProdukUserSide = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState(0);
   let [unit, setUnit] = useState("");
+
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const capitalizeName = name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
     letter.toUpperCase()
@@ -181,6 +189,44 @@ const DetailProdukUserSide = () => {
         </ul>
       </div>
     ),
+  };
+
+  const buyHandler = async () => {
+    try {
+      if (!token) {
+        router.push("/login");
+        throw "You Need to Login!";
+      } else {
+        setButtonLoading(true);
+        let response = await axios.post(
+          `${API_URL}/product/input-cart`,
+          { product_id: data.id, quantity: kuantitas },
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        toast({
+          title: "success!",
+          description: response.data.message,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "error",
+        description: error,
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setButtonLoading(false);
+    }
   };
 
   const settingsProdukTerkait = {
@@ -333,7 +379,7 @@ const DetailProdukUserSide = () => {
                 </span>
                 <div className="flex items-center mt-3">
                   <Button
-                    isDisabled={kuantitas == 0}
+                    isDisabled={kuantitas == 1}
                     roundedRight="none"
                     h="32px"
                     w="32px"
@@ -346,7 +392,7 @@ const DetailProdukUserSide = () => {
                     -
                   </Button>
                   <NumberInput
-                    min={0}
+                    min={1}
                     max={maxInput}
                     onChange={(value) => setKuantitas(value)}
                     value={kuantitas}
@@ -383,10 +429,27 @@ const DetailProdukUserSide = () => {
                     h="47px"
                     fontWeight="700"
                     leftIcon={<FaCartPlus className="text-xl mr-6" />}
+                    isDisabled={kuantitas <= 0}
+                    onClick={() => buyHandler()}
+                    isLoading={buttonLoading}
                   >
                     Keranjang
                   </Button>
-                  <Button variant="fillCustom" w="153px" h="48px">
+                  <Button
+                    variant="fillCustom"
+                    w="153px"
+                    h="48px"
+                    isDisabled={kuantitas <= 0}
+                    isLoading={buttonLoading}
+                    onClick={() => {
+                      try {
+                        buyHandler();
+                        router.push("/cart");
+                      } catch (error) {
+                        console.log();
+                      }
+                    }}
+                  >
                     Beli
                   </Button>
                   <Button variant="outlineCustom" w="48px" h="46px" p="-48">
@@ -446,7 +509,7 @@ const DetailProdukUserSide = () => {
             <Slider {...settingsProdukTerkait}>
               {productTerkait.map((val, i) => {
                 return (
-                  <div className="w-[20px] h-[270px]">
+                  <div className="w-[20px] h-[350px]" key={i}>
                     <ProductCard
                       variant="popular"
                       imageUrl={`${API_URL}${val.imageProduct}`}
@@ -535,10 +598,19 @@ const DetailProdukUserSide = () => {
                 h="46px"
                 p="-48"
                 mx="12px"
+                onClick={() => buyHandler()}
+                isLoading={buttonLoading}
               >
                 <FaCartPlus className="text-2xl" />
               </Button>
-              <Button variant="fillCustom" w="207px" h="46px" fontSize="14px">
+              <Button
+                variant="fillCustom"
+                w="207px"
+                h="46px"
+                fontSize="14px"
+                onClick={() => {}}
+                isLoading={buttonLoading}
+              >
                 Beli Sekarang
               </Button>
             </div>

@@ -52,7 +52,8 @@ export const loginAction = ({ ...values }) => {
         ...values,
         email: values.username,
       });
-      dispatch({ type: "LOGIN", payload: { ...res.data } });
+      console.log(res.data);
+      dispatch({ type: "LOGIN", payload: { ...res.data.data } });
 
       Cookies.set("token", res.headers["x-token-access"]);
       toast.success("Welcome back!", {
