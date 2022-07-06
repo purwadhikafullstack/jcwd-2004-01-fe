@@ -133,7 +133,8 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
     // },
   });
 
-  console.log(kuantitas);
+  console.log(formik.values.symptom_name, "symptomName");
+  console.log(formik.values.name, "name");
 
   const submitHandler = async () => {
     const valArr = Object.keys(formik.values); //

@@ -16,7 +16,7 @@ export const profileAction = () => {
 
       dispatch({ type: "UPDATE_PROFILE", payload: res.data });
       toast.success("Successfully updated!", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -33,7 +33,7 @@ export const profileAction = () => {
         payload: error.response.data.message || "Network Error",
       });
       toast.error(error.response.data.message, {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

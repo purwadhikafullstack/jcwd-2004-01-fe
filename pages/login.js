@@ -114,6 +114,11 @@ const Login = ({ loginAction }) => {
                 value={formik.values.username}
               />
             </div>
+            {formik.touched.username && formik.errors.username ? (
+              <p className="text-sm ml-3 text-red-500">
+                {formik.errors.username}
+              </p>
+            ) : null}
           </div>
 
           <div className="mt-3 space-y-1">
@@ -143,7 +148,7 @@ const Login = ({ loginAction }) => {
               />
             </div>
             {formik.touched.password && formik.errors.password ? (
-              <p className="text-sm ml-3 text-pinktertiary">
+              <p className="text-sm ml-3 text-red-500">
                 {formik.errors.password}
               </p>
             ) : null}

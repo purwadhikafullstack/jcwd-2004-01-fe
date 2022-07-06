@@ -11,6 +11,8 @@ const userReducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case "LOGIN":
       return { ...state, isLogin: true, error_mes: "", ...action.payload };
+    case "CHECKOUT":
+      return { ...state, ...action.payload };
     case "ERROR":
       return { error_mes: action.payload };
     case "LOGOUT":
