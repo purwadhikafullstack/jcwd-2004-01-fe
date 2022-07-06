@@ -1,8 +1,6 @@
 import {
   Checkbox,
-  CheckboxGroup,
   NumberInputField,
-  Divider,
   Button,
   NumberInput,
 } from "@chakra-ui/react";
@@ -13,15 +11,21 @@ import { HiTrash } from "react-icons/hi";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import axios from "axios";
 import Cookies from "js-cookie";
-import { debounce } from "lodash";
-import { useCallback } from "react";
 import { useEffect } from "react";
-import { getCartAction } from "../redux/actions/cart_action";
-import { connect } from "react-redux";
+import { getCartAction, UpdateCartAction } from "../redux/actions/cart_action";
+import { connect, useDispatch } from "react-redux";
 
-const CardCartDetail = ({ cartData, handleCheckbox, getCartAction }) => {
+const CardCartDetail = ({
+  cartData,
+  handleCheckbox,
+  getCartAction,
+  UpdateCartAction,
+  selected_product,
+}) => {
   const [kuantitas, setKuantitas] = useState(cartData.quantity);
+  const [checked, setChecked] = useState(false);
   let token = Cookies.get("token");
+  const dispatch = useDispatch();
 
   const updateQuantityInputHandler = async () => {
     try {
@@ -40,13 +44,19 @@ const CardCartDetail = ({ cartData, handleCheckbox, getCartAction }) => {
     } catch (error) {
       console.log(error);
     } finally {
-      getCartAction();
+      await getCartAction();
     }
   };
 
   useEffect(() => {
     updateQuantityInputHandler();
   }, [kuantitas]);
+
+  useEffect(() => {
+    if (checked) {
+      UpdateCartAction({ data: cartData, selected_product });
+    }
+  }, [cartData]);
 
   const subtractQuantityHandler = async () => {
     try {
@@ -74,7 +84,15 @@ const CardCartDetail = ({ cartData, handleCheckbox, getCartAction }) => {
         colorScheme="whiteAlpha"
         iconColor="black"
         value={cartData.id}
-        onChange={(e) => handleCheckbox(e, { cartData, kuantitas })}
+        onChange={(e) => {
+          try {
+            handleCheckbox(e, cartData);
+            setChecked(!checked);
+          } catch (error) {
+            console.log(error);
+          }
+        }}
+        isChecked={checked}
       >
         <div className="flex justify-between w-[302px] md:w-[680px]">
           <img
@@ -159,4 +177,6 @@ const CardCartDetail = ({ cartData, handleCheckbox, getCartAction }) => {
   );
 };
 
-export default connect(null, { getCartAction })(CardCartDetail);
+export default connect(null, { getCartAction, UpdateCartAction })(
+  CardCartDetail
+);

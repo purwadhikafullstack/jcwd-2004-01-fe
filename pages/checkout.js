@@ -24,17 +24,23 @@ import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
-import { connect, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
+import { connect } from "react-redux";
+import { HiPlusSm } from "react-icons/Hi";
+import CardAddressCheckout from "../components/CardAddressCheckout";
+import CardCheckout from "../components/CardCheckout";
 
-const Cart = ({ getCartAction }) => {
+const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
   const { cart, selected_product } = useCart();
   console.log(cart, selected_product, "hehe");
-  const dispatch = useDispatch();
-  const router = useRouter();
+  let token = Cookies.get("token");
+
+  const [checkoutProduct, setCheckoutProduct] = useState([]);
+
+  console.log(checkoutProduct);
 
   let subTotal = 0;
+
   let totalQuantity = 0;
   for (let i = 0; i < selected_product.length; i++) {
     const quantity = selected_product[i].quantity;
@@ -58,14 +64,30 @@ const Cart = ({ getCartAction }) => {
     }
   };
 
-  const beliButtonHandler = () => {
-    dispatch({ type: "CHECKOUT" });
-    router.push("/checkout");
+  // get address
+
+  const [addressData, setAddressData] = useState();
+  console.log(addressData, "address data");
+
+  const getAddress = async () => {
+    try {
+      let response = await axios.get(`${API_URL}/profile/get-default-address`, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response, "address");
+      setAddressData(response.data[0]);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getCartAction();
     getProdcutTerkait();
+    getAddress();
+    setCheckoutProduct(selected_product);
   }, []);
 
   const settingsProdukTerkait = {
@@ -141,17 +163,26 @@ const Cart = ({ getCartAction }) => {
         />
       </div>
       <div className="hidden md:inline md:text-2xl md:font-bold ">
-        <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
+        <p className="pl-[96px] mt-[57px] "> Alat Pengiriman </p>
       </div>
       <div className="flex">
         <div>
-          <CardCart cartData={cart} selected_product={selected_product} />
+          <CardAddressCheckout addressData={addressData} />
+          <CardCheckout
+            cartData={cart}
+            selected_product={selected_product}
+            subTotal={subTotal}
+          />
         </div>
-        <div className="w-[405px] h-[299px] shadow-xl rounded-xl mr-3 mt-16">
+        <div className="w-[405px] h-fit py-[28px] shadow-xl rounded-xl mr-3 mt-16">
           <div className="mt-[28px]">
             <p className="text-xl font-bold ml-3">Total</p>
             <div className="flex justify-between w-[320px] mx-auto mt-[32px] text-[#6B6B6B]">
               <p className="text-base">Sub Total</p>
+              <p className="font-bold">{Rupiah(subTotal)}</p>
+            </div>
+            <div className="flex justify-between w-[320px] mx-auto mt-[32px] text-[#6B6B6B]">
+              <p className="text-base">Pengiriman</p>
               <p className="font-bold">{Rupiah(subTotal)}</p>
             </div>
             <Divider w="320px" mx="auto" mt="22px" />
@@ -159,14 +190,16 @@ const Cart = ({ getCartAction }) => {
               <p className="text-base font-bold">Total</p>
               <p className="font-bold">{Rupiah(subTotal)}</p>
             </div>
+            <Divider w="405px" mx="auto" mt="24px" />
+            <div className="w-[320px] mx-auto mt-[24px]">
+              <p className="text-[20px] font-bold">Metode Pembayaran</p>
+              <p className="text-[14px] mt-1">
+                Silahkan pilih metode pembayaran anda disini
+              </p>
+            </div>
             <div className="w-[320px] mx-auto mt-[46px]">
-              <Button
-                variant="fillCustom"
-                w="320px"
-                h="52px"
-                onClick={() => beliButtonHandler()}
-              >
-                Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}
+              <Button variant="fillCustom" w="320px" h="52px">
+                Pilih Metode Pembayaran({totalQuantity})
               </Button>
             </div>
           </div>
@@ -184,10 +217,10 @@ const Cart = ({ getCartAction }) => {
             w="204px"
             h="46px"
             fontSize="14px"
-            onClick={() => beliButtonHandler()}
+            onClick={() => {}}
             // isLoading={buttonLoading}
           >
-            Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}
+            Bayar(1)
           </Button>
         </div>
       </div>
@@ -281,4 +314,4 @@ const Cart = ({ getCartAction }) => {
   );
 };
 
-export default connect(null, { getCartAction })(Cart);
+export default connect(null, { getCartAction })(Checkout);
