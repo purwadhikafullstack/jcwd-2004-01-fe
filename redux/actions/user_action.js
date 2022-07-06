@@ -12,7 +12,7 @@ export const registerAction = ({ ...values }) => {
 
       dispatch({ type: "LOGIN", payload: res1.data });
       toast.success("Successfully registered!", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -29,7 +29,7 @@ export const registerAction = ({ ...values }) => {
         payload: error.response.data.message || "Network Error",
       });
       toast.error(error.response.data.message, {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -57,7 +57,7 @@ export const loginAction = ({ ...values }) => {
 
       Cookies.set("token", res.headers["x-token-access"]);
       toast.success("Welcome back!", {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,
@@ -72,7 +72,7 @@ export const loginAction = ({ ...values }) => {
         payload: error.response.data.message || "Network Error",
       });
       toast.error(error.response.data.message, {
-        position: "bottom-center",
+        position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
         closeOnClick: true,

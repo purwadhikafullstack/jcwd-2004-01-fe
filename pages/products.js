@@ -89,7 +89,8 @@ const Products = () => {
     }
     console.log(tempArr);
     setInput({ ...input, [prop]: tempArr });
-    console.log(input);
+    console.log(input, "ini input");
+    console.log(tempArr, "ini tempArr");
   };
 
   const updateLimit = (e) => {
