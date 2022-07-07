@@ -19,13 +19,13 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
-import Rupiah from "../lib/rupiah";
+import Rupiah from "../lib/convertRupiah";
 import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
 import { connect } from "react-redux";
-import { HiPlusSm } from "react-icons/Hi";
+import { HiPlusSm } from "react-icons/hi";
 import CardAddressCheckout from "../components/CardAddressCheckout";
 import CardCheckout from "../components/CardCheckout";
 
