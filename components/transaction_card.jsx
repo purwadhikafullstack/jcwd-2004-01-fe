@@ -102,6 +102,7 @@ const TransactionCard = ({ prescription }) => {
               ? "border-b-2 rounded-b-lg border-gray-400"
               : null
           } text-[14px]`}
+          key={index}
         >
           <div className="w-[50px] text-center h-[31px] pt-1">{index + 1}</div>
           <div className="w-[100px] text-left h-[31px] pt-1 truncate">
