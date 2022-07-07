@@ -1,4 +1,18 @@
-import { Button, Checkbox, CheckboxGroup, Divider } from "@chakra-ui/react";
+import {
+  Button,
+  Checkbox,
+  CheckboxGroup,
+  Divider,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  Center,
+} from "@chakra-ui/react";
 import MobileHeader from "../components/mobile_header";
 import SearchBar from "../components/searchbar";
 import useUser from "../hooks/useUser";
@@ -89,6 +103,8 @@ const Checkout = ({ getCartAction }) => {
     getAddress();
     setCheckoutProduct(selected_product);
   }, []);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const settingsProdukTerkait = {
     dots: false,
@@ -198,7 +214,7 @@ const Checkout = ({ getCartAction }) => {
               </p>
             </div>
             <div className="w-[320px] mx-auto mt-[46px]">
-              <Button variant="fillCustom" w="320px" h="52px">
+              <Button variant="fillCustom" w="320px" h="52px" onClick={onOpen}>
                 Pilih Metode Pembayaran({totalQuantity})
               </Button>
             </div>
@@ -220,7 +236,7 @@ const Checkout = ({ getCartAction }) => {
             onClick={() => {}}
             // isLoading={buttonLoading}
           >
-            Bayar(1)
+            Pilih Metode Pembayaran({totalQuantity})
           </Button>
         </div>
       </div>
@@ -310,6 +326,30 @@ const Checkout = ({ getCartAction }) => {
       <div className="hidden md:inline">
         <Footer />
       </div>
+      {/* bank modal */}
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalCloseButton left="25px" top="32px" />
+          <ModalHeader pt="32px">
+            <Center>Metode Pembayaran</Center>
+          </ModalHeader>
+
+          <ModalBody>
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore
+            similique soluta facere tenetur eum quia voluptate, id incidunt
+            animi laudantium itaque rem consectetur quaerat, mollitia debitis.
+            Cumque accusamus odit vel!
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="ghost">Secondary Action</Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
