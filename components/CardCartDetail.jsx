@@ -6,7 +6,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import API_URL from "../helpers/apiurl";
-import Rupiah from "../lib/Rupiah";
+import Rupiah from "../lib/convertRupiah";
 import { HiTrash } from "react-icons/hi";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import axios from "axios";
