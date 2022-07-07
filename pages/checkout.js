@@ -39,7 +39,6 @@ import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
 import { connect } from "react-redux";
-import { HiPlusSm } from "react-icons/Hi";
 import CardAddressCheckout from "../components/CardAddressCheckout";
 import CardCheckout from "../components/CardCheckout";
 
@@ -50,6 +49,7 @@ const Checkout = ({ getCartAction }) => {
   let token = Cookies.get("token");
 
   const [checkoutProduct, setCheckoutProduct] = useState([]);
+  const [bankData, setBankData] = useState([]);
 
   console.log(checkoutProduct);
 
@@ -73,6 +73,18 @@ const Checkout = ({ getCartAction }) => {
       let data = response.data;
 
       setProductTerkait(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //get bank
+
+  const getBank = async () => {
+    try {
+      let response = await axios.get(`${API_URL}/transaction/get-bank`);
+      console.log(response.data, "response Data");
+      setBankData(response.data.result);
     } catch (error) {
       console.log(error);
     }
@@ -102,6 +114,7 @@ const Checkout = ({ getCartAction }) => {
     getProdcutTerkait();
     getAddress();
     setCheckoutProduct(selected_product);
+    getBank();
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -329,25 +342,54 @@ const Checkout = ({ getCartAction }) => {
       {/* bank modal */}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent maxW="500px" maxH="600px">
           <ModalCloseButton left="25px" top="32px" />
           <ModalHeader pt="32px">
             <Center>Metode Pembayaran</Center>
           </ModalHeader>
 
           <ModalBody>
-            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore
-            similique soluta facere tenetur eum quia voluptate, id incidunt
-            animi laudantium itaque rem consectetur quaerat, mollitia debitis.
-            Cumque accusamus odit vel!
+            <div className="flex items-center justify-between shadow-xl rounded-lg p-[18px]">
+              <div>
+                <p className="text-sm">Total Harga</p>
+                <p className="text-xl font-bold">{Rupiah(10000)}</p>
+              </div>
+              <p className="text-xs font-bold">Lihat Detail</p>
+            </div>
+            <Divider my="20px" w="500px" ml="-6" />
+            {/* page pilih bank */}
+            <div className="h-[286px] overflow-y-auto">
+              {bankData.map((val) => {
+                return (
+                  <div key={val.id} id={val.id}>
+                    <div className="flex items-center justify-between hover:cursor-pointer">
+                      <div className="flex items-center gap-[34px]">
+                        <img
+                          src={`${API_URL}${val.image}`}
+                          alt=""
+                          className="w-[42px] h-[42px] object-scale-down"
+                        />
+                        <p className="text-sm">{val.name}</p>
+                      </div>
+                      <GrFormNext />
+                    </div>
+                    <Divider />
+                  </div>
+                );
+              })}
+            </div>
+            {/* page konfirmasi pilih bank */}
+            <div></div>
+            <Divider w="500px" ml="-6" />
           </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Button variant="ghost">Secondary Action</Button>
-          </ModalFooter>
+          <Center>
+            <ModalFooter>
+              <Button variant="fillCustom" w="455px" h="52px">
+                Pilih Metode
+              </Button>
+            </ModalFooter>
+          </Center>
         </ModalContent>
       </Modal>
     </>
