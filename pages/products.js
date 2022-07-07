@@ -89,7 +89,8 @@ const Products = () => {
     }
     console.log(tempArr);
     setInput({ ...input, [prop]: tempArr });
-    console.log(input);
+    console.log(input, "ini input");
+    console.log(tempArr, "ini tempArr");
   };
 
   const updateLimit = (e) => {
@@ -153,7 +154,7 @@ const Products = () => {
             <div className="collapse-title text-black bg-white text-[16px] font-bold">
               Kategori
             </div>
-            <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+            <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
               {categoryList.category?.map((val, index) => {
                 return (
                   <button
@@ -192,7 +193,7 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Keluhan
               </div>
-              <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
                 {categoryList.symptom?.map((val, index) => {
                   return (
                     <Checkbox
@@ -231,7 +232,7 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Jenis Obat
               </div>
-              <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
                 {categoryList.type?.map((val, index) => {
                   return (
                     <Checkbox
@@ -253,7 +254,7 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Brand Obat
               </div>
-              <div class="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
                 {categoryList.brand?.map((val, index) => {
                   return (
                     <Checkbox

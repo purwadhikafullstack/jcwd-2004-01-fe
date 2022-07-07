@@ -6,7 +6,7 @@ import TransactionCard from "./transaction_card";
 
 const NewOrderTransaction = () => {
   return (
-    <div className="ml-64 mt-16 w-[1093px] h-[960px]">
+    <div className="ml-64 mt-16 w-[1093px] h-fit pb-16">
       <div className="mx-[48px] mt-24">
         <div className="flex justify-between">
           <p className="text-xl font-bold">Pesanan Baru</p>
@@ -48,7 +48,7 @@ const NewOrderTransaction = () => {
           </div>
         </div>
 
-        <TransactionCard />
+        <TransactionCard prescription={false} />
       </div>
     </div>
   );
