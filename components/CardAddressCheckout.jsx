@@ -1,5 +1,5 @@
 import { Divider, Spinner } from "@chakra-ui/react";
-import { HiPlusSm } from "react-icons/Hi";
+import { HiPlusSm } from "react-icons/hi";
 
 const CardAddressCheckout = ({ addressData }) => {
   return (

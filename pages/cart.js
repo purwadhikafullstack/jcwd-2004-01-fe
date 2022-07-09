@@ -19,7 +19,7 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
-import Rupiah from "../lib/rupiah";
+import Rupiah from "../lib/convertRupiah";
 import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
