@@ -144,6 +144,7 @@ const Cart = ({ getCartAction }) => {
         <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
       </div>
       <div className="flex">
+        {/* Card Cart */}
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />
         </div>
