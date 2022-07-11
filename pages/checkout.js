@@ -335,7 +335,13 @@ const Checkout = ({ getCartAction }) => {
               </p>
             </div>
             <div className="w-[320px] mx-auto mt-[46px]">
-              <Button variant="fillCustom" w="320px" h="52px" onClick={onOpen}>
+              <Button
+                isLoading={shippingCost == 0}
+                variant="fillCustom"
+                w="320px"
+                h="52px"
+                onClick={onOpen}
+              >
                 Pilih Metode Pembayaran({totalQuantity})
               </Button>
             </div>
