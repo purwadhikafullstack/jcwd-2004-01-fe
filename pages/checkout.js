@@ -13,6 +13,11 @@ import {
   ModalCloseButton,
   Center,
   Spinner,
+  FormLabel,
+  Input,
+  Select,
+  Textarea,
+  Flex,
 } from "@chakra-ui/react";
 import MobileHeader from "../components/mobile_header";
 import SearchBar from "../components/searchbar";
@@ -40,13 +45,11 @@ import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
 import { connect } from "react-redux";
-<<<<<<< HEAD
-=======
 import { HiPlusSm } from "react-icons/hi";
->>>>>>> ba88568884f4380a06c825fb0cd92e96917dee67
 import CardAddressCheckout from "../components/CardAddressCheckout";
 import CardCheckout from "../components/CardCheckout";
 import { useRef } from "react";
+import { toast } from "react-toastify";
 
 const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -98,9 +101,9 @@ const Checkout = ({ getCartAction }) => {
   };
 
   const [selectBank, setSeleckBank] = useState(null);
-  console.log(selectBank, "selectedBank id");
+  console.log(selectBank, "selectedBank array");
 
-  // get address
+  // get default address
 
   const [addressData, setAddressData] = useState({});
   console.log(addressData, "address data");
@@ -195,6 +198,54 @@ const Checkout = ({ getCartAction }) => {
     ],
   };
 
+  // checkout button handler
+  const checkoutHandler = async () => {
+    let data = {
+      address: `${addressData.address} Kota ${addressData.city}, ${addressData.province}`,
+      phone_number: addressData.recipient_number,
+      recipient: addressData.recipient_name,
+      delivery_fee: shippingCost,
+      total_price: total,
+      bank_id: bankData[selectBank].id,
+      checkoutProduct,
+    };
+
+    console.log(data, "ini data buat handler");
+    try {
+      let response = await axios.post(
+        `${API_URL}/transaction/checkout`,
+        { data },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      toast.success(response.data.message, {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    }
+  };
+
   return (
     <>
       <div className="">
@@ -241,7 +292,10 @@ const Checkout = ({ getCartAction }) => {
       </div>
       <div className="flex">
         <div>
-          <CardAddressCheckout addressData={addressData} />
+          <CardAddressCheckout
+            addressData={addressData}
+            getAddress={getAddress}
+          />
           <CardCheckout
             cartData={cart}
             selected_product={selected_product}
@@ -417,7 +471,7 @@ const Checkout = ({ getCartAction }) => {
             <div className="flex items-center justify-between shadow-xl rounded-lg p-[18px]">
               <div>
                 <p className="text-sm">Total Harga</p>
-                <p className="text-xl font-bold">{Rupiah(10000)}</p>
+                <p className="text-xl font-bold">{Rupiah(total)}</p>
               </div>
               <p className="text-xs font-bold">Lihat Detail</p>
             </div>
@@ -486,6 +540,7 @@ const Checkout = ({ getCartAction }) => {
                 w="455px"
                 h="52px"
                 isDisabled={selectBank == null}
+                onClick={() => checkoutHandler()}
               >
                 Pilih Metode
               </Button>

@@ -64,6 +64,7 @@ const Cart = ({ getCartAction }) => {
   };
 
   useEffect(() => {
+    dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
   }, []);

@@ -32,7 +32,9 @@ export default function Home() {
             secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
             thirdProp={
               isLogin ? (
-                <FaShoppingCart />
+                <Link href="/cart">
+                  <FaShoppingCart />
+                </Link>
               ) : (
                 <Link href="/login">
                   <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
@@ -67,7 +69,7 @@ export default function Home() {
           firstProp={null}
           secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
           thirdProp={<IoNotificationsSharp />}
-          fourthProp={<FaShoppingCart />}
+          fourthProp={<FaShoppingCart href="/cart" />}
           classExtend={"flex lg:hidden"}
         />
         <MobileNavbar />
