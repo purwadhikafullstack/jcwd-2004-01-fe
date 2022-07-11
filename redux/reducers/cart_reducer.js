@@ -11,6 +11,8 @@ const cartReducer = (state = initialState, action) => {
       return { ...state, selected_product: action.payload };
     case "UPDATE_SELECTED_QUANTITY":
       return { ...state, selected_product: [action.payload] };
+    case "REFRESH_SELECTED_PRODUCT":
+      return { ...state, selected_product: [] };
     case "CHECKOUT":
       return { ...state };
     case "CART_ERROR":

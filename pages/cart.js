@@ -19,7 +19,7 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
-import Rupiah from "../lib/rupiah";
+import Rupiah from "../lib/convertRupiah";
 import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
@@ -64,6 +64,7 @@ const Cart = ({ getCartAction }) => {
   };
 
   useEffect(() => {
+    dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
   }, []);
@@ -144,6 +145,7 @@ const Cart = ({ getCartAction }) => {
         <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
       </div>
       <div className="flex">
+        {/* Card Cart */}
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />
         </div>
