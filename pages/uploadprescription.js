@@ -2,11 +2,17 @@ import PrescriptionUpload from "../components/upload_prescription";
 import axios from "axios";
 import API_URL from "../helpers/apiurl";
 import Cookies from "js-cookie";
-import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
+import useUser from "../hooks/useUser";
+import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
 const UploadPrescription = () => {
   const [userAddress, setUserAddress] = useState([]);
+
+  const { isLogin } = useUser();
+
+  const router = useRouter();
 
   let token = Cookies.get("token");
 
@@ -30,14 +36,40 @@ const UploadPrescription = () => {
           authorization: `Bearer ${token}`,
         },
       });
+      toast.success("Prescription uploaded!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     } catch (error) {
       console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   };
 
   useEffect(() => {
-    getUserAddress();
+    if (!isLogin) {
+      router.push("/login");
+    } else {
+      getUserAddress();
+    }
   }, []);
+
+  //LOADING DIBUAT YA
 
   return (
     <div>

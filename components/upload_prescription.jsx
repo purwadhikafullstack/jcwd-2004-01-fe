@@ -7,7 +7,6 @@ import Footer from "./footer";
 import { useState, useEffect } from "react";
 import prettyBytes from "pretty-bytes";
 import { IoAddSharp, IoClose } from "react-icons/io5";
-import { toast } from "react-toastify";
 import Link from "next/link";
 
 const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
@@ -32,29 +31,10 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
         formData.append(`img`, selectedImage[i]);
       }
       uploadPrescription(formData);
-      toast.success("Prescription uploaded!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+
       setSuccess(true);
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message || "Network Error", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
     }
   };
 
@@ -213,6 +193,7 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
             variant={"fillCustom"}
             w={"327px"}
             h={"48px"}
+            disabled={selectedImage.length ? false : true}
           >
             Unggah Resep
           </Button>
@@ -384,6 +365,7 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
                   variant={"fillCustom"}
                   w={"120px"}
                   h={"42px"}
+                  disabled={selectedImage.length ? false : true}
                 >
                   Unggah
                 </Button>
