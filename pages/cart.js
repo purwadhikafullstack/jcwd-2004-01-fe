@@ -167,6 +167,7 @@ const Cart = ({ getCartAction }) => {
                 w="320px"
                 h="52px"
                 onClick={() => beliButtonHandler()}
+                isDisabled={totalQuantity == 0}
               >
                 Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}
               </Button>
@@ -187,6 +188,7 @@ const Cart = ({ getCartAction }) => {
             h="46px"
             fontSize="14px"
             onClick={() => beliButtonHandler()}
+            isDisabled={totalQuantity == 0}
             // isLoading={buttonLoading}
           >
             Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}

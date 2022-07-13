@@ -170,7 +170,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
         },
       });
       console.log(res);
-      setPage(4);
+      setPage(3);
     } catch (error) {
       console.log(error);
       toast({
@@ -287,6 +287,8 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
     () => {};
   }, []);
 
+  console.log(page, "ini page berapa");
+
   // react select category
   const options = [
     { value: "chocolate", label: "Chocolate" },
@@ -360,23 +362,6 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                   <div
                     className={`ml-1 ${
                       page == 2 ? "text-blackPrimary" : "text-grayDisable"
-                    } font-normal text-sm`}
-                  >
-                    Detail Kuantitas & Harga
-                  </div>
-                </div>
-                <GrNext className="w-[10px] ml-2" />
-                <div className="flex items-center">
-                  <div
-                    className={`ml-2 flex w-[18px] h-[18px] rounded-full  ${
-                      page == 3 ? "bg-blackPrimary" : "bg-grayDisable"
-                    } justify-center text-white text-xs font-bold`}
-                  >
-                    4
-                  </div>
-                  <div
-                    className={`ml-1 ${
-                      page == 3 ? "text-blackPrimary" : "text-grayDisable"
                     } font-normal text-sm`}
                   >
                     Upload Gambar
@@ -738,7 +723,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                 </div>
               </div>
               {/* page Detail Kuantitas */}
-              <div className={`flex-row ${page !== 2 ? "hidden" : null}`}>
+              <div className={`flex-row ${page !== 10 ? "hidden" : null}`}>
                 <div className="flex items-center my-2">
                   <p className=" flex w-[154px]">Kuantitas</p>
 
@@ -846,7 +831,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
               {/* page Upload Gambar */}
               <div
                 className={`flex justify-center gap-5 ${
-                  page !== 3 ? "hidden" : null
+                  page !== 2 ? "hidden" : null
                 }`}
               >
                 {!selectedImage.length ? (
@@ -891,7 +876,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
               {/* Page Success */}
               <div
                 className={`flex-col items-center mx-auto ${
-                  page !== 4 ? "hidden" : null
+                  page !== 3 ? "hidden" : null
                 }`}
               >
                 <Image
@@ -902,7 +887,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                 />
 
                 <p className="font-bold text-lg text-center">
-                  Obat Berhasil Ditambahkan!
+                  Obat Berhasil Diedit!
                 </p>
                 <p className="text-md text-center">
                   Jumlah stok diperbaharui secara otomatis
@@ -911,7 +896,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
             </ModalBody>
 
             <ModalFooter>
-              {page == 0 || page == 4 ? null : (
+              {page == 0 || page == 3 ? null : (
                 <Button
                   variant="outlineCustom"
                   mr="16px"
@@ -922,7 +907,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                   Kembali
                 </Button>
               )}
-              {page == 3 ? (
+              {page == 2 ? (
                 <Button
                   variant="fillCustom"
                   w="156px"
@@ -934,7 +919,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                 </Button>
               ) : (
                 <Button
-                  hidden={page == 4}
+                  hidden={page == 2}
                   variant="fillCustom"
                   w="156px"
                   h="42px"
