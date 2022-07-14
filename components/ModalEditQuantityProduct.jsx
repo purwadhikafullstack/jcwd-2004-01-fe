@@ -31,7 +31,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import Image from "next/image";
 
-const ModalEditQuantityProduct = ({ isOpen, onClose, id }) => {
+const ModalEditQuantityProduct = ({ isOpen, onClose, id, getLogData }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
@@ -95,6 +95,7 @@ const ModalEditQuantityProduct = ({ isOpen, onClose, id }) => {
         isClosable: true,
       });
     } finally {
+      getLogData();
       setButtonLoadingSubmit(false);
     }
   };
