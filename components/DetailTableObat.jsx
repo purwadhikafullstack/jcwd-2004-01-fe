@@ -7,6 +7,7 @@ import {
   Thead,
   Tr,
   SkeletonText,
+  Spinner,
 } from "@chakra-ui/react";
 
 import { FaSort } from "react-icons/fa";
@@ -22,6 +23,9 @@ const DetailTableObat = ({ columns, data, isLoading }) => {
     <div className="mt-[25px]">
       <TableContainer
         rounded="lg"
+        minH="355px"
+        maxH="355px"
+        overflowY="auto"
         className="scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
         scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
       >
@@ -69,11 +73,7 @@ const DetailTableObat = ({ columns, data, isLoading }) => {
                       isNumeric={cell.column.isNumeric}
                       key={i}
                     >
-                      {!isLoading ? (
-                        <>{cell.render("Cell")}</>
-                      ) : (
-                        <SkeletonText noOfLines={1} mt={2} mb={1} />
-                      )}
+                      {!isLoading ? <>{cell.render("Cell")}</> : <Spinner />}
                     </Td>
                   ))}
                 </Tr>

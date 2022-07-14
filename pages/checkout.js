@@ -205,7 +205,7 @@ const Checkout = ({ getCartAction }) => {
       phone_number: addressData.recipient_number,
       recipient: addressData.recipient_name,
       delivery_fee: shippingCost,
-      total_price: total,
+      total_price: subTotal,
       bank_id: bankData[selectBank].id,
       checkoutProduct,
     };

@@ -6,7 +6,6 @@ const PaginationProductAdmin = ({
   page,
   totalData,
   limit,
-  setLimit,
   updateLimit,
   pageChangeHandler,
 }) => {
