@@ -43,17 +43,22 @@ const TransactionCardCard = ({
   address,
   status,
   getTransactionCard,
+  submitPrescription,
+  total_price,
+  options,
+  orderedProduct,
 }) => {
-  const [drugs, setDrugs] = useState([]);
+  // const [drugs, setDrugs] = useState([]);
   const [inputDrugs, setInputDrugs] = useState(null);
   const [dataDrugs, setDataDrugs] = useState([]);
   const [qty, setQty] = useState(0);
-  const [options, setOptions] = useState([]);
+  // const [options, setOptions] = useState([]);
   const [inputName, setInputName] = useState({
     patient: "",
     physician: "",
   });
   const [dosage, setDosage] = useState("");
+  // const [orderedProduct, setOrderedProduct] = useState([]);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -68,69 +73,94 @@ const TransactionCardCard = ({
   } = useDisclosure();
 
   //Get Product List
-  const getProductList = async () => {
-    let res = await axios.get(`${API_URL}/product/get-prescription-product`);
-    console.log(res.data);
-    let drugsMap = res.data;
-    //Select List
-    const drugsData = drugsMap.map((val, index) => {
-      return {
-        value: {
-          category: val.categories.map((category) => {
-            return category.name;
-          }),
-          unit: val.unit,
-          id_obat: val.id,
-          drug_name: val.name,
-          total_stock: val.total_stock,
-        },
-        label: val.name,
-      };
-    });
-    setDrugs(drugsMap);
-    setOptions(drugsData);
-    console.log(drugsData, "ini options");
-  };
+  // const getProductList = async () => {
+  //   let res = await axios.get(`${API_URL}/product/get-prescription-product`);
+  //   console.log(res.data);
+  //   let drugsMap = res.data;
+  //   //Select List
+  //   const drugsData = drugsMap.map((val, index) => {
+  //     return {
+  //       value: {
+  //         category: val.categories.map((category) => {
+  //           return category.name;
+  //         }),
+  //         unit: val.unit,
+  //         id_obat: val.id,
+  //         drug_name: val.name,
+  //         total_stock: val.total_stock,
+  //       },
+  //       label: val.name,
+  //     };
+  //   });
+  //   setDrugs(drugsMap);
+  //   setOptions(drugsData);
+  //   // console.log(drugsData, "ini options");
+  // };
+
+  //Get Ordered Product
+  // const getOrderedProduct = async (id) => {
+  //   try {
+  //     let productData = await axios.get(
+  //       `${API_URL}/transaction/transaction-detail/${id}`
+  //     );
+  //     setOrderedProduct(productData.data);
+
+  //     console.log(productData.data, "ini product data pesanan");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   //Submit Prescription Copy
-  const submitPrescription = async (id) => {
-    try {
-      await axios.post(`${API_URL}/transaction/submitprescription/${id}`, {
-        prescription_values: dataDrugs,
-      });
-      toast.success("Prescription successfully submitted!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message || "Network Error", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } finally {
-      onClose();
-      setTimeout(() => {
-        getTransactionCard();
-      }, 500);
-    }
+  // const submitPrescription = async (id) => {
+  //   try {
+  //     await axios.post(`${API_URL}/transaction/submitprescription/${id}`, {
+  //       prescription_values: dataDrugs,
+  //     });
+  //     toast.success("Prescription successfully submitted!", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //   } catch (error) {
+  //     console.log(error);
+  //     toast.error(error.response.data.message || "Network Error", {
+  //       position: "top-right",
+  //       autoClose: 5000,
+  //       hideProgressBar: false,
+  //       closeOnClick: true,
+  //       pauseOnHover: true,
+  //       draggable: true,
+  //       progress: undefined,
+  //       theme: "colored",
+  //     });
+  //   } finally {
+  //     onClose();
+  //     // setTimeout(() => {
+  //     //   getTransactionCard();
+  //     // }, 500);
+  //   }
+  // };
+
+  //Trigger Function onOpen
+  // const openModalTrigger = () => {
+  //   getOrderedProduct(transaction_id);
+  //   onOpenDetail();
+  // };
+
+  //Submit Prescription
+  const submitPrescriptionOnClose = async () => {
+    await submitPrescription(transaction_id, dataDrugs);
+    onClose();
   };
 
   //Input Obat Handle Change
   const selectHandleChange = (e) => {
-    // console.log(e.value, "dot value");
     setInputDrugs(e);
   };
 
@@ -167,14 +197,10 @@ const TransactionCardCard = ({
     setQty(0);
   };
 
-  useEffect(() => {
-    getProductList();
-  }, []);
-
   // useEffect(() => {
-  //   console.log(inputDrugs, "ini inputDrugs");
-  //   console.log(dataDrugs, "ini DataDrugs");
-  // });
+  //   // getProductList();
+  //   getOrderedProduct(transaction_id);
+  // }, []);
 
   //Carousel
   const PrescriptionImageCarousel = () => {
@@ -240,6 +266,7 @@ const TransactionCardCard = ({
             {val.quantity}
           </div>
           <div className="w-[125px] text-center h-[31px] pt-1">{val.unit}</div>
+          <div className="w-[125px] text-center h-fit pt-1">{val.dosage}</div>
           <div className="w-[125px] text-center h-[31px] pt-1">
             <Button
               w="50px"
@@ -302,17 +329,30 @@ const TransactionCardCard = ({
             <div className="mt-[19px]">
               <div className="flex gap-[30px]">
                 <div className="w-[75px] h-[75px] rounded-lg">
-                  {prescription.slice(0, 1).map((val, i) => {
-                    return (
+                  {
+                    prescription.length > 0 && orderedProduct.length <= 0 ? (
+                      prescription.slice(0, 1).map((val, i) => {
+                        return (
+                          <img
+                            key={i}
+                            className="w-[75px] h-[75px] rounded-lg"
+                            src={`${API_URL}${val.img}`}
+                          />
+                        );
+                      })
+                    ) : (
+                      // orderedProduct.slice(0, 1).map((val, i) => {
+                      //     return (
                       <img
-                        key={i}
                         className="w-[75px] h-[75px] rounded-lg"
-                        src={`${API_URL}${val.img}`}
+                        src={`${API_URL}${orderedProduct[0].image}`}
                       />
-                    );
-                  })}
+                    )
+                    // );
+                    // })
+                  }
                 </div>
-                {prescription.length ? (
+                {prescription.length > 0 && orderedProduct.length <= 0 ? (
                   <div className="flex flex-col w-[216px] border-r-2 border-gray-400">
                     <div className="text-[14px] font-bold">Resep Dokter</div>
                     <div className="mt-[4px]">
@@ -341,12 +381,16 @@ const TransactionCardCard = ({
                     </div>
                   </div>
                 ) : (
+                  //   orderedProduct.slice(0, 1).map((val, index) => {
                   <div className="flex flex-col w-[216px] border-r-2 border-gray-400">
                     <div className="text-[14px] font-bold">
-                      Sanmol 500 gr 4 Tablet
+                      {orderedProduct[0].name}
                     </div>
-                    <div className="text-[12px] mt-[2px]">2 x 13.000</div>
+                    <div className="text-[12px] mt-[2px]">
+                      {orderedProduct[0].quantity} x {orderedProduct[0].price}
+                    </div>
                   </div>
+                  //   })
                 )}
               </div>
             </div>
@@ -371,21 +415,21 @@ const TransactionCardCard = ({
           </div>
         </div>
 
-        {!prescription.length ? (
-          <div className="h-[48px] bg-[#F6FAFB] mx-[26px] mt-[16px] flex justify-between items-center py-3 px-4">
-            <div className="flex gap-[8px] items-center">
-              <div className="text-[16px] font-bold">Total Harga</div>
-              <div className="text-[12px]">(4 Obat)</div>
-            </div>
-            <div className="text-[16px] font-bold">Rp. 37.000</div>
-          </div>
-        ) : (
+        {prescription.length && orderedProduct.length <= 0 ? (
           <div className="h-[48px] bg-[#F6FAFB] mx-[26px] mt-[16px] flex justify-between items-center py-3 px-4">
             <div className="flex gap-[8px] items-center">
               <div className="text-[16px] font-bold">Resep Dokter</div>
               <div className="text-[12px]"></div>
             </div>
             <div className="text-[16px] font-bold"></div>
+          </div>
+        ) : (
+          <div className="h-[48px] bg-[#F6FAFB] mx-[26px] mt-[16px] flex justify-between items-center py-3 px-4">
+            <div className="flex gap-[8px] items-center">
+              <div className="text-[16px] font-bold">Total Harga</div>
+              <div className="text-[12px]">{orderedProduct.length} Obat</div>
+            </div>
+            <div className="text-[16px] font-bold">{total_price}</div>
           </div>
         )}
 
@@ -427,7 +471,7 @@ const TransactionCardCard = ({
               ) : null}
             </div>
             <div>
-              {prescription.length && status == "MENUNGGU_KONFIRMASI" ? (
+              {prescription.length > 0 && status == "MENUNGGU_KONFIRMASI" ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -438,7 +482,7 @@ const TransactionCardCard = ({
                   Buat Salinan Resep
                 </Button>
               ) : null}
-              {prescription.length && status == "DITERIMA" ? (
+              {prescription.length > 0 && status == "DITERIMA" ? (
                 <Button
                   w="180px"
                   h="32px"
@@ -449,7 +493,7 @@ const TransactionCardCard = ({
                   Menunggu Pembayaran
                 </Button>
               ) : null}
-              {prescription.length && status == "DITOLAK" ? (
+              {prescription.length > 0 && status == "DITOLAK" ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -460,7 +504,7 @@ const TransactionCardCard = ({
                   Pesanan Ditolak
                 </Button>
               ) : null}
-              {prescription.length && status == "MENUNGGU_PEMBAYARAN" ? (
+              {prescription.length > 0 && status == "MENUNGGU_PEMBAYARAN" ? (
                 <Button
                   w="180px"
                   h="32px"
@@ -471,12 +515,12 @@ const TransactionCardCard = ({
                   Menunggu Pembayaran
                 </Button>
               ) : null}
-              {prescription.length && status == "DIPROSES" ? (
+              {prescription.length > 0 && status == "DIPROSES" ? (
                 <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
                   Kirim Pesanan
                 </Button>
               ) : null}
-              {prescription.length && status == "DIKIRIM" ? (
+              {prescription.length > 0 && status == "DIKIRIM" ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -487,7 +531,7 @@ const TransactionCardCard = ({
                   Proses Pengiriman
                 </Button>
               ) : null}
-              {prescription.length && status == "SELESAI" ? (
+              {prescription.length > 0 && status == "SELESAI" ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -498,7 +542,7 @@ const TransactionCardCard = ({
                   Selesai
                 </Button>
               ) : null}
-              {status == "MENUNGGU_KONFIRMASI" && !prescription.length ? (
+              {status == "MENUNGGU_KONFIRMASI" && prescription.length <= 0 ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -509,12 +553,12 @@ const TransactionCardCard = ({
                   Terima Pesanan
                 </Button>
               ) : null}
-              {status == "DITERIMA" && !prescription.length ? (
+              {status == "DITERIMA" && prescription.length <= 0 ? (
                 <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
                   Menunggu Pembayaran
                 </Button>
               ) : null}
-              {status == "DITOLAK" && !prescription.length ? (
+              {status == "DITOLAK" && prescription.length <= 0 ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -525,7 +569,7 @@ const TransactionCardCard = ({
                   Pesanan Ditolak
                 </Button>
               ) : null}
-              {status == "MENUNGGU_PEMBAYARAN" && !prescription.length ? (
+              {status == "MENUNGGU_PEMBAYARAN" && prescription.length <= 0 ? (
                 <Button
                   w="180px"
                   h="32px"
@@ -536,12 +580,12 @@ const TransactionCardCard = ({
                   Menunggu Pembayaran
                 </Button>
               ) : null}
-              {status == "DIPROSES" && !prescription.length ? (
+              {status == "DIPROSES" && prescription.length <= 0 ? (
                 <Button w="180px" h="32px" fontSize="14px" variant="fillCustom">
                   Kirim Pesanan
                 </Button>
               ) : null}
-              {status == "DIKIRIM" && !prescription.length ? (
+              {status == "DIKIRIM" && prescription.length <= 0 ? (
                 <Button
                   w="180px"
                   h="32px"
@@ -552,7 +596,7 @@ const TransactionCardCard = ({
                   Proses Pengiriman
                 </Button>
               ) : null}
-              {status == "SELESAI" && !prescription.length ? (
+              {status == "SELESAI" && prescription.length <= 0 ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -563,7 +607,7 @@ const TransactionCardCard = ({
                   Selesai
                 </Button>
               ) : null}
-              {status == "DIBATALKAN" && !prescription.length ? (
+              {status == "DIBATALKAN" && prescription.length <= 0 ? (
                 <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
                   Dibatalkan
                 </Button>
@@ -573,7 +617,7 @@ const TransactionCardCard = ({
         </div>
       </div>
 
-      {/* Modal */}
+      {/* Modal Salin Resep*/}
       <Modal
         size={"3xl"}
         scrollBehavior="inside"
@@ -690,7 +734,11 @@ const TransactionCardCard = ({
                     </div>
                     <div className="flex flex-col gap-[8px]">
                       <div className="text-[12px] font-bold">Dosis</div>
-                      <Input name="color" h="38px" />
+                      <Input
+                        value={dosage}
+                        h="38px"
+                        onChange={dosageHandleChange}
+                      />
                     </div>
                     {/* <div className="flex flex-col gap-[8px]">
                       <div className="text-[12px] font-bold">Dosis</div>
@@ -733,6 +781,9 @@ const TransactionCardCard = ({
                       Satuan
                     </div>
                     <div className="w-[125px] text-center h-[31px] pt-1">
+                      Dosis
+                    </div>
+                    <div className="w-[125px] text-center h-[31px] pt-1">
                       Hapus
                     </div>
                   </div>
@@ -749,7 +800,7 @@ const TransactionCardCard = ({
             <Button
               variant="fillCustom"
               onClick={() => {
-                submitPrescription(transaction_id);
+                submitPrescriptionOnClose;
               }}
             >
               Terima Pesanan
@@ -758,6 +809,7 @@ const TransactionCardCard = ({
         </ModalContent>
       </Modal>
 
+      {/* Modal Detail Pesanan */}
       <Modal
         isOpen={isOpenDetail}
         scrollBehavior="inside"
@@ -798,20 +850,43 @@ const TransactionCardCard = ({
 
             <div className="flex gap-10 mt-5">
               <div className="flex flex-col gap-4">
-                {prescription.map((val, i) => {
-                  return (
-                    <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
-                      <img
-                        key={i}
-                        className="w-[75px] h-[75px] rounded-lg"
-                        src={`${API_URL}${val.img}`}
-                      />
-                      <div>
-                        Prescription no. <span>{i + 1}</span>
-                      </div>
-                    </div>
-                  );
-                })}
+                {prescription.length > 0 && orderedProduct <= 0
+                  ? prescription.map((val, i) => {
+                      return (
+                        <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                          <img
+                            key={i}
+                            className="w-[75px] h-[75px] rounded-lg"
+                            src={`${API_URL}${val.img}`}
+                          />
+                          <div>
+                            Prescription no. <span>{i + 1}</span>
+                          </div>
+                        </div>
+                      );
+                    })
+                  : orderedProduct.map((val, i) => {
+                      return (
+                        <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                          <img
+                            key={i}
+                            className="w-[75px] h-[75px] rounded-lg"
+                            src={`${API_URL}${val.image}`}
+                          />
+                          <div>
+                            <div className="text-[14px] font-bold">
+                              {val.name}
+                            </div>
+                            <div className="text-[12px] mt-[2px]">
+                              {val.quantity} x {val.price}
+                            </div>
+                            <div className="text-[12px] mt-[2px]">
+                              {val.dosage ? val.dosage : null}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
               </div>
               <div className="pb-5 bg-white drop-shadow-lg rounded-lg h-fit pr-5">
                 <div className="flex gap-10">

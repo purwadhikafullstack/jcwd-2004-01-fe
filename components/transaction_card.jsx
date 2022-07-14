@@ -26,7 +26,12 @@ import { useState, useEffect, useCallback } from "react";
 const dayjs = require("dayjs");
 import TransactionCardCard from "./transaction_card_card";
 
-const TransactionCard = ({ getTransactionCard, cardData }) => {
+const TransactionCard = ({
+  getTransactionCard,
+  cardData,
+  submitPrescription,
+  options,
+}) => {
   // const [drugs, setDrugs] = useState([]);
   // const [inputDrugs, setInputDrugs] = useState(null);
   // const [dataDrugs, setDataDrugs] = useState([]);
@@ -154,16 +159,20 @@ const TransactionCard = ({ getTransactionCard, cardData }) => {
     return (
       <TransactionCardCard
         getTransactionCard={getTransactionCard}
+        submitPrescription={submitPrescription}
         transaction_id={val.id}
         transaction_code={val.transaction_code}
+        total_price={val.total_price}
         index={index}
         created_at={val.created_at}
         expired_at={val.expired_at}
         prescription={val.prescription}
-        username={val.name[0].username}
-        fullname={val.name[0].fullname}
+        orderedProduct={val.orderedProduct}
+        username={val.username}
+        fullname={val.fullname}
         address={val.address}
         status={val.status}
+        options={options}
       />
     );
   });

@@ -682,10 +682,11 @@ const Biodata = () => {
                   <FaUserCircle /> Profil
                 </div>
               </Link>
-
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
-                <FaListUl /> Proses Pemesanan
-              </div>
+              <Link href="/userprofile/transactions">
+                <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                  <FaListUl /> Proses Pemesanan
+                </div>
+              </Link>
 
               <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran

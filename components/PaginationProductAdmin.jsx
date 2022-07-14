@@ -65,6 +65,7 @@ const PaginationProductAdmin = ({
           <div>
             <p>
               Menampilkan {pageFirstRecord} - {pageLastRecord} dari {totalData}
+              &nbsp;
             </p>
           </div>
           <div className="flex items-center  w-[200px]">
