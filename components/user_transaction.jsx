@@ -199,6 +199,7 @@ const UserTransaction = ({
                 <div
                   // className={index < cardData.length - 1 ? "pb-[36px]" : null}
                   className="pb-[36px]"
+                  key={index}
                 >
                   <TransactionCardUser
                     getCardData={getCardData}

@@ -328,10 +328,9 @@ const Products = () => {
           <div className="grid grid-cols-4 gap-4 mt-[20px]">
             {data.map((val, index) => {
               return (
-                <Link href={`/produk/${val.id}`}>
+                <Link key={index} href={`/produk/${val.id}`}>
                   <div className="hover:cursor-pointer">
                     <ProductCardMap
-                      key={index}
                       variant="list"
                       title={Capitalize(val.name)}
                       formattedPrice={Rupiah(parseInt(val.price))}

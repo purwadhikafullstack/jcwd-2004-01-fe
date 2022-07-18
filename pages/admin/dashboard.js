@@ -26,71 +26,35 @@ import { Select, Spinner } from "@chakra-ui/react";
 import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 
-const data = (canvas) => {
-  const ctx = canvas.getContext("2d");
-  let gradient = ctx.createLinearGradient(0, 0, 0, 150);
-  gradient.addColorStop(0, "rgba(0,124,194,0.1)");
-  gradient.addColorStop(0.5, "rgba(0,124,194,0.3)");
-  gradient.addColorStop(1, "rgba(0,124,194,0.7)");
-
-  return {
-    labels: [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Ags",
-      "Sep",
-      "Okt",
-      "Nov",
-      "Des",
-    ],
-    datasets: [
-      {
-        data: [2.5, 3, 5, 3, 2, 1, 4, 6, 4, 4, 2, 4],
-        // fill: false,
-        borderColor: "rgb(75, 192, 192)",
-        borderWidth: 1,
-        borderRadius: 100,
-        borderSkipped: false,
-        backgroundColor: gradient,
+const Dashboard = () => {
+  const options = {
+    scales: {
+      x: {
+        grid: {
+          display: false,
+        },
       },
-    ],
-  };
-};
-
-const options = {
-  scales: {
-    x: {
-      grid: {
+      y: {
+        beginAtZero: true,
+      },
+    },
+    plugins: {
+      legend: {
         display: false,
       },
     },
-    y: {
-      beginAtZero: true,
-    },
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-  },
-};
+  };
 
-function createGradient(ctx) {
-  console.log(ctx, "ini ctx");
-  let gradient = ctx?.createLinearGradient(0, 0, 0, 350);
+  function createGradient(ctx) {
+    console.log(ctx, "ini ctx");
+    let gradient = ctx?.createLinearGradient(0, 0, 0, 350);
 
-  gradient?.addColorStop(0, "rgba(0, 95, 175, 1)");
-  gradient?.addColorStop(1, "rgba(33, 205, 192, 0.6)");
+    gradient?.addColorStop(0, "rgba(0, 95, 175, 1)");
+    gradient?.addColorStop(1, "rgba(33, 205, 192, 0.6)");
 
-  return gradient;
-}
+    return gradient;
+  }
 
-const dashboard = () => {
   // state
   const [todayReportData, setTodayReportData] = useState();
   console.log(todayReportData, "ini today report data");
@@ -196,7 +160,7 @@ const dashboard = () => {
       </div>
       <NavbarAdminTop />
 
-      {/* dashboard body */}
+      {/* Dashboard body */}
       <div className="pl-[275px] pt-4">
         <div className="flex-row">
           <div className="text-xl font-[#213360] font-bold">
@@ -626,4 +590,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default Dashboard;

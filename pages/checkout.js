@@ -51,6 +51,7 @@ import CardCheckout from "../components/CardCheckout";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+// import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -249,7 +250,9 @@ const Checkout = ({ getCartAction }) => {
   };
 
   if (!isLogin) {
-    router.push("/login");
+    () => {
+      router.push("/login");
+    };
   }
 
   return (

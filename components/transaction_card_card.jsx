@@ -258,7 +258,7 @@ const TransactionCardCard = ({
       <Slider {...settings}>
         {prescription.map((val, id) => {
           return (
-            <Zoom>
+            <Zoom key={id}>
               <img
                 key={id}
                 className="h-[427px] object-contain rounded-lg"
@@ -283,6 +283,7 @@ const TransactionCardCard = ({
               ? "border-b-2 rounded-b-lg border-gray-400"
               : null
           } text-[14px]`}
+          key={index}
         >
           <div className="w-[50px] text-center h-[31px] pt-1">{index + 1}</div>
           <div className="w-[100px] text-left h-[31px] pt-1 truncate">
@@ -842,9 +843,11 @@ const TransactionCardCard = ({
                 {prescription.length > 0 && orderedProduct <= 0
                   ? prescription.map((val, i) => {
                       return (
-                        <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                        <div
+                          className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                          key={i}
+                        >
                           <img
-                            key={i}
                             className="w-[75px] h-[75px] rounded-lg"
                             src={`${API_URL}${val.img}`}
                           />
@@ -856,9 +859,11 @@ const TransactionCardCard = ({
                     })
                   : orderedProduct.map((val, i) => {
                       return (
-                        <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                        <div
+                          className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                          key={i}
+                        >
                           <img
-                            key={i}
                             className="w-[75px] h-[75px] rounded-lg"
                             src={`${API_URL}${val.image}`}
                           />
@@ -953,9 +958,11 @@ const TransactionCardCard = ({
               <div className="flex flex-col gap-4">
                 {prescription.map((val, i) => {
                   return (
-                    <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                    <div
+                      className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                      key={i}
+                    >
                       <img
-                        key={i}
                         className="w-[75px] h-[75px] rounded-lg"
                         src={`${API_URL}${val.img}`}
                       />
