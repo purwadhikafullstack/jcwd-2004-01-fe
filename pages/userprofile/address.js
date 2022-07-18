@@ -1,5 +1,3 @@
-import NavbarProfile from "../../components/NavbarProfile";
-import NavbarAdminTop from "../../components/NavbarAdminTop";
 import {
   Modal,
   ModalOverlay,
@@ -23,30 +21,24 @@ import {
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { BsCheckLg, BsCashStack } from "react-icons/bs";
-import { BsEyeFill } from "react-icons/bs";
-import { IoAddCircleOutline } from "react-icons/io5";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 import Cookies from "js-cookie";
-import useUser from "../../hooks/useUser";
 import { toast } from "react-toastify";
 import Link from "next/link";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 const dayjs = require("dayjs");
-import ModalInputAddress from "../../components/ModalInputAddress";
-import { flushSync } from "react-dom";
 import { IoIosArrowBack } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
+import useUser from "../../hooks/useUser";
 
 const Address = () => {
+  const { isLogin, fullname } = useUser();
   //Get token
   let token = Cookies.get("token");
 
@@ -253,7 +245,9 @@ const Address = () => {
                 {val.recipient_name}, {val.recipient_number}
               </div>
               <div className="mt-4">{val.address_label}</div>
-              <div>{val.address}</div>
+              <div>
+                {val.address}, Kota {val.city[0].name}, {val.province[0].name}
+              </div>
             </div>
             <div>{val.is_default == "YES" ? <BsCheckLg /> : null}</div>
           </div>
@@ -300,7 +294,10 @@ const Address = () => {
             <FaShoppingCart />
           </div>
           <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-            <FaUserCircle />
+            <div className="flex items-center gap-2">
+              <FaUserCircle />
+              <div className="text-base">{fullname}</div>
+            </div>
           </div>
         </div>
 
@@ -325,10 +322,11 @@ const Address = () => {
                   <FaUserCircle /> Profil
                 </div>
               </Link>
-
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
-                <FaListUl /> Proses Pemesanan
-              </div>
+              <Link href="/userprofile/transactions">
+                <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                  <FaListUl /> Proses Pemesanan
+                </div>
+              </Link>
 
               <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran

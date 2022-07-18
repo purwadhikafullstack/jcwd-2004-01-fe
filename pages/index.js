@@ -45,10 +45,12 @@ export default function Home() {
             }
             fourthProp={
               isLogin ? (
-                <div className="flex items-center gap-2">
-                  <FaUserCircle />
-                  <div className="text-base">{fullname}</div>
-                </div>
+                <Link href="/userprofile/biodata">
+                  <div className="flex items-center gap-2">
+                    <FaUserCircle />
+                    <div className="text-base">{fullname}</div>
+                  </div>
+                </Link>
               ) : (
                 <Link href="/register">
                   <Button variant={"fillCustom"} h={"44px"} w={"114px"}>

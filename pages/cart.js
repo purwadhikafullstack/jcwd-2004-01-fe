@@ -100,6 +100,10 @@ const Cart = ({ getCartAction }) => {
     ],
   };
 
+  if (!isLogin) {
+    router.push("/login");
+  }
+
   return (
     <>
       <div className="">
