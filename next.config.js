@@ -2,7 +2,7 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    NEXT_PUBLIC_API_URL: "http://172.105.119.73:5001",
+    NEXT_PUBLIC_API_URL: "https://jcwd200401api.purwadhikabootcamp.com",
   },
 };
 
