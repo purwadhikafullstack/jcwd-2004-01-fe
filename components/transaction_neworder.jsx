@@ -12,6 +12,7 @@ import PaginationProductAdmin from "./PaginationProductAdmin";
 import { debounce } from "lodash";
 import { toast } from "react-toastify";
 const dayjs = require("dayjs");
+import Cookies from "js-cookie";
 
 const NewOrderTransaction = () => {
   const [cardData, setCardData] = useState([]);
@@ -68,6 +69,7 @@ const NewOrderTransaction = () => {
           id_obat: val.id,
           drug_name: val.name,
           total_stock: val.total_stock,
+          original_price: val.original_price,
         },
         label: val.name,
       };
@@ -84,6 +86,148 @@ const NewOrderTransaction = () => {
         prescription_values: dataDrugs,
       });
       toast.success("Prescription successfully submitted!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } finally {
+      debouncedFetchData(page, input, startDate, endDate, (response) => {
+        setTotalData(parseInt(response.headers["x-total-product"]));
+        setCardData([...response.data]);
+      });
+    }
+  };
+
+  //Reject Prescription
+  const rejectPrescription = async (id) => {
+    try {
+      await axios.post(`${API_URL}/transaction/rejectprescription/${id}`);
+      toast.success("Prescription successfully rejected!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } finally {
+      debouncedFetchData(page, input, startDate, endDate, (response) => {
+        setTotalData(parseInt(response.headers["x-total-product"]));
+        setCardData([...response.data]);
+      });
+    }
+  };
+
+  let token = Cookies.get("token");
+
+  //Reject Transaction
+  const rejectTransaction = async (id) => {
+    try {
+      await axios.post(`${API_URL}/transaction/rejectorder/${id}`, null, {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      toast.success("Transaction successfully rejected!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } finally {
+      debouncedFetchData(page, input, startDate, endDate, (response) => {
+        setTotalData(parseInt(response.headers["x-total-product"]));
+        setCardData([...response.data]);
+      });
+    }
+  };
+
+  //Accept Transaction
+  const acceptTransaction = async (id) => {
+    try {
+      await axios.post(`${API_URL}/transaction/acceptorder/${id}`);
+      toast.success("Transaction accepted!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message || "Network Error", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+    } finally {
+      debouncedFetchData(page, input, startDate, endDate, (response) => {
+        setTotalData(parseInt(response.headers["x-total-product"]));
+        setCardData([...response.data]);
+      });
+    }
+  };
+
+  //Send Order
+  const sendOrder = async (id) => {
+    try {
+      await axios.post(`${API_URL}/transaction/sendorder/${id}`);
+      toast.success("Order sent!", {
         position: "top-right",
         autoClose: 5000,
         hideProgressBar: false,
@@ -213,6 +357,10 @@ const NewOrderTransaction = () => {
         <TransactionCard
           getTransactionCard={getTransactionCard}
           submitPrescription={submitPrescription}
+          rejectPrescription={rejectPrescription}
+          rejectTransaction={rejectTransaction}
+          acceptTransaction={acceptTransaction}
+          sendOrder={sendOrder}
           cardData={cardData}
           options={options}
         />

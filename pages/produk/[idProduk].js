@@ -35,6 +35,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import Footer from "../../components/footer";
 import Cookies from "js-cookie";
+import Link from "next/link";
 
 const DetailProdukUserSide = () => {
   const router = useRouter();
@@ -43,7 +44,7 @@ const DetailProdukUserSide = () => {
   const toast = useToast();
 
   const { idProduk } = router.query;
-  const { isLogin, fullname } = useUser();
+  const { isLogin, fullname, is_verified } = useUser();
 
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -592,27 +593,59 @@ const DetailProdukUserSide = () => {
               <Button variant="outlineCustom" w="48px" h="46px" p="-48">
                 <AiOutlineHeart className="text-2xl" />
               </Button>
-              <Button
-                variant="outlineCustom"
-                w="48px"
-                h="46px"
-                p="-48"
-                mx="12px"
-                onClick={() => buyHandler()}
-                isLoading={buttonLoading}
-              >
-                <FaCartPlus className="text-2xl" />
-              </Button>
-              <Button
-                variant="fillCustom"
-                w="207px"
-                h="46px"
-                fontSize="14px"
-                onClick={() => {}}
-                isLoading={buttonLoading}
-              >
-                Beli Sekarang
-              </Button>
+              {!isLogin || !is_verified ? (
+                <>
+                  <Link href="/login">
+                    <Button
+                      variant="outlineCustom"
+                      w="48px"
+                      h="46px"
+                      p="-48"
+                      mx="12px"
+                      onClick={() => buyHandler()}
+                      isLoading={buttonLoading}
+                    >
+                      <FaCartPlus className="text-2xl" />
+                    </Button>
+                  </Link>
+                  <Link href="/login">
+                    <Button
+                      variant="fillCustom"
+                      w="207px"
+                      h="46px"
+                      fontSize="14px"
+                      onClick={() => {}}
+                      isLoading={buttonLoading}
+                    >
+                      Beli Sekarang
+                    </Button>
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Button
+                    variant="outlineCustom"
+                    w="48px"
+                    h="46px"
+                    p="-48"
+                    mx="12px"
+                    onClick={() => buyHandler()}
+                    isLoading={buttonLoading}
+                  >
+                    <FaCartPlus className="text-2xl" />
+                  </Button>
+                  <Button
+                    variant="fillCustom"
+                    w="207px"
+                    h="46px"
+                    fontSize="14px"
+                    onClick={() => {}}
+                    isLoading={buttonLoading}
+                  >
+                    Beli Sekarang
+                  </Button>
+                </>
+              )}
             </div>
           </div>
           <div className="">

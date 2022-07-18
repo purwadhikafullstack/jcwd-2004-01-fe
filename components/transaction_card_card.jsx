@@ -30,6 +30,7 @@ import PrevArrowPrescription from "./prevArrowPrescription";
 import NextArrowPrescription from "./nextArrowPrescription";
 import Zoom from "react-medium-image-zoom";
 import "react-medium-image-zoom/dist/styles.css";
+import { Rupiah } from "../lib/convertRupiah";
 
 const TransactionCardCard = ({
   transaction_id,
@@ -44,9 +45,14 @@ const TransactionCardCard = ({
   status,
   getTransactionCard,
   submitPrescription,
+  rejectPrescription,
+  rejectTransaction,
+  acceptTransaction,
   total_price,
   options,
   orderedProduct,
+  payment_slip,
+  sendOrder,
 }) => {
   // const [drugs, setDrugs] = useState([]);
   const [inputDrugs, setInputDrugs] = useState(null);
@@ -70,6 +76,26 @@ const TransactionCardCard = ({
     isOpen: isOpenAccept,
     onOpen: onOpenAccept,
     onClose: onCloseAccept,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenPaymentSlip,
+    onOpen: onOpenPaymentSlip,
+    onClose: onClosePaymentSlip,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRejectPrescription,
+    onOpen: onOpenRejectPrescription,
+    onClose: onCloseRejectPrescription,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenAcceptTransaction,
+    onOpen: onOpenAcceptTransaction,
+    onClose: onCloseAcceptTransaction,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenRejectTransaction,
+    onOpen: onOpenRejectTransaction,
+    onClose: onCloseRejectTransaction,
   } = useDisclosure();
 
   //Get Product List
@@ -188,6 +214,7 @@ const TransactionCardCard = ({
         category: inputDrugs.value.category,
         drug_name: inputDrugs.value.drug_name,
         total_stock: inputDrugs.value.total_stock,
+        original_price: inputDrugs.value.original_price,
         patient: inputName.patient,
         physician_in_charge: inputName.physician,
         dosage: dosage,
@@ -197,10 +224,24 @@ const TransactionCardCard = ({
     setQty(0);
   };
 
-  // useEffect(() => {
-  //   // getProductList();
-  //   getOrderedProduct(transaction_id);
-  // }, []);
+  //On Close Reject Prescription
+  const rejectPrescriptionOnClose = (id) => {
+    rejectPrescription(id);
+    onCloseRejectPrescription();
+  };
+
+  //On Close Reject Transaction
+  const rejectTransactionOnClose = (id) => {
+    rejectTransaction(id);
+    onCloseRejectTransaction();
+  };
+
+  //On Close Accept Transaction
+  const acceptTransactionOnClose = (id) => {
+    acceptTransaction(id);
+    onCloseAcceptTransaction();
+    onClosePaymentSlip();
+  };
 
   //Carousel
   const PrescriptionImageCarousel = () => {
@@ -312,7 +353,11 @@ const TransactionCardCard = ({
           </div>
           <div
             className="flex gap-[12px] text-[16px] items-center"
-            hidden={status == "MENUNGGU_PEMBAYARAN" ? true : false}
+            hidden={
+              status == "MENUNGGU_PEMBAYARAN" || status == "DITOLAK"
+                ? true
+                : false
+            }
           >
             <div className="font-bold">Respon sebelum</div>
             <div className="w-[164px] h-[28px] bg-orange-200 p-1.5 rounded-md text-[12px] flex items-center gap-2">
@@ -387,7 +432,8 @@ const TransactionCardCard = ({
                       {orderedProduct[0].name}
                     </div>
                     <div className="text-[12px] mt-[2px]">
-                      {orderedProduct[0].quantity} x {orderedProduct[0].price}
+                      {orderedProduct[0].quantity}&nbsp;&nbsp;x&nbsp;{" "}
+                      {Rupiah(parseInt(orderedProduct[0].price))}
                     </div>
                   </div>
                   //   })
@@ -429,7 +475,9 @@ const TransactionCardCard = ({
               <div className="text-[16px] font-bold">Total Harga</div>
               <div className="text-[12px]">{orderedProduct.length} Obat</div>
             </div>
-            <div className="text-[16px] font-bold">{total_price}</div>
+            <div className="text-[16px] font-bold">
+              {Rupiah(parseInt(total_price))}
+            </div>
           </div>
         )}
 
@@ -459,12 +507,25 @@ const TransactionCardCard = ({
           </div>
           <div className="flex items-center gap-[16px]">
             <div>
-              {status == "MENUNGGU_KONFIRMASI" ? (
+              {prescription.length > 0 && status == "MENUNGGU_KONFIRMASI" ? (
                 <Button
                   w="156px"
                   h="32px"
                   fontSize="14px"
                   variant="outlineCustom"
+                  onClick={onOpenRejectPrescription}
+                >
+                  Tolak Resep
+                </Button>
+              ) : null}
+              {orderedProduct.length > 0 &&
+              status == "MENUNGGU_KONFIRMASI_PEMBAYARAN" ? (
+                <Button
+                  w="156px"
+                  h="32px"
+                  fontSize="14px"
+                  variant="outlineCustom"
+                  onClick={onOpenRejectTransaction}
                 >
                   Tolak Pesanan
                 </Button>
@@ -482,7 +543,19 @@ const TransactionCardCard = ({
                   Buat Salinan Resep
                 </Button>
               ) : null}
-              {prescription.length > 0 && status == "DITERIMA" ? (
+              {orderedProduct.length > 0 &&
+              status == "MENUNGGU_KONFIRMASI_PEMBAYARAN" ? (
+                <Button
+                  onClick={onOpenPaymentSlip}
+                  w="156px"
+                  h="32px"
+                  fontSize="14px"
+                  variant="fillCustom"
+                >
+                  Bukti Pembayaran
+                </Button>
+              ) : null}
+              {orderedProduct.length > 0 && status == "MENUNGGU_PEMBAYARAN" ? (
                 <Button
                   w="180px"
                   h="32px"
@@ -493,7 +566,31 @@ const TransactionCardCard = ({
                   Menunggu Pembayaran
                 </Button>
               ) : null}
-              {prescription.length > 0 && status == "DITOLAK" ? (
+              {orderedProduct.length > 0 && status == "DIPROSES" ? (
+                <Button
+                  onClick={() => {
+                    sendOrder(transaction_id);
+                  }}
+                  w="180px"
+                  h="32px"
+                  fontSize="14px"
+                  variant="fillCustom"
+                >
+                  Kirim
+                </Button>
+              ) : null}
+              {orderedProduct.length > 0 && status == "DIKIRIM" ? (
+                <Button
+                  disabled
+                  w="180px"
+                  h="32px"
+                  fontSize="14px"
+                  variant="fillCustom"
+                >
+                  Dikirim
+                </Button>
+              ) : null}
+              {status == "DITOLAK" ? (
                 <Button
                   w="156px"
                   h="32px"
@@ -502,114 +599,6 @@ const TransactionCardCard = ({
                   disabled
                 >
                   Pesanan Ditolak
-                </Button>
-              ) : null}
-              {prescription.length > 0 && status == "MENUNGGU_PEMBAYARAN" ? (
-                <Button
-                  w="180px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Menunggu Pembayaran
-                </Button>
-              ) : null}
-              {prescription.length > 0 && status == "DIPROSES" ? (
-                <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
-                  Kirim Pesanan
-                </Button>
-              ) : null}
-              {prescription.length > 0 && status == "DIKIRIM" ? (
-                <Button
-                  w="156px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Proses Pengiriman
-                </Button>
-              ) : null}
-              {prescription.length > 0 && status == "SELESAI" ? (
-                <Button
-                  w="156px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Selesai
-                </Button>
-              ) : null}
-              {status == "MENUNGGU_KONFIRMASI" && prescription.length <= 0 ? (
-                <Button
-                  w="156px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  onClick={onOpenAccept}
-                >
-                  Terima Pesanan
-                </Button>
-              ) : null}
-              {status == "DITERIMA" && prescription.length <= 0 ? (
-                <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
-                  Menunggu Pembayaran
-                </Button>
-              ) : null}
-              {status == "DITOLAK" && prescription.length <= 0 ? (
-                <Button
-                  w="156px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Pesanan Ditolak
-                </Button>
-              ) : null}
-              {status == "MENUNGGU_PEMBAYARAN" && prescription.length <= 0 ? (
-                <Button
-                  w="180px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Menunggu Pembayaran
-                </Button>
-              ) : null}
-              {status == "DIPROSES" && prescription.length <= 0 ? (
-                <Button w="180px" h="32px" fontSize="14px" variant="fillCustom">
-                  Kirim Pesanan
-                </Button>
-              ) : null}
-              {status == "DIKIRIM" && prescription.length <= 0 ? (
-                <Button
-                  w="180px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Proses Pengiriman
-                </Button>
-              ) : null}
-              {status == "SELESAI" && prescription.length <= 0 ? (
-                <Button
-                  w="156px"
-                  h="32px"
-                  fontSize="14px"
-                  variant="fillCustom"
-                  disabled
-                >
-                  Selesai
-                </Button>
-              ) : null}
-              {status == "DIBATALKAN" && prescription.length <= 0 ? (
-                <Button w="156px" h="32px" fontSize="14px" variant="fillCustom">
-                  Dibatalkan
                 </Button>
               ) : null}
             </div>
@@ -1005,6 +994,130 @@ const TransactionCardCard = ({
           <ModalFooter>
             <Button colorScheme="blue" mr={3}>
               Terima Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Payment Slip Modal */}
+      <Modal isOpen={isOpenPaymentSlip} onClose={onClosePaymentSlip}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Bukti Pembayaran</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div className="flex justify-center">
+              <Zoom>
+                <img className="w-[300px]" src={`${API_URL}${payment_slip}`} />
+              </Zoom>
+            </div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="outlineCustom" mr={3} onClick={onClosePaymentSlip}>
+              Close
+            </Button>
+            <Button onClick={onOpenAcceptTransaction} variant="fillCustom">
+              Terima Pesanan
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Confrim Reject Prescription Modal */}
+      <Modal
+        isOpen={isOpenRejectPrescription}
+        onClose={onCloseRejectPrescription}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Tolak Resep</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div>Apakah anda yakin?</div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              variant="fillCustom"
+              mr={3}
+              onClick={onCloseRejectPrescription}
+            >
+              Batal
+            </Button>
+            <Button
+              onClick={() => {
+                rejectPrescriptionOnClose(transaction_id);
+              }}
+              variant="outlineCustom"
+            >
+              Ya
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Confrim Reject Transaction Modal */}
+      <Modal
+        isOpen={isOpenRejectTransaction}
+        onClose={onCloseRejectTransaction}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Tolak Pesanan</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div>Apakah anda yakin untuk menolak pesanan?</div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              variant="fillCustom"
+              mr={3}
+              onClick={onCloseRejectTransaction}
+            >
+              Batal
+            </Button>
+            <Button
+              onClick={() => {
+                rejectTransactionOnClose(transaction_id);
+              }}
+              variant="outlineCustom"
+            >
+              Ya
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* Confrim Accept Transaction Modal */}
+      <Modal
+        isOpen={isOpenAcceptTransaction}
+        onClose={onCloseAcceptTransaction}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Terima Pesanan</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div>Apakah anda yakin untuk menerima pesanan?</div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button
+              variant="fillCustom"
+              mr={3}
+              onClick={onCloseAcceptTransaction}
+            >
+              Batal
+            </Button>
+            <Button
+              onClick={() => {
+                acceptTransactionOnClose(transaction_id);
+              }}
+              variant="outlineCustom"
+            >
+              Ya
             </Button>
           </ModalFooter>
         </ModalContent>

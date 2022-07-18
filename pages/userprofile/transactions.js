@@ -3,8 +3,10 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 import Cookies from "js-cookie";
+import useUser from "../../hooks/useUser";
 
 const Transaction = () => {
+  const { isLogin, fullname } = useUser();
   //UserData
   const [userData, setUserData] = useState({
     fullname: "",
@@ -43,7 +45,12 @@ const Transaction = () => {
   const getCardData = async () => {
     try {
       let res = await axios.get(
-        `${API_URL}/transaction/get-transaction-user-list?page=${page}&menunggu=${input.menunggu}&diproses=${input.diproses}&dikirim=${input.dikirim}&selesai=${input.selesai}&dibatalkan=${input.dibatalkan}&orderByDate=${input.orderByDate}`
+        `${API_URL}/transaction/get-transaction-user-list?page=${page}&menunggu=${input.menunggu}&diproses=${input.diproses}&dikirim=${input.dikirim}&selesai=${input.selesai}&dibatalkan=${input.dibatalkan}&orderByDate=${input.orderByDate}`,
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
       );
       setCardData(res.data);
       setTotalData(res.headers["x-total-product"]);
@@ -121,6 +128,9 @@ const Transaction = () => {
         clickMenunggu={clickMenunggu}
         clickSemua={clickSemua}
         clickDiproses={clickDiproses}
+        getCardData={getCardData}
+        orderByDate={input.orderByDate}
+        fullname={fullname}
       />
     </div>
   );

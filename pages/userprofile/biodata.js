@@ -105,7 +105,7 @@ const Biodata = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const { is_verified } = useUser();
+  const { is_verified, fullname } = useUser();
 
   let token = Cookies.get("token");
 
@@ -656,7 +656,10 @@ const Biodata = () => {
             <FaShoppingCart />
           </div>
           <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-            <FaUserCircle />
+            <div className="flex items-center gap-2">
+              <FaUserCircle />
+              <div className="text-base">{fullname}</div>
+            </div>
           </div>
         </div>
 

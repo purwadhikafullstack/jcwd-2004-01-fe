@@ -39,7 +39,7 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
-import Rupiah from "../lib/convertRupiah";
+import { Rupiah } from "../lib/convertRupiah";
 import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
@@ -50,16 +50,18 @@ import CardAddressCheckout from "../components/CardAddressCheckout";
 import CardCheckout from "../components/CardCheckout";
 import { useRef } from "react";
 import { toast } from "react-toastify";
+import { useRouter } from "next/router";
 
 const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
+  const router = useRouter();
   const { cart, selected_product } = useCart();
   console.log(cart, selected_product, "hehe");
   let token = Cookies.get("token");
 
   const [checkoutProduct, setCheckoutProduct] = useState([]);
   const [bankData, setBankData] = useState([]);
-  console.log(bankData);
+  console.log(bankData, "ini bank data");
 
   console.log(checkoutProduct);
 
@@ -245,6 +247,10 @@ const Checkout = ({ getCartAction }) => {
       });
     }
   };
+
+  if (!isLogin) {
+    router.push("/login");
+  }
 
   return (
     <>

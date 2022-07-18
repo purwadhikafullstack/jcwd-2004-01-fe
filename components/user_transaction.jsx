@@ -3,7 +3,6 @@ import { Button } from "@chakra-ui/react";
 import SearchBar from "./searchbar";
 import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
-import Footer from "./footer";
 import { useState, useEffect } from "react";
 import prettyBytes from "pretty-bytes";
 import { IoAddSharp, IoClose } from "react-icons/io5";
@@ -21,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import TransactionCardUser from "./transaction_card_user";
 import PaginationProductAdmin from "./PaginationProductAdmin";
+import Footer from "./footer";
 
 const UserTransaction = ({
   userData,
@@ -34,6 +34,10 @@ const UserTransaction = ({
   clickMenunggu,
   clickSemua,
   clickDiproses,
+  getCardData,
+  handleInput,
+  orderByDate,
+  fullname,
 }) => {
   return (
     <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
@@ -57,7 +61,10 @@ const UserTransaction = ({
           <FaShoppingCart />
         </div>
         <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-          <FaUserCircle />
+          <div className="flex items-center gap-2">
+            <FaUserCircle />
+            <div className="text-base">{fullname}</div>
+          </div>
         </div>
       </div>
 
@@ -161,7 +168,13 @@ const UserTransaction = ({
             <div className="flex items-center gap-3">
               <div className="text-[14px]">Urutkan</div>
               <div>
-                <Select placeholder="Terbaru" w="137px" h="36px">
+                <Select
+                  // value={orderByDate}
+                  // onChange={(e) => handleInput(e)}
+                  placeholder="Terbaru"
+                  w="137px"
+                  h="36px"
+                >
                   <option value="asc">Terlama</option>
                   <option value="desc">Terbaru</option>
                 </Select>
@@ -188,6 +201,7 @@ const UserTransaction = ({
                   className="pb-[36px]"
                 >
                   <TransactionCardUser
+                    getCardData={getCardData}
                     transaction_id={val.id}
                     transaction_code={val.transaction_code}
                     total_price={val.total_price}
@@ -200,12 +214,17 @@ const UserTransaction = ({
                     fullname={val.fullname}
                     address={val.address}
                     status={val.status}
+                    delivery_fee={val.delivery_fee}
+                    bank_id={val.bank_id}
                   />
                 </div>
               );
             })}
           </div>
         </div>
+      </div>
+      <div className="mt-[20px]">
+        <Footer />
       </div>
     </div>
   );

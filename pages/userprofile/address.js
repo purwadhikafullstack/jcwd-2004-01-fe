@@ -35,8 +35,10 @@ import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
+import useUser from "../../hooks/useUser";
 
 const Address = () => {
+  const { isLogin, fullname } = useUser();
   //Get token
   let token = Cookies.get("token");
 
@@ -243,7 +245,9 @@ const Address = () => {
                 {val.recipient_name}, {val.recipient_number}
               </div>
               <div className="mt-4">{val.address_label}</div>
-              <div>{val.address}</div>
+              <div>
+                {val.address}, Kota {val.city[0].name}, {val.province[0].name}
+              </div>
             </div>
             <div>{val.is_default == "YES" ? <BsCheckLg /> : null}</div>
           </div>
@@ -290,7 +294,10 @@ const Address = () => {
             <FaShoppingCart />
           </div>
           <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-            <FaUserCircle />
+            <div className="flex items-center gap-2">
+              <FaUserCircle />
+              <div className="text-base">{fullname}</div>
+            </div>
           </div>
         </div>
 
@@ -316,7 +323,6 @@ const Address = () => {
                 </div>
               </Link>
               <Link href="/userprofile/transactions">
-                {" "}
                 <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                   <FaListUl /> Proses Pemesanan
                 </div>
