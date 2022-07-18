@@ -10,6 +10,7 @@ import "@fontsource/open-sans";
 import "react-datepicker/dist/react-datepicker.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "react-circular-progressbar/dist/styles.css";
 
 function MyApp({ Component, pageProps }) {
   return (

@@ -1,6 +1,6 @@
 import { Divider, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
-import Rupiah from "../lib/convertRupiah";
+import { Rupiah } from "../lib/convertRupiah";
 import CardCheckoutDetail from "./CardCheckoutDetail";
 
 const CardCheckout = ({ selected_product, subTotal }) => {
