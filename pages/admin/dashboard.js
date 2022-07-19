@@ -71,9 +71,8 @@ const Dashboard = () => {
   const [filterProfit, setFilterProfit] = useState("bulan");
 
   const getProfitChart = async (chart) => {
-    console.log(chart, "ini chart use effect");
     let response = await axios.get(
-      `${API_URL}/report/get-chart-profit?filter=${filterProfit}`
+      `${API_URL}/report/get-chart-profit?filter=${filterProfit}&variant=`
     );
     setChartData({
       labels: response.data.label,
@@ -102,38 +101,33 @@ const Dashboard = () => {
     labels: [],
     datasets: [],
   });
+  const [filterPenjualan, setFilterPenjualan] = useState("bulan");
+
+  const getPenjualanChart = async (chart) => {
+    let response = await axios.get(
+      `${API_URL}/report/get-chart-penjualan?filter=${filterPenjualan}`
+    );
+    setChartDataPenjualan({
+      labels: response.data.label,
+      datasets: [
+        {
+          data: response.data.data,
+          borderColor: "rgba(0, 95, 175, 1)",
+          tension: 0.4,
+          borderWidth: 1,
+          pointBorderWidth: 0.5,
+          pointRadius: 2,
+        },
+      ],
+    });
+  };
 
   useEffect(() => {
     const chart = chartRefPenjualan.current;
     if (chart) {
-      setChartDataPenjualan({
-        labels: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Ags",
-          "Sep",
-          "Okt",
-          "Nov",
-          "Des",
-        ],
-        datasets: [
-          {
-            data: [250, 350, 572, 342, 200, 410, 420, 580, 370, 420, 220, 400],
-            borderColor: "rgba(0, 95, 175, 1)",
-            tension: 0.4,
-            borderWidth: 1,
-            pointBorderWidth: 0.5,
-            pointRadius: 2,
-          },
-        ],
-      });
+      getPenjualanChart(chart);
     }
-  }, []);
+  }, [filterPenjualan]);
 
   // getTodayReport
   const getTodayReport = async () => {
@@ -567,7 +561,14 @@ const Dashboard = () => {
                 <div className="">
                   <div className="text-xl font-bold">Penjualan Obat</div>
                 </div>
-                <Select w="141px" h="24px">
+                <Select
+                  w="141px"
+                  h="24px"
+                  onChange={(e) => {
+                    console.log(e);
+                    setFilterPenjualan(e.target.value);
+                  }}
+                >
                   <option value="bulan">Bulan</option>
                   <option value="tahun">Tahun</option>
                 </Select>

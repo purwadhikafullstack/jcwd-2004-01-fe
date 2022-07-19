@@ -277,14 +277,11 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
   };
 
   useEffect(() => {
-    if (mounted.current) {
-      getCategory();
-      getSymptom();
-      getType();
-      getProduct();
-    }
-    mounted.current = true;
-    () => {};
+    console.log("ini ke");
+    getCategory();
+    getSymptom();
+    getType();
+    getProduct();
   }, []);
 
   console.log(page, "ini page berapa");
