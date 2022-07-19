@@ -35,6 +35,7 @@ import { AiOutlineHeart } from "react-icons/ai";
 import { FaCartPlus } from "react-icons/fa";
 import Footer from "../../components/footer";
 import Cookies from "js-cookie";
+import { Rupiah } from "../../lib/convertRupiah";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -95,13 +96,6 @@ const DetailProdukUserSide = () => {
 
   const [productTerkait, setProductTerkait] = useState([]);
   console.log(productTerkait, "line 87");
-
-  const rupiah = (number) => {
-    return new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-    }).format(number);
-  };
 
   console.log(data.symptom[0].id);
 
@@ -376,7 +370,7 @@ const DetailProdukUserSide = () => {
                 <p className="text-lg md:text-[22px]">{capitalizeName}</p>
                 <span className="">
                   <p className="text-xl font-bold md:text-2xl md:flex md:items-center md:justify-between md:w-[250px]">
-                    <span>{rupiah(price)}</span>
+                    <span>{Rupiah(price)}</span>
                     <span className="font-normal text-xs md:text-sm">
                       /{unit}
                     </span>
@@ -522,7 +516,7 @@ const DetailProdukUserSide = () => {
                       title={val.name}
                       discount="17%"
                       originalPrice="Rp.65.000"
-                      formattedPrice={rupiah(val.price)}
+                      formattedPrice={Rupiah(val.price)}
                       unit={val.unit}
                     />
                   </div>

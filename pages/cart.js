@@ -27,6 +27,7 @@ import { getCartAction } from "../redux/actions/cart_action";
 import { connect, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
+// import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -102,7 +103,9 @@ const Cart = ({ getCartAction }) => {
   };
 
   if (!isLogin) {
-    router.push("/login");
+    () => {
+      router.push("/login");
+    };
   }
 
   return (

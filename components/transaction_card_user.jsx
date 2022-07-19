@@ -367,9 +367,9 @@ const TransactionCardUser = ({
             />
             <div hidden={selectedImage.length < 1}>
               <div className="flex justify-center">
-                {selectedImage.map((val) => {
+                {selectedImage.map((val, i) => {
                   return (
-                    <div>
+                    <div key={i}>
                       <img
                         src={URL.createObjectURL(val)}
                         className="h-[300px]"
@@ -467,7 +467,10 @@ const TransactionCardUser = ({
               {prescription.length > 0 && orderedProduct <= 0
                 ? prescription.map((val, i) => {
                     return (
-                      <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                      <div
+                        className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                        key={i}
+                      >
                         <img
                           key={i}
                           className="w-[75px] h-[75px] rounded-lg"
@@ -481,7 +484,10 @@ const TransactionCardUser = ({
                   })
                 : orderedProduct.map((val, i) => {
                     return (
-                      <div className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4">
+                      <div
+                        className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                        key={i}
+                      >
                         <img
                           key={i}
                           className="w-[75px] h-[75px] rounded-lg"

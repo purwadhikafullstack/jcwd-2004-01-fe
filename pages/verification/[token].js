@@ -17,7 +17,6 @@ const Verification = () => {
   const { username, id, email } = useUser();
   const dispatch = useDispatch();
   // 0 loading 2: gagal 1:berhasil
-  const mounted = useRef(false);
   const verify = async () => {
     try {
       console.log(API_URL);
@@ -42,11 +41,7 @@ const Verification = () => {
   // useMount(()=>verify());
 
   useEffect(() => {
-    if (mounted.current) {
-      verify();
-    }
-    mounted.current = true;
-    return () => {};
+    verify();
   }, []);
 
   // const sendEmail = async () => {

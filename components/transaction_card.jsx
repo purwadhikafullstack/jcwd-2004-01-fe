@@ -39,6 +39,7 @@ const TransactionCard = ({
   return cardData.map((val, index) => {
     return (
       <TransactionCardCard
+        key={index}
         getTransactionCard={getTransactionCard}
         submitPrescription={submitPrescription}
         transaction_id={val.id}

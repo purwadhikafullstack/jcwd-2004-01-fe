@@ -11,13 +11,15 @@ const daftarProduk = () => {
   return (
     <>
       {/* navbar admin */}
-      <div className="absolute">
+      <div className="fixed top-0 left-0 bottom-0 z-20">
         <NavbarAdmin />
       </div>
-      <NavbarAdminTop />
+      <div className="fixed top-0 right-0 left-0 z-10">
+        <NavbarAdminTop />
+      </div>
 
       {/* Title, excell, and download PDF Button */}
-      <div className="flex ml-80 h-[32px] items-center mt-[16px] w-[72.6%] justify-between">
+      <div className="flex ml-80 h-[32px] items-center mt-20 w-[72.6%] justify-between">
         <p className="text-xl font-bold">Daftar Obat</p>
         <div className="self-end">
           <Button

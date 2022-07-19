@@ -52,6 +52,7 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Head from "next/head";
+// import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -146,26 +147,16 @@ const Checkout = ({ getCartAction }) => {
 
   let total = subTotal + parseInt(shippingCost);
 
-  const mounted = useRef(false);
-
   useEffect(() => {
-    if (mounted.current) {
-      getShippingCost();
-    }
-    mounted.current = true;
-    return () => {};
+    getShippingCost();
   }, [addressData]);
 
   useEffect(() => {
-    if (mounted.current) {
-      getBank();
-      getCartAction();
-      getProdcutTerkait();
-      getAddress();
-      setCheckoutProduct(selected_product);
-    }
-    mounted.current = true;
-    return () => {};
+    getBank();
+    getCartAction();
+    getProdcutTerkait();
+    getAddress();
+    setCheckoutProduct(selected_product);
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -250,7 +241,9 @@ const Checkout = ({ getCartAction }) => {
   };
 
   if (!isLogin) {
-    router.push("/login");
+    () => {
+      router.push("/login");
+    };
   }
 
   return (
