@@ -90,7 +90,7 @@ function createGradient(ctx) {
   return gradient;
 }
 
-const dashboard = () => {
+const RingkasanStatistik = () => {
   // state
   const [todayReportData, setTodayReportData] = useState();
   console.log(todayReportData, "ini today report data");
@@ -195,7 +195,7 @@ const dashboard = () => {
       </div>
       <NavbarAdminTop />
 
-      {/* dashboard body */}
+      {/* ringkasanStatistik body */}
       <div className="pl-[275px] pt-4">
         <div className="flex-row">
           <div className="text-xl font-[#213360] font-bold">
@@ -388,4 +388,4 @@ const dashboard = () => {
   );
 };
 
-export default dashboard;
+export default RingkasanStatistik;
