@@ -60,7 +60,14 @@ const Dashboard = () => {
   console.log(todayReportData, "ini today report data");
 
   //updated at
-  const update = updateTerahir(new Date());
+  const [update, setUpdate] = useState();
+  const getUpdate = () => {
+    const update = updateTerahir(new Date());
+    setUpdate(update);
+  };
+  useEffect(() => {
+    getUpdate();
+  }, []);
 
   // chart profit
   const chartRef = useRef(null);
@@ -149,13 +156,15 @@ const Dashboard = () => {
       {/* <div className="absolute top-0 left-0 w-full h-full bg-teal-300 -z-[1]"></div> */}
 
       {/* navbar */}
-      <div className="absolute">
+      <div className="fixed top-0 left-0 bottom-0 z-20">
         <NavbarAdmin />
       </div>
-      <NavbarAdminTop />
+      <div className="fixed top-0 right-0 left-0 z-10">
+        <NavbarAdminTop />
+      </div>
 
       {/* Dashboard body */}
-      <div className="pl-[275px] pt-4">
+      <div className="pl-[275px] pt-24">
         <div className="flex-row">
           <div className="text-xl font-[#213360] font-bold">
             Analisis Produk & Toko

@@ -61,15 +61,9 @@ const CardAddressCheckout = ({ addressData, getAddress }) => {
     setProvinceOption(res.data);
   };
 
-  const mounted = useRef(false);
-
   useEffect(() => {
-    if (mounted.current) {
-      getProvinceData();
-      getUserAddress();
-    }
-    mounted.current = true;
-    return () => {};
+    getProvinceData();
+    getUserAddress();
   }, []);
 
   const {

@@ -146,26 +146,16 @@ const Checkout = ({ getCartAction }) => {
 
   let total = subTotal + parseInt(shippingCost);
 
-  const mounted = useRef(false);
-
   useEffect(() => {
-    if (mounted.current) {
-      getShippingCost();
-    }
-    mounted.current = true;
-    return () => {};
+    getShippingCost();
   }, [addressData]);
 
   useEffect(() => {
-    if (mounted.current) {
-      getBank();
-      getCartAction();
-      getProdcutTerkait();
-      getAddress();
-      setCheckoutProduct(selected_product);
-    }
-    mounted.current = true;
-    return () => {};
+    getBank();
+    getCartAction();
+    getProdcutTerkait();
+    getAddress();
+    setCheckoutProduct(selected_product);
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();

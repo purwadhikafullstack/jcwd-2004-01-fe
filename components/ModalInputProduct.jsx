@@ -35,7 +35,6 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
-  const mounted = useRef(false);
 
   const [optionsCategory, setOptionsCategory] = useState([]);
   const [optionsSymptom, setOptionsSymptom] = useState([]);
@@ -193,7 +192,6 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       value: val.name,
       label: capitalize(val.name),
     }));
-
     setOptionsCategory(optionsCategory);
   };
 
@@ -220,13 +218,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    if (mounted.current) {
-      getCategory();
-      getSymptom();
-      getType();
-    }
-    mounted.current = true;
-    () => {};
+    getCategory();
+    getSymptom();
+    getType();
   }, []);
 
   // react select category
