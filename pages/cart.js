@@ -19,13 +19,14 @@ import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
-import Rupiah from "../lib/convertRupiah";
+import { Rupiah } from "../lib/convertRupiah";
 import Slider from "react-slick";
 import ProductCard from "../components/ProductCard";
 import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
 import { connect, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+// import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -64,6 +65,7 @@ const Cart = ({ getCartAction }) => {
   };
 
   useEffect(() => {
+    dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
   }, []);
@@ -98,6 +100,12 @@ const Cart = ({ getCartAction }) => {
       },
     ],
   };
+
+  if (!isLogin) {
+    () => {
+      router.push("/login");
+    };
+  }
 
   return (
     <>
@@ -144,6 +152,7 @@ const Cart = ({ getCartAction }) => {
         <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
       </div>
       <div className="flex">
+        {/* Card Cart */}
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />
         </div>
@@ -165,6 +174,7 @@ const Cart = ({ getCartAction }) => {
                 w="320px"
                 h="52px"
                 onClick={() => beliButtonHandler()}
+                isDisabled={totalQuantity == 0}
               >
                 Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}
               </Button>
@@ -185,6 +195,7 @@ const Cart = ({ getCartAction }) => {
             h="46px"
             fontSize="14px"
             onClick={() => beliButtonHandler()}
+            isDisabled={totalQuantity == 0}
             // isLoading={buttonLoading}
           >
             Bayar{totalQuantity === 0 ? null : `(${totalQuantity})`}

@@ -32,7 +32,9 @@ export default function Home() {
             secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
             thirdProp={
               isLogin ? (
-                <FaShoppingCart />
+                <Link href="/cart">
+                  <FaShoppingCart />
+                </Link>
               ) : (
                 <Link href="/login">
                   <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
@@ -43,10 +45,12 @@ export default function Home() {
             }
             fourthProp={
               isLogin ? (
-                <div className="flex items-center gap-2">
-                  <FaUserCircle />
-                  <div className="text-base">{fullname}</div>
-                </div>
+                <Link href="/userprofile/biodata">
+                  <div className="flex items-center gap-2">
+                    <FaUserCircle />
+                    <div className="text-base">{fullname}</div>
+                  </div>
+                </Link>
               ) : (
                 <Link href="/register">
                   <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
@@ -67,7 +71,7 @@ export default function Home() {
           firstProp={null}
           secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
           thirdProp={<IoNotificationsSharp />}
-          fourthProp={<FaShoppingCart />}
+          fourthProp={<FaShoppingCart href="/cart" />}
           classExtend={"flex lg:hidden"}
         />
         <MobileNavbar />

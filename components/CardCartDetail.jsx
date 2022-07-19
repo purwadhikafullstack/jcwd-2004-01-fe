@@ -3,10 +3,11 @@ import {
   NumberInputField,
   Button,
   NumberInput,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import API_URL from "../helpers/apiurl";
-import Rupiah from "../lib/convertRupiah";
+import { Rupiah } from "../lib/convertRupiah";
 import { HiTrash } from "react-icons/hi";
 import { TiMinus, TiPlus } from "react-icons/ti";
 import axios from "axios";
@@ -25,8 +26,30 @@ const CardCartDetail = ({
   const [kuantitas, setKuantitas] = useState(cartData.quantity);
   const [checked, setChecked] = useState(false);
   let token = Cookies.get("token");
-  const dispatch = useDispatch();
+  const toast = useToast();
 
+  //deleteCart
+  const deletCartHandler = async () => {
+    try {
+      let response = await axios.patch(`${API_URL}/transaction/delete-cart`, {
+        id: cartData.id,
+      });
+      toast({
+        title: "Success!",
+        description: response.data.message,
+        status: "success",
+        duration: 9000,
+        position: "top-right",
+        isClosable: true,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      await getCartAction();
+    }
+  };
+
+  //update quantity
   const updateQuantityInputHandler = async () => {
     try {
       await axios.post(
@@ -117,7 +140,12 @@ const CardCartDetail = ({
       <div className="flex justify-between items-center w-[326px] md:w-[700px] md:pl-[430px]">
         <p className="text-[10px] mt-3 md:mr-3 ">pindahkan ke wishlist</p>
         <div className="flex items-center">
-          <HiTrash className="mt-4 md:mr-3" />
+          <HiTrash
+            className="mt-4 md:mr-3 hover:cursor-pointer"
+            onClick={() => {
+              deletCartHandler();
+            }}
+          />
           <div className="flex items-center mt-3">
             <Button
               variant="ghost"

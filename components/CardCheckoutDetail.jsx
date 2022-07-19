@@ -1,5 +1,5 @@
 import API_URL from "../helpers/apiurl";
-import Rupiah from "../lib/convertRupiah";
+import { Rupiah } from "../lib/convertRupiah";
 
 const CardCheckoutDetail = ({ val }) => {
   let totalHargaProduct = val.detail_product.price * val.quantity;

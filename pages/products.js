@@ -22,7 +22,11 @@ import ProductCardMap from "../components/ProductCardMap";
 import API_URL from "../helpers/apiurl";
 import axios from "axios";
 import { useEffect, useState, useCallback } from "react";
+import PaginationProductAdmin from "../components/PaginationProductAdmin";
 import { debounce } from "lodash";
+import { Rupiah } from "../lib/convertRupiah";
+import Capitalize from "../lib/capitalize";
+import Link from "next/link";
 
 const Products = () => {
   const [categoryList, setcategoryList] = useState({});
@@ -30,7 +34,7 @@ const Products = () => {
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
   const [totalData, setTotalData] = useState(0);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(12);
   const [input, setInput] = useState({
     search: "",
     category: "ibu dan anak",
@@ -310,22 +314,36 @@ const Products = () => {
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-4 gap-4">
+          <div>
+            <PaginationProductAdmin
+              page={page}
+              totalData={totalData}
+              limit={limit}
+              setLimit={setLimit}
+              updateLimit={updateLimit}
+              pageChangeHandler={setPage}
+            />
+          </div>
+
+          <div className="grid grid-cols-4 gap-4 mt-[20px]">
             {data.map((val, index) => {
               return (
-                <ProductCardMap
-                  key={index}
-                  variant="list"
-                  title={val.name}
-                  formattedPrice={val.price}
-                  unit={val.unit}
-                  imgsrc={
-                    val.images.length
-                      ? `${API_URL}${val.images[0]}`
-                      : `${API_URL}/photos/defaultprofilepicture.png`
-                  }
-                  imgalt={val.name}
-                />
+                <Link key={index} href={`/produk/${val.id}`}>
+                  <div className="hover:cursor-pointer">
+                    <ProductCardMap
+                      variant="list"
+                      title={Capitalize(val.name)}
+                      formattedPrice={Rupiah(parseInt(val.price))}
+                      unit={Capitalize(val.unit)}
+                      imgsrc={
+                        val.images.length
+                          ? `${API_URL}${val.images[0]}`
+                          : `${API_URL}/photos/defaultprofilepicture.png`
+                      }
+                      imgalt={val.name}
+                    />
+                  </div>
+                </Link>
               );
             })}
           </div>

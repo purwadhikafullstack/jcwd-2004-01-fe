@@ -1,26 +1,10 @@
-import { Checkbox, Divider } from "@chakra-ui/react";
+import { Checkbox, Divider, Spinner } from "@chakra-ui/react";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import CardCartDetail from "./CardCartDetail";
 
 const CardCart = ({ cartData, selected_product }) => {
   const dispatch = useDispatch();
-
-  // const handleCheckbox = (e, prop) => {
-  //   console.log(e.target.value, "||", prop);
-  //   let dataArr = [];
-  //   if (e.target.checked) {
-  //     dataArr.push(prop);
-  //   } else {
-  //     dataArr = dataArr.filter((id) => id !== e.target.value);
-  //   }
-  //   console.log(dataArr, "dataArr");
-  //   setInput(dataArr);
-  //   dispatch({ type: "UPDATE_SELECTED_PRODUCT", payload: dataArr });
-  //   console.log(input, "input");
-  // };
-
-  // let dataArr = [];
 
   const [selectedId, setSelectedId] = useState({
     item: [],
@@ -41,9 +25,6 @@ const CardCart = ({ cartData, selected_product }) => {
     dispatch({ type: "UPDATE_SELECTED_PRODUCT", payload: tempArr });
   };
 
-  const [isCheckAll, setIsCheckAll] = useState(false);
-  const [isCheck, setIsCheck] = useState([]);
-
   return (
     <div className="mx-6 md:ml-[96px] md:w-[783px] md:shadow-2xl md:p-9 md:mt-[64px]">
       <div className="mt-8 md:mt-7">
@@ -53,7 +34,7 @@ const CardCart = ({ cartData, selected_product }) => {
       </div>
       <Divider my="23px" w="327px" mx="auto" />
       <div className="flex-col">
-        {cartData.map((val, i) => {
+        {cartData?.map((val, i) => {
           return (
             <CardCartDetail
               cartData={val}

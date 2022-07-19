@@ -30,18 +30,13 @@ import {
 import PaginationProductAdmin from "./PaginationProductAdmin";
 import API_URL from "../helpers/apiurl";
 import axios from "axios";
-import ModalEditProduct from "./ModalEditProduct";
 import Link from "next/link";
 
 const MedicineTable = () => {
   const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const {
-    isOpen: isOpenEdit,
-    onOpen: onOpenEdit,
-    onClose: onCloseEdit,
-  } = useDisclosure();
+
   const [input, setInput] = useState({
     search: "",
     category: "",
@@ -202,10 +197,10 @@ const MedicineTable = () => {
     // console.log(comp, "inicom");
   };
 
-  const getDaftarProduk = async (page, input, cb) => {
+  const getDaftarProduk = async (page, input, limit, cb) => {
     let response = await axios.get(
-      `${API_URL}/product/get-all-product?page=${page}&search=${input.search}&category=${input.category}&orderName=&orderPrice=`
-    ); //! Dipersingkat querynya (dibuat conditional)
+      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=&orderPrice=`
+    );
     console.log(response);
     cb(response);
   };
@@ -213,8 +208,8 @@ const MedicineTable = () => {
   //http://localhost:5000/product/get-all-product?search=&page=&category=&orderName=&orderPrice=DESC
 
   const debouncedFetchData = useCallback(
-    debounce((page, input, cb) => {
-      getDaftarProduk(page, input, cb);
+    debounce((page, input, limit, cb) => {
+      getDaftarProduk(page, input, limit, cb);
     }, 1000),
     []
   );
@@ -224,12 +219,12 @@ const MedicineTable = () => {
   }, []);
 
   useEffect(() => {
-    debouncedFetchData(page, input, (response) => {
+    debouncedFetchData(page, input, limit, (response) => {
       setTotalData(parseInt(response.headers["x-total-product"]));
       setData([...response.data]);
       setIsLoading(false);
     });
-  }, [page, input]);
+  }, [page, input, limit]);
 
   return (
     <>
@@ -260,9 +255,9 @@ const MedicineTable = () => {
               <option value="">All</option>
               {component.map(({ id, name }) => {
                 return (
-                  <>
-                    <option value={id}>{name}</option>
-                  </>
+                  <option value={id} key={id}>
+                    {name}
+                  </option>
                 );
               })}
             </Select>

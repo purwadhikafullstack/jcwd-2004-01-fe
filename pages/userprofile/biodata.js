@@ -105,7 +105,7 @@ const Biodata = () => {
     setUserData({ ...userData, [e.target.name]: e.target.value });
   };
 
-  const { is_verified } = useUser();
+  const { is_verified, fullname } = useUser();
 
   let token = Cookies.get("token");
 
@@ -656,7 +656,10 @@ const Biodata = () => {
             <FaShoppingCart />
           </div>
           <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-            <FaUserCircle />
+            <div className="flex items-center gap-2">
+              <FaUserCircle />
+              <div className="text-base">{fullname}</div>
+            </div>
           </div>
         </div>
 
@@ -682,10 +685,11 @@ const Biodata = () => {
                   <FaUserCircle /> Profil
                 </div>
               </Link>
-
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
-                <FaListUl /> Proses Pemesanan
-              </div>
+              <Link href="/userprofile/transactions">
+                <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+                  <FaListUl /> Proses Pemesanan
+                </div>
+              </Link>
 
               <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran
