@@ -17,6 +17,7 @@ import CategoryCarousel from "../components/category_carousel";
 import HomeDiscount from "../components/home_today's_discount";
 import PopularCarousel from "../components/popular_carousel";
 import Link from "next/link";
+import Head from "next/head";
 
 export default function Home() {
   const logo = "/LogoHealthymed.svg";
@@ -25,6 +26,9 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
+      <Head>
+        <title>Healthymed</title>
+      </Head>
       <div className="bg-white drop-shadow-lg pb-4">
         <div className="mx-8">
           <MobileHeader

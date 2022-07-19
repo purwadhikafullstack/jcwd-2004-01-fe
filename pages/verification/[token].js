@@ -7,6 +7,7 @@ import useUser from "../../hooks/useUser";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { BsFillXCircleFill } from "react-icons/bs";
 import Link from "next/link";
+import Head from "next/head";
 
 const Verification = () => {
   const router = useRouter();
@@ -114,6 +115,9 @@ const Verification = () => {
 
   return (
     <div className="grid justify-center pt-28 bg-white min-h-screen">
+      <Head>
+        <title>Account Verification | Healthymed</title>
+      </Head>
       <div className="text-blackPrimary flex flex-col items-center space-y-6">
         <div className="text-9xl text-[#E53E3E] rounded-full">
           <BsFillXCircleFill />

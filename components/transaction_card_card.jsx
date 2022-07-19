@@ -98,90 +98,10 @@ const TransactionCardCard = ({
     onClose: onCloseRejectTransaction,
   } = useDisclosure();
 
-  //Get Product List
-  // const getProductList = async () => {
-  //   let res = await axios.get(`${API_URL}/product/get-prescription-product`);
-  //   console.log(res.data);
-  //   let drugsMap = res.data;
-  //   //Select List
-  //   const drugsData = drugsMap.map((val, index) => {
-  //     return {
-  //       value: {
-  //         category: val.categories.map((category) => {
-  //           return category.name;
-  //         }),
-  //         unit: val.unit,
-  //         id_obat: val.id,
-  //         drug_name: val.name,
-  //         total_stock: val.total_stock,
-  //       },
-  //       label: val.name,
-  //     };
-  //   });
-  //   setDrugs(drugsMap);
-  //   setOptions(drugsData);
-  //   // console.log(drugsData, "ini options");
-  // };
-
-  //Get Ordered Product
-  // const getOrderedProduct = async (id) => {
-  //   try {
-  //     let productData = await axios.get(
-  //       `${API_URL}/transaction/transaction-detail/${id}`
-  //     );
-  //     setOrderedProduct(productData.data);
-
-  //     console.log(productData.data, "ini product data pesanan");
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  //Submit Prescription Copy
-  // const submitPrescription = async (id) => {
-  //   try {
-  //     await axios.post(`${API_URL}/transaction/submitprescription/${id}`, {
-  //       prescription_values: dataDrugs,
-  //     });
-  //     toast.success("Prescription successfully submitted!", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "colored",
-  //     });
-  //   } catch (error) {
-  //     console.log(error);
-  //     toast.error(error.response.data.message || "Network Error", {
-  //       position: "top-right",
-  //       autoClose: 5000,
-  //       hideProgressBar: false,
-  //       closeOnClick: true,
-  //       pauseOnHover: true,
-  //       draggable: true,
-  //       progress: undefined,
-  //       theme: "colored",
-  //     });
-  //   } finally {
-  //     onClose();
-  //     // setTimeout(() => {
-  //     //   getTransactionCard();
-  //     // }, 500);
-  //   }
-  // };
-
-  //Trigger Function onOpen
-  // const openModalTrigger = () => {
-  //   getOrderedProduct(transaction_id);
-  //   onOpenDetail();
-  // };
-
   //Submit Prescription
   const submitPrescriptionOnClose = async () => {
     await submitPrescription(transaction_id, dataDrugs);
+    onCloseAccept();
     onClose();
   };
 
@@ -222,6 +142,7 @@ const TransactionCardCard = ({
     ]);
     setInputDrugs(null);
     setQty(0);
+    setDosage("");
   };
 
   //On Close Reject Prescription
@@ -354,7 +275,10 @@ const TransactionCardCard = ({
           <div
             className="flex gap-[12px] text-[16px] items-center"
             hidden={
-              status == "MENUNGGU_PEMBAYARAN" || status == "DITOLAK"
+              status == "MENUNGGU_PEMBAYARAN" ||
+              status == "DITOLAK" ||
+              status == "DIKIRIM" ||
+              status == "SELESAI"
                 ? true
                 : false
             }
@@ -455,7 +379,7 @@ const TransactionCardCard = ({
             <div className="mt-[19px]">
               <div className="flex flex-col text-[14px]">
                 <div className="font-bold">Kurir</div>
-                <div>Grab Same Day</div>
+                <div>JNE</div>
               </div>
             </div>
           </div>
@@ -599,6 +523,17 @@ const TransactionCardCard = ({
                   disabled
                 >
                   Pesanan Ditolak
+                </Button>
+              ) : null}
+              {status == "SELESAI" ? (
+                <Button
+                  w="156px"
+                  h="32px"
+                  fontSize="14px"
+                  variant="fillCustom"
+                  disabled
+                >
+                  Selesai
                 </Button>
               ) : null}
             </div>
@@ -786,12 +721,7 @@ const TransactionCardCard = ({
             <Button variant="outlineCustom" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Button
-              variant="fillCustom"
-              onClick={() => {
-                submitPrescriptionOnClose;
-              }}
-            >
+            <Button variant="fillCustom" onClick={onOpenAccept}>
               Terima Pesanan
             </Button>
           </ModalFooter>
@@ -816,7 +746,6 @@ const TransactionCardCard = ({
                   {transaction_code}
                 </div>
                 <div className="flex items-center gap-2">
-                  {" "}
                   <span>
                     <BsClock />
                   </span>
@@ -910,6 +839,7 @@ const TransactionCardCard = ({
         </ModalContent>
       </Modal>
 
+      {/* Modal Terima Resep */}
       <Modal
         isOpen={isOpenAccept}
         scrollBehavior="inside"
@@ -992,7 +922,10 @@ const TransactionCardCard = ({
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3}>
+            <Button variant="outlineCustom" mr={3} onClick={onCloseAccept}>
+              Close
+            </Button>
+            <Button onClick={submitPrescriptionOnClose} variant="fillCustom">
               Terima Pesanan
             </Button>
           </ModalFooter>

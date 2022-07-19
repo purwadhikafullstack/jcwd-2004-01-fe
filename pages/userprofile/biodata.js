@@ -39,6 +39,8 @@ import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
+import Head from "next/head";
+import Capitalize from "../../lib/capitalize";
 
 const Biodata = () => {
   //Modal Hook
@@ -582,7 +584,7 @@ const Biodata = () => {
         </div>
         <div className="mt-5 flex gap-10 text-sm">
           <div className="w-28">Gender</div>
-          <div>{userData.gender ? userData.gender : "-"}</div>
+          <div>{userData.gender ? Capitalize(userData.gender) : "-"}</div>
           <button onClick={onOpenGender} className="text-cyan-500">
             Ubah
           </button>
@@ -636,17 +638,22 @@ const Biodata = () => {
     <>
       {/* Navbar */}
       <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
+        <Head>
+          <title>Biodata | Healthymed</title>
+        </Head>
         <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-          <div className="ml-[16px] lg:ml-[76px] text-lg">
-            <div className="lg:hidden">
-              <IoIosArrowBack />
+          <Link href="/">
+            <div className="ml-[16px] lg:ml-[76px] text-lg hover:cursor-pointer">
+              <div className="lg:hidden">
+                <IoIosArrowBack />
+              </div>
+              <img
+                className="hidden lg:inline-block"
+                src="/LogoHealthymedBW.svg"
+                alt=""
+              />
             </div>
-            <img
-              className="hidden lg:inline-block"
-              src="/LogoHealthymedBW.svg"
-              alt=""
-            />
-          </div>
+          </Link>
           <div className="ml-[36px] w-[744px] hidden lg:inline-block">
             <SearchBar
               placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}

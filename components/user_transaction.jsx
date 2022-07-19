@@ -42,13 +42,18 @@ const UserTransaction = ({
   return (
     <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
       <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-        <div className="ml-[16px] lg:ml-[76px] text-lg">
-          <img
-            className="hidden lg:inline-block"
-            src="/LogoHealthymedBW.svg"
-            alt=""
-          />
-        </div>
+        <Link href="/">
+          <div className="ml-[16px] lg:ml-[76px] text-lg hover:cursor-pointer">
+            <div className="lg:hidden">
+              <IoIosArrowBack />
+            </div>
+            <img
+              className="hidden lg:inline-block"
+              src="/LogoHealthymedBW.svg"
+              alt=""
+            />
+          </div>
+        </Link>
         <div className="ml-[8px] font-bold text-[16px] text-blackPrimary items-center lg:hidden">
           Daftar Pemesanan
         </div>
@@ -194,32 +199,41 @@ const UserTransaction = ({
           </div>
 
           <div className="mx-[40px] mt-[40px]">
-            {cardData.map((val, index) => {
-              return (
-                <div
-                  // className={index < cardData.length - 1 ? "pb-[36px]" : null}
-                  className="pb-[36px]"
-                >
-                  <TransactionCardUser
-                    getCardData={getCardData}
-                    transaction_id={val.id}
-                    transaction_code={val.transaction_code}
-                    total_price={val.total_price}
-                    index={index}
-                    created_at={val.created_at}
-                    expired_at={val.expired_at}
-                    prescription={val.prescription}
-                    orderedProduct={val.orderedProduct}
-                    username={val.username}
-                    fullname={val.fullname}
-                    address={val.address}
-                    status={val.status}
-                    delivery_fee={val.delivery_fee}
-                    bank_id={val.bank_id}
-                  />
+            {cardData.length > 0 ? (
+              cardData.map((val, index) => {
+                return (
+                  <div
+                    // className={index < cardData.length - 1 ? "pb-[36px]" : null}
+                    className="pb-[36px]"
+                  >
+                    <TransactionCardUser
+                      getCardData={getCardData}
+                      transaction_id={val.id}
+                      transaction_code={val.transaction_code}
+                      total_price={val.total_price}
+                      index={index}
+                      created_at={val.created_at}
+                      expired_at={val.expired_at}
+                      prescription={val.prescription}
+                      orderedProduct={val.orderedProduct}
+                      username={val.username}
+                      fullname={val.fullname}
+                      address={val.address}
+                      status={val.status}
+                      delivery_fee={val.delivery_fee}
+                      bank_id={val.bank_id}
+                      updated_at={val.updated_at}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div className="pb-[36px]">
+                <div className="flex justify-center text-[20px] font-bold ">
+                  Yuk tambah pesananmu!
                 </div>
-              );
-            })}
+              </div>
+            )}
           </div>
         </div>
       </div>

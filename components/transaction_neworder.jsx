@@ -33,6 +33,8 @@ const NewOrderTransaction = () => {
     getProductList();
   }, []);
 
+  let token = Cookies.get("token");
+
   //Get Transaction Card
   const getTransactionCard = async (page, input, startDate, endDate, cb) => {
     let response = await axios.get(
@@ -82,9 +84,17 @@ const NewOrderTransaction = () => {
   //Submit Prescription Copy
   const submitPrescription = async (id, dataDrugs) => {
     try {
-      await axios.post(`${API_URL}/transaction/submitprescription/${id}`, {
-        prescription_values: dataDrugs,
-      });
+      await axios.post(
+        `${API_URL}/transaction/submitprescription/${id}`,
+        {
+          prescription_values: dataDrugs,
+        },
+        {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        }
+      );
       toast.success("Prescription successfully submitted!", {
         position: "top-right",
         autoClose: 5000,
@@ -148,8 +158,6 @@ const NewOrderTransaction = () => {
       });
     }
   };
-
-  let token = Cookies.get("token");
 
   //Reject Transaction
   const rejectTransaction = async (id) => {

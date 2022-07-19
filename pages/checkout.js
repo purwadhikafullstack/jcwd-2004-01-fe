@@ -51,6 +51,7 @@ import CardCheckout from "../components/CardCheckout";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 const Checkout = ({ getCartAction }) => {
   const { isLogin, fullname } = useUser();
@@ -255,6 +256,9 @@ const Checkout = ({ getCartAction }) => {
   return (
     <>
       <div className="">
+        <Head>
+          <title>Checkout | Healthymed</title>
+        </Head>
         <div className="shadow-xl w-full px-[76px] pb-2">
           <MobileHeader
             firstProp={null}

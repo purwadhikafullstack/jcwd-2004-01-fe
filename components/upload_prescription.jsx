@@ -100,9 +100,11 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
               oleh admin
             </p>
             <div className="mt-[48px] mx-[407px]">
-              <Button variant={"fillCustom"} w={"406px"} h={"46px"}>
-                Lihat Progress Pemesanan
-              </Button>
+              <Link href="/userprofile/transactions">
+                <Button variant={"fillCustom"} w={"406px"} h={"46px"}>
+                  Lihat Progress Pemesanan
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

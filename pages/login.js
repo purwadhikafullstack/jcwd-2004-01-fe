@@ -16,6 +16,7 @@ import { loginAction } from "../redux/actions/user_action";
 import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
 import { useState } from "react";
+import Head from "next/head";
 
 const Login = ({ loginAction }) => {
   const line = "/Line30.svg";
@@ -66,6 +67,9 @@ const Login = ({ loginAction }) => {
 
   return (
     <div className="flex">
+      <Head>
+        <title>Masuk | Healthymed</title>
+      </Head>
       <div className="hidden w-[720px] h-fit lg:flex lg:flex-col items-center">
         <div>
           <img className="absolute top-8 left-16" src={logo} alt="" />

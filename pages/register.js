@@ -16,6 +16,7 @@ import useUser from "../hooks/useUser";
 import { registerAction } from "../redux/actions/user_action";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Head from "next/head";
 
 const Register = ({ registerAction }) => {
   const line = "/Line30.svg";
@@ -74,6 +75,9 @@ const Register = ({ registerAction }) => {
 
   return (
     <div className="flex">
+      <Head>
+        <title>Daftar | Healthymed</title>
+      </Head>
       <div className="w-[720px] h-fit hidden lg:flex lg:flex-col items-center">
         <div>
           <img className="absolute top-8 left-16" src={logo} alt="" />

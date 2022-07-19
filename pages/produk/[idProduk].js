@@ -36,6 +36,7 @@ import { FaCartPlus } from "react-icons/fa";
 import Footer from "../../components/footer";
 import Cookies from "js-cookie";
 import Link from "next/link";
+import Head from "next/head";
 
 const DetailProdukUserSide = () => {
   const router = useRouter();
@@ -262,6 +263,9 @@ const DetailProdukUserSide = () => {
   };
   return (
     <>
+      <Head>
+        <title> {capitalizeName} | Healthymed</title>
+      </Head>
       {pageLoading ? (
         <div>Loading...</div>
       ) : (
