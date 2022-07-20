@@ -28,20 +28,22 @@ const NavbarAdmin = ({ where }) => {
           color="gray.500"
           mt="15px"
         >
-          <AccordionItem>
-            <h2>
-              <AccordionButton
-                _focus={{ boxShadow: "none" }}
-                h="80px"
-                _hover={{ textColor: "blackPrimary" }}
-              >
-                <MdHomeFilled className="w-6 h-6 mr-2" />
-                <Box flex="1" textAlign="left">
-                  Dashboard
-                </Box>
-              </AccordionButton>
-            </h2>
-          </AccordionItem>
+          <Link href="/admin/dashboard">
+            <AccordionItem>
+              <h2>
+                <AccordionButton
+                  _focus={{ boxShadow: "none" }}
+                  h="80px"
+                  _hover={{ textColor: "blackPrimary" }}
+                >
+                  <MdHomeFilled className="w-6 h-6 mr-2" />
+                  <Box flex="1" textAlign="left">
+                    Dashboard
+                  </Box>
+                </AccordionButton>
+              </h2>
+            </AccordionItem>
+          </Link>
           <AccordionItem>
             <h2>
               <AccordionButton
