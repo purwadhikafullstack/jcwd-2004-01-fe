@@ -1,6 +1,6 @@
 const PaymentMethod = () => {
   return (
-    <div className="w-[1349px] h-[160px] bg-[#F7F7F7]">
+    <div className="w-full h-[160px] bg-[#F7F7F7]">
       <div className="flex justify-center text-[16px] font-bold pt-6">
         Metode Pembayaran
       </div>
