@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { MdHomeFilled } from "react-icons/md";
 import { GiMedicines } from "react-icons/gi";
+import Link from "next/link";
 
 const NavbarAdmin = ({ where }) => {
   return (

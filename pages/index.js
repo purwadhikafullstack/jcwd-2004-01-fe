@@ -82,12 +82,12 @@ export default function Home() {
       </div>
 
       {/* Home title card */}
-      <div className="mx-16">
+      <div className="mx-auto">
         <HomeTitleCard />
       </div>
 
       {/* Home Prescription Card */}
-      <div className="mx-16 mt-16">
+      <div className="mx-auto mt-16">
         <HomePrescriptionCard />
       </div>
 
@@ -104,7 +104,7 @@ export default function Home() {
         <CategoryCarousel />
       </div> */}
 
-      <div className="w-[1244px] mx-16 mt-12">
+      <div className="w-[1244px] mx-auto mt-12">
         <div className="flex justify-between">
           <div className="font-bold text-[24px]">Kategori</div>
           <Link href="/products">
@@ -115,13 +115,13 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-4 mx-16 w-[1244px]">
+      <div className="mt-4 mx-auto w-[1244px]">
         <CategoryCarousel />
       </div>
 
-      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+      <img className="w-[1244px] mx-auto mt-14" src="HomeLine.svg" />
 
-      <div className="w-[1244px] mx-16 mt-10">
+      <div className="w-[1244px] mx-auto mt-10">
         <div className="flex justify-between">
           <div className="font-bold text-[24px]">Kejar Diskon Hari Ini</div>
           <button className="text-[14px] font-bold text-[#3C5ABC] underline">
@@ -130,17 +130,17 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="mt-4 relative">
+      <div className="mt-4 relative mx-auto">
         <HomeDiscount />
         {/* <div className="absolute top-0 left-20 z-20">
           <DiscountCarousel />
         </div> */}
       </div>
 
-      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+      <img className="w-[1244px] mx-auto mt-14" src="HomeLine.svg" />
 
       {/* Home Subtitle Card */}
-      <div className="mx-16 mt-14 flex w-[1244px] justify-between">
+      <div className="mx-auto mt-14 flex w-[1244px] justify-between">
         <HomeSubtitleCard
           imgSrc="ProgramHamil.svg"
           title="Program Hamil"
@@ -155,9 +155,9 @@ export default function Home() {
         />
       </div>
 
-      <img className="w-[1244px] mx-16 mt-14" src="HomeLine.svg" />
+      <img className="w-[1244px] mx-auto mt-14" src="HomeLine.svg" />
 
-      <div className="w-[1244px] mx-16 mt-10">
+      <div className="w-[1244px] mx-auto mt-10">
         <div className="flex justify-between">
           <div className="font-bold text-[24px]">Popular Product</div>
           <button className="text-[14px] font-bold text-[#3C5ABC] underline">
@@ -166,16 +166,16 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-[1300px] h-[350px] mx-10">
+      <div className="w-[1300px] h-[350px] mx-auto">
         <PopularCarousel />
       </div>
 
-      <img className="w-[1244px] mx-16 mt-16" src="HomeLine.svg" />
+      <img className="w-[1244px] mx-auto mt-16" src="HomeLine.svg" />
 
-      <div className="ml-16 mt-10 font-bold text-[24px]">
-        Jaminan Untuk Anda
+      <div className="mx-auto mt-10 font-bold text-[24px]">
+        <div className="w-[1244px]">Jaminan Untuk Anda</div>
       </div>
-      <div className="flex justify-between ml-16 mt-8 pb-5 w-[1244px]">
+      <div className="flex justify-between mx-auto mt-8 pb-5 w-[1244px]">
         <HomeCard
           asset={<img className="h-[92px] w-[75px]" src="ObatAsli.svg" />}
           title="100% Obat Asli"

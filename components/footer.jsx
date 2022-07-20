@@ -78,7 +78,7 @@ const Footer = () => {
           </button>
         </div>
       </div>
-      <div className="w-[1349px] h-[100px] absolute bottom-0 bg-[#F7F7F7]"></div>
+      <div className="w-full h-[100px] absolute bottom-0 bg-[#F7F7F7]"></div>
     </div>
   );
 };
