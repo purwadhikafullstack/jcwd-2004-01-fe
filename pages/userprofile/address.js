@@ -36,6 +36,9 @@ import { FaUserCircle } from "react-icons/fa";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
 import useUser from "../../hooks/useUser";
+import Head from "next/head";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 
 const Address = () => {
   const { isLogin, fullname } = useUser();
@@ -47,6 +50,13 @@ const Address = () => {
     fullname: "",
     profile_picture: "",
   });
+  //Disable button on submit
+  const [disableButtonAddress, setDisableButtonAddress] = useState(false);
+  //Get User Address state
+  const [userAddress, setuserAddress] = useState([]);
+  //Province and City Options
+  const [provinceOption, setProvinceOption] = useState([]);
+  const [cityOption, setCityOption] = useState([]);
 
   const getUserData = async () => {
     let res = await axios.get(`${API_URL}/profile/getuserprofile`, {
@@ -68,23 +78,12 @@ const Address = () => {
     onClose: onCloseAddress,
   } = useDisclosure();
   const closeModal = () => {
-    setnewAddressData({
-      ...newAddress,
-      address: "",
-      province_id: "",
-      city_id: "",
-      recipient_number: "",
-      recipient_name: "",
-      address_label: "",
-    });
+    // formik.setValues(formik.initialValues);
+    formik.resetForm();
     onCloseAddress();
   };
 
-  //Disable button on submit
-  const [disableButtonAddress, setDisableButtonAddress] = useState(false);
-
   //Get user addresses
-  const [userAddress, setuserAddress] = useState([]);
   const getUserAddress = async () => {
     let res = await axios.get(`${API_URL}/profile/getuseraddresses`, {
       headers: {
@@ -97,9 +96,6 @@ const Address = () => {
   };
 
   //Get province and city options
-  const [provinceOption, setProvinceOption] = useState([]);
-  const [cityOption, setCityOption] = useState([]);
-
   const getProvinceData = async () => {
     let res = await axios.get(`${API_URL}/profile/getprovince`);
     setProvinceOption(res.data);
@@ -110,85 +106,74 @@ const Address = () => {
     getUserAddress();
   }, []);
 
-  //Input address
-  const [newAddress, setnewAddressData] = useState({
-    address: "",
-    province_id: "",
-    city_id: "",
-    recipient_number: "",
-    recipient_name: "",
-    address_label: "",
-  });
-  const newAddressHandleChange = (e) => {
-    setnewAddressData({ ...newAddress, [e.target.name]: e.target.value });
-  };
-  const provinceHandleChange = async (e) => {
-    setnewAddressData({ ...newAddress, [e.target.name]: e.target.value });
-    let res = await axios.get(`${API_URL}/profile/getcity/${e.target.value}`);
-    setCityOption(res.data);
-  };
+  //FORMIK
+  const formik = useFormik({
+    initialValues: {
+      address: "",
+      province_id: "",
+      city_id: "",
+      recipient_number: "",
+      recipient_name: "",
+      address_label: "",
+    },
 
-  const submitNewAddress = async (e) => {
-    e.preventDefault();
-    try {
-      setDisableButtonAddress(true);
-      await axios.post(
-        `${API_URL}/profile/addaddress`,
-        {
-          address: newAddress.address,
-          province_id: newAddress.province_id,
-          city_id: newAddress.city_id,
-          recipient_number: newAddress.recipient_number,
-          recipient_name: newAddress.recipient_name,
-          address_label: newAddress.address_label,
-        },
-        {
+    validationSchema: Yup.object({
+      address: Yup.string()
+        .max(100, "Must contain 100 characters or less")
+        .required("Required"),
+      province_id: Yup.string().required("Required"),
+      city_id: Yup.string().required("Required"),
+      recipient_name: Yup.string().required("Required"),
+      recipient_number: Yup.string()
+        .required("Required")
+        .matches(/^[0-9]+$/, "Should contain only number"),
+      address_label: Yup.string().required("Required"),
+    }),
+
+    onSubmit: async (values) => {
+      try {
+        setDisableButtonAddress(true);
+        await axios.post(`${API_URL}/profile/addaddress`, values, {
           headers: {
             authorization: `Bearer ${token}`,
           },
-        }
-      );
-      toast.success("Address successfully added!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message || "Network Error", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } finally {
-      setDisableButtonAddress(false);
-      setTimeout(() => {
+        });
+        toast.success("Address successfully added!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } catch (error) {
+        console.log(error);
+        toast.error(error.response.data.message || "Network Error", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
+      } finally {
+        setDisableButtonAddress(false);
+        closeModal();
         getUserAddress();
-      }, 500);
-      setnewAddressData({
-        ...newAddress,
-        address: "",
-        province_id: "",
-        city_id: "",
-        recipient_number: "",
-        recipient_name: "",
-        address_label: "",
-      });
-      onCloseAddress();
-      // setTimeout(() => {
-      //   getUserAddress();
-      // }, 500);
-    }
+      }
+    },
+  });
+
+  const provinceHandleChange = async (e) => {
+    // setnewAddressData({ ...newAddress, [e.target.name]: e.target.value });
+    formik.handleChange(e);
+    let res = await axios.get(`${API_URL}/profile/getcity/${e.target.value}`);
+    setCityOption(res.data);
+    console.log(e.target.value);
   };
 
   //Change default address
@@ -274,17 +259,23 @@ const Address = () => {
     <>
       {/* Navbar */}
       <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
+        <Head>
+          <title>Alamat Pengiriman | Healthymed</title>
+        </Head>
         <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-          <div className="ml-[16px] lg:ml-[76px] text-lg">
-            <div className="lg:hidden">
-              <IoIosArrowBack />
+          <Link href="/">
+            <div className="ml-[16px] lg:ml-[76px] text-lg hover:cursor-pointer">
+              <div className="lg:hidden">
+                <IoIosArrowBack />
+              </div>
+              <img
+                className="hidden lg:inline-block"
+                src="/LogoHealthymedBW.svg"
+                alt=""
+              />
             </div>
-            <img
-              className="hidden lg:inline-block"
-              src="/LogoHealthymedBW.svg"
-              alt=""
-            />
-          </div>
+          </Link>
+
           <div className="ml-[36px] w-[744px] hidden lg:inline-block">
             <SearchBar
               placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
@@ -393,7 +384,7 @@ const Address = () => {
             <ModalHeader>Tambah alamat</ModalHeader>
             <ModalCloseButton />
             <ModalBody pb={6}>
-              <form onSubmit={submitNewAddress}>
+              <form onSubmit={formik.handleSubmit}>
                 <FormLabel fontSize="xl" fontWeight="bold">
                   Label Alamat
                 </FormLabel>
@@ -401,10 +392,15 @@ const Address = () => {
                   type="text"
                   placeholder="Masukkan nama alamat"
                   name="address_label"
-                  onChange={newAddressHandleChange}
-                  // onBlur={""}
-                  value={newAddress.address_label}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.address_label}
                 />
+                {formik.touched.address_label && formik.errors.address_label ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.address_label}
+                  </p>
+                ) : null}
                 <FormLabel fontSize="xl" fontWeight="bold" mt={4} mb={4}>
                   Info Penerima
                 </FormLabel>
@@ -413,24 +409,38 @@ const Address = () => {
                   type="text"
                   placeholder="Masukkan nama penerima"
                   name="recipient_name"
-                  onChange={newAddressHandleChange}
-                  // onBlur={""}
-                  value={newAddress.recipient_name}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.recipient_name}
                 />
+                {formik.touched.recipient_name &&
+                formik.errors.recipient_name ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.recipient_name}
+                  </p>
+                ) : null}
                 <FormLabel mt={3}>Nomor HP</FormLabel>
                 <Input
                   type="text"
                   placeholder="Masukkan nomor telepon"
                   name="recipient_number"
-                  onChange={newAddressHandleChange}
-                  // onBlur={""}
-                  value={newAddress.recipient_number}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.recipient_number}
                 />
+                {formik.touched.recipient_number &&
+                formik.errors.recipient_number ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.recipient_number}
+                  </p>
+                ) : null}
                 <FormLabel mt={3}>Provinsi</FormLabel>
                 <Select
                   placeholder="Provinsi"
                   name="province_id"
                   onChange={provinceHandleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.province_id}
                 >
                   {provinceOption.map((val, index) => {
                     return (
@@ -440,12 +450,19 @@ const Address = () => {
                     );
                   })}
                 </Select>
+                {formik.touched.province_id && formik.errors.province_id ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.province_id}
+                  </p>
+                ) : null}
                 <FormLabel mt={3}>Kota/Kabupaten</FormLabel>
                 <Select
                   placeholder="Kota"
                   name="city_id"
-                  onChange={newAddressHandleChange}
-                  isDisabled={newAddress.province_id == ""}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  isDisabled={formik.province_id == ""}
+                  value={formik.values.city_id}
                 >
                   {cityOption.map((val, index) => {
                     return (
@@ -455,27 +472,42 @@ const Address = () => {
                     );
                   })}
                 </Select>
+                {formik.touched.city_id && formik.errors.city_id ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.city_id}
+                  </p>
+                ) : null}
                 <FormLabel mt={3}>Alamat</FormLabel>
                 <Textarea
                   type="text"
                   placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
                   name="address"
-                  onChange={newAddressHandleChange}
-                  // onBlur={""}
-                  value={newAddress.address}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.address}
                   resize="none"
                 />
+                {formik.touched.address && formik.errors.address ? (
+                  <p className="text-xs text-red-500 pt-1">
+                    {formik.errors.address}
+                  </p>
+                ) : null}
                 <Flex justify="end">
                   <Button
-                    isDisabled={disableButtonAddress}
+                    disabled={disableButtonAddress}
                     type="submit"
-                    colorScheme="blue"
+                    variant="fillCustom"
                     mr={3}
                     mt={6}
                   >
                     Simpan
                   </Button>
-                  <Button type="button" onClick={closeModal} mt={6}>
+                  <Button
+                    type="button"
+                    variant="outlineCustom"
+                    onClick={closeModal}
+                    mt={6}
+                  >
                     Batalkan
                   </Button>
                 </Flex>

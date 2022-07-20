@@ -35,7 +35,6 @@ const ModalInputAddress = ({ isOpen, onClose }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
-  const mounted = useRef(false);
 
   const [optionsCategory, setOptionsCategory] = useState([]);
   const [optionsSymptom, setOptionsSymptom] = useState([]);
@@ -219,13 +218,9 @@ const ModalInputAddress = ({ isOpen, onClose }) => {
   };
 
   useEffect(() => {
-    if (mounted.current) {
-      getCategory();
-      getSymptom();
-      getType();
-    }
-    mounted.current = true;
-    () => {};
+    getCategory();
+    getSymptom();
+    getType();
   }, []);
 
   // react select category

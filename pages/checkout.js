@@ -51,6 +51,7 @@ import CardCheckout from "../components/CardCheckout";
 import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
+import Head from "next/head";
 // import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
@@ -146,26 +147,16 @@ const Checkout = ({ getCartAction }) => {
 
   let total = subTotal + parseInt(shippingCost);
 
-  const mounted = useRef(false);
-
   useEffect(() => {
-    if (mounted.current) {
-      getShippingCost();
-    }
-    mounted.current = true;
-    return () => {};
+    getShippingCost();
   }, [addressData]);
 
   useEffect(() => {
-    if (mounted.current) {
-      getBank();
-      getCartAction();
-      getProdcutTerkait();
-      getAddress();
-      setCheckoutProduct(selected_product);
-    }
-    mounted.current = true;
-    return () => {};
+    getBank();
+    getCartAction();
+    getProdcutTerkait();
+    getAddress();
+    setCheckoutProduct(selected_product);
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -258,6 +249,9 @@ const Checkout = ({ getCartAction }) => {
   return (
     <>
       <div className="">
+        <Head>
+          <title>Checkout | Healthymed</title>
+        </Head>
         <div className="shadow-xl w-full px-[76px] pb-2">
           <MobileHeader
             firstProp={null}

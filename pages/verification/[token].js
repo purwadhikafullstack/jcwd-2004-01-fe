@@ -7,6 +7,7 @@ import useUser from "../../hooks/useUser";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { BsFillXCircleFill } from "react-icons/bs";
 import Link from "next/link";
+import Head from "next/head";
 
 const Verification = () => {
   const router = useRouter();
@@ -16,7 +17,6 @@ const Verification = () => {
   const { username, id, email } = useUser();
   const dispatch = useDispatch();
   // 0 loading 2: gagal 1:berhasil
-  const mounted = useRef(false);
   const verify = async () => {
     try {
       console.log(API_URL);
@@ -41,11 +41,7 @@ const Verification = () => {
   // useMount(()=>verify());
 
   useEffect(() => {
-    if (mounted.current) {
-      verify();
-    }
-    mounted.current = true;
-    return () => {};
+    verify();
   }, []);
 
   // const sendEmail = async () => {
@@ -114,6 +110,9 @@ const Verification = () => {
 
   return (
     <div className="grid justify-center pt-28 bg-white min-h-screen">
+      <Head>
+        <title>Account Verification | Healthymed</title>
+      </Head>
       <div className="text-blackPrimary flex flex-col items-center space-y-6">
         <div className="text-9xl text-[#E53E3E] rounded-full">
           <BsFillXCircleFill />

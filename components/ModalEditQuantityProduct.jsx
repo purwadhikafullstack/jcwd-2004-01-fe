@@ -116,11 +116,7 @@ const ModalEditQuantityProduct = ({ isOpen, onClose, id, getLogData }) => {
   };
 
   useEffect(() => {
-    if (mounted.current) {
-      getQuantity();
-    }
-    mounted.current = true;
-    () => {};
+    getQuantity();
   }, [formik.values.expired_at]);
 
   console.log(page, "ini page berapa");

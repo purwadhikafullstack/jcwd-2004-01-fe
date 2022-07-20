@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Head from "next/head";
 
 const UploadPrescription = () => {
   const [userAddress, setUserAddress] = useState([]);
@@ -73,6 +74,9 @@ const UploadPrescription = () => {
 
   return (
     <div>
+      <Head>
+        <title>Unggah Resep | Healthymed</title>
+      </Head>
       <PrescriptionUpload
         uploadPrescription={uploadPrescription}
         userAddress={userAddress}

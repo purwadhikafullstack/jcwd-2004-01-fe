@@ -289,7 +289,7 @@ const AddAddress = () => {
           </div>
         </form>
       </div>
-      <div className="hidden lg:inline-block h-[668px] w-full mx-[412px]">
+      <div className="hidden lg:inline-block h-[668px] w-full mx-[412px] pb-10">
         <form onSubmit={formik.handleSubmit}>
           <div className="mx-[24px]">
             <div className="text-[24px] mt-[96px] font-bold">
@@ -455,9 +455,9 @@ const AddAddress = () => {
           </div>
         </form>
       </div>
-      <div className="hidden lg:inline-block mt-[158px]">
+      {/* <div className="hidden lg:inline mt-[158px]">
         <Footer />
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -27,6 +27,7 @@ import { debounce } from "lodash";
 import { Rupiah } from "../lib/convertRupiah";
 import Capitalize from "../lib/capitalize";
 import Link from "next/link";
+import Head from "next/head";
 
 const Products = () => {
   const [categoryList, setcategoryList] = useState({});
@@ -118,6 +119,9 @@ const Products = () => {
 
   return (
     <div className="flex flex-col">
+      <Head>
+        <title>Products | Healthymed</title>
+      </Head>
       {/* Header */}
       <div className="bg-white drop-shadow-lg pb-4">
         <div className="mx-8">

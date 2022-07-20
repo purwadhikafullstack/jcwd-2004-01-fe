@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import axios from "axios";
 import API_URL from "../helpers/apiurl";
+import Head from "next/head";
 
 const ForgotPassword = () => {
   const imageRegisterLogin = "/Frame.svg";
@@ -63,6 +64,9 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex">
+      <Head>
+        <title>Forgot Password | Healthymed</title>
+      </Head>
       <div className="hidden w-[720px] h-fit lg:flex lg:flex-col items-center">
         <div>
           <img className="absolute top-8 left-16" src={logo} alt="" />

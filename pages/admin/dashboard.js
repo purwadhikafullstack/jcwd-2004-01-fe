@@ -60,7 +60,14 @@ const Dashboard = () => {
   console.log(todayReportData, "ini today report data");
 
   //updated at
-  const update = updateTerahir(new Date());
+  const [update, setUpdate] = useState();
+  const getUpdate = () => {
+    const update = updateTerahir(new Date());
+    setUpdate(update);
+  };
+  useEffect(() => {
+    getUpdate();
+  }, []);
 
   // chart profit
   const chartRef = useRef(null);
@@ -149,13 +156,15 @@ const Dashboard = () => {
       {/* <div className="absolute top-0 left-0 w-full h-full bg-teal-300 -z-[1]"></div> */}
 
       {/* navbar */}
-      <div className="absolute">
+      <div className="fixed top-0 left-0 bottom-0 z-20">
         <NavbarAdmin />
       </div>
-      <NavbarAdminTop />
+      <div className="fixed top-0 right-0 left-0 z-10">
+        <NavbarAdminTop />
+      </div>
 
       {/* Dashboard body */}
-      <div className="pl-[275px] pt-4">
+      <div className="pl-[275px] pt-24">
         <div className="flex-row">
           <div className="text-xl font-[#213360] font-bold">
             Analisis Produk & Toko
@@ -320,7 +329,7 @@ const Dashboard = () => {
           <div className="w-[350px] h-[121px] rounded-lg shadow-lg hover:shadow-xl hover:scale-103 duration-500 flex items-center justify-between px-4">
             <div className="flex-col mt-4 ">
               <div className="text-[#737A8D] font-bold text-xs">
-                Profit Hari Ini
+                Sisa Stok Hari Ini
               </div>
               <div className="text-[#213360] font-bold text-2xl mt-2">
                 {!todayReportData ? (
@@ -331,7 +340,7 @@ const Dashboard = () => {
               </div>
               <div
                 className={`flex items-center gap-1 mt-2 font-bold text-2xs ${
-                  todayReportData?.profit.profitDifference > 0
+                  todayReportData?.totalStock.stockDifference > 0
                     ? ""
                     : "text-[#D95E53]"
                 }`}

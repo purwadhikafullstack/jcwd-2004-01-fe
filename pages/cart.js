@@ -26,6 +26,7 @@ import Footer from "../components/footer";
 import { getCartAction } from "../redux/actions/cart_action";
 import { connect, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import Head from "next/head";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
@@ -110,6 +111,9 @@ const Cart = ({ getCartAction }) => {
   return (
     <>
       <div className="">
+        <Head>
+          <title>Keranjang | Healthymed</title>
+        </Head>
         <div className="shadow-xl w-full px-[76px] pb-2">
           <MobileHeader
             firstProp={null}

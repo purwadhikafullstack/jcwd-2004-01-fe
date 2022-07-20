@@ -8,13 +8,15 @@ const MobileHeader = ({
   classExtend,
   secondPropClassExtend,
 }) => {
-  const logo = "/LogoHealthymed.svg";
+  const logo = "/LogoHealthymedBW.svg";
 
   return (
     <div className={`container-mobile-header ${classExtend}`}>
-      <div className="hidden lg:inline-block">
-        <img src={logo} alt="" />
-      </div>
+      <Link href="/">
+        <div className="hidden lg:inline-block">
+          <img src={logo} alt="" />
+        </div>
+      </Link>
 
       {firstProp ? (
         <div className="icon-mobile-header lg:hidden">{firstProp}</div>

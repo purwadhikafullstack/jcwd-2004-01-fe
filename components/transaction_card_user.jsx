@@ -35,6 +35,7 @@ const TransactionCardUser = ({
   getCardData,
   delivery_fee,
   bank_id,
+  updated_at,
 }) => {
   const [selectedImage, setselectedImage] = useState([]);
   const [timer, settimer] = useState(0);
@@ -124,13 +125,13 @@ const TransactionCardUser = ({
     }
   };
 
-  // useEffect(() => {
-  //   let time = setInterval(() => {
-  //     settimer(new Date());
-  //   }, 1000);
+  useEffect(() => {
+    let time = setInterval(() => {
+      settimer(new Date());
+    }, 1000);
 
-  //   return () => clearInterval(time);
-  // }, []);
+    return () => clearInterval(time);
+  }, []);
 
   const convertTime = (time, kind) => {
     let tes = new Date(expired_at).getTime();
@@ -174,6 +175,8 @@ const TransactionCardUser = ({
             ? "Menunggu Konfirmasi Pembayaran"
             : null}
           {status == "DITOLAK" ? "Ditolak" : null}
+          {status == "SELESAI" ? "Selesai" : null}
+          {status == "DIKIRIM" ? "Dikirim" : null}
         </div>
       </div>
 
@@ -181,6 +184,7 @@ const TransactionCardUser = ({
         <div className="flex gap-[17px]">
           <div className="w-[91px] h-[80px]">
             <img
+              className="w-[91px] h-[80px] object-cover"
               src={
                 prescription.length > 0 &&
                 (status == "MENUNGGU_KONFIRMASI" || status == "DITOLAK")
@@ -210,7 +214,12 @@ const TransactionCardUser = ({
           </div>
         </div>
         <div>
-          {status == "DITOLAK" || status == "SELESAI" ? null : (
+          {status == "DITOLAK" ||
+          status == "SELESAI" ||
+          status == "DIPROSES" ||
+          status == "MENUNGGU_KONFIRMASI" ||
+          status == "DIKIRIM" ||
+          status == "MENUNGGU_KONFIRMASI_PEMBAYARAN" ? null : (
             <span className="countdown font-mono text-2xl text-[#FF6B6B] mt-[16px]">
               <span
                 className="text-white bg-[#FF6B6B] px-1 rounded-md"
@@ -228,6 +237,18 @@ const TransactionCardUser = ({
               ></span>
             </span>
           )}
+          {status == "DIKIRIM" ? (
+            <div className="mt-[25px] text-[14px]">
+              Perkiraan pesanan sampai&nbsp;
+              {dayjs(updated_at)
+                .locale("id")
+                .add(2, "day")
+                .format("dddd, DD MMM YYYY")}
+            </div>
+          ) : null}
+          {status == "SELESAI" ? (
+            <div className="mt-[25px] text-[14px]">Yay, pesanan selesai!</div>
+          ) : null}
         </div>
       </div>
 

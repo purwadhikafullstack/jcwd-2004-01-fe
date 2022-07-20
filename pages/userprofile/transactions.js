@@ -4,6 +4,7 @@ import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 import Cookies from "js-cookie";
 import useUser from "../../hooks/useUser";
+import Head from "next/head";
 
 const Transaction = () => {
   const { isLogin, fullname } = useUser();
@@ -115,6 +116,9 @@ const Transaction = () => {
 
   return (
     <div>
+      <Head>
+        <title>Daftar Pemesanan | Healthymed</title>
+      </Head>
       <UserTransaction
         userData={userData}
         cardData={cardData}

@@ -90,13 +90,30 @@ function createGradient(ctx) {
   return gradient;
 }
 
+function barGradient(ctx) {
+  console.log(ctx, "ini ctx");
+  let gradient = ctx?.createLinearGradient(0, 0, 0, 350);
+
+  gradient?.addColorStop(0, "rgba(0, 95, 175, 1)");
+  gradient?.addColorStop(1, "rgba(33, 205, 192, 0.6)");
+
+  return gradient;
+}
+
 const RingkasanStatistik = () => {
   // state
   const [todayReportData, setTodayReportData] = useState();
   console.log(todayReportData, "ini today report data");
 
   //updated at
-  const update = updateTerahir(new Date());
+  const [update, setUpdate] = useState();
+  const getUpdate = () => {
+    const update = updateTerahir(new Date());
+    setUpdate(update);
+  };
+  useEffect(() => {
+    getUpdate();
+  }, []);
 
   // chart profit
   const chartRef = useRef(null);
@@ -170,6 +187,39 @@ const RingkasanStatistik = () => {
     }
   }, [filterPenjualan]);
 
+  // chart pembatalan
+  const chartRefPembatalan = useRef(null);
+  const [chartDataPembatalan, setChartDataPembatalan] = useState({
+    labels: [],
+    datasets: [],
+  });
+  const [filterPembatalan, setFilterPembatalan] = useState("bulan");
+
+  const getPembatalanChart = async (chart) => {
+    let response = await axios.get(
+      `${API_URL}/report/get-chart-ditolak?filter=${filterPembatalan}`
+    );
+    setChartDataPembatalan({
+      labels: response.data.label,
+      datasets: [
+        {
+          data: response.data.data,
+          borderRadius: 100,
+          borderSkipped: false,
+          backgroundColor: barGradient(chart.ctx),
+          barThickness: 10,
+        },
+      ],
+    });
+  };
+
+  useEffect(() => {
+    const chart = chartRef.current;
+    if (chart) {
+      getPembatalanChart(chart);
+    }
+  }, [filterPembatalan]);
+
   // getTodayReport
   const getTodayReport = async () => {
     try {
@@ -190,13 +240,15 @@ const RingkasanStatistik = () => {
       {/* <div className="absolute top-0 left-0 w-full h-full bg-teal-300 -z-[1]"></div> */}
 
       {/* navbar */}
-      <div className="absolute">
+      <div className="fixed top-0 left-0 bottom-0 z-20">
         <NavbarAdmin />
       </div>
-      <NavbarAdminTop />
+      <div className="fixed top-0 right-0 left-0 z-10">
+        <NavbarAdminTop />
+      </div>
 
       {/* ringkasanStatistik body */}
-      <div className="pl-[275px] pt-4">
+      <div className="pl-[275px] pt-24">
         <div className="flex-row">
           <div className="text-xl font-[#213360] font-bold">
             Ringkasan Statistik
@@ -284,7 +336,7 @@ const RingkasanStatistik = () => {
 
           {/* chart profit dan penjualan obat */}
           <div className="flex gap-4">
-            <div className="w-[1080px] h-[338px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
+            <div className="w-[980px] h-[338px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
               <div className="flex justify-between pt-4 mx-4">
                 <div className="">
                   <div className="text-xl font-bold">Penjualan Obat</div>
@@ -307,7 +359,7 @@ const RingkasanStatistik = () => {
                     ref={chartRefPenjualan}
                     type="line"
                     data={chartDataPenjualan}
-                    width="800"
+                    width="700"
                     height="200"
                     options={options}
                   ></Chart>
@@ -326,7 +378,7 @@ const RingkasanStatistik = () => {
             </div>
           </div>
           <div className="flex gap-4">
-            <div className="w-[537px] h-[337px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
+            <div className="w-[510px] h-[337px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
               <div className="flex justify-between pt-4 mx-4">
                 <div className="">
                   <div className="text-xl font-bold">Tren Pendapatan</div>
@@ -354,7 +406,7 @@ const RingkasanStatistik = () => {
                 ></Chart>
               </div>
             </div>
-            <div className="w-[537px] h-[337px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
+            <div className="w-[510px] h-[337px] rounded-lg mt-4 shadow-lg hover:shadow-xl hover:scale-103 duration-500">
               <div className="flex justify-between pt-4 mx-4">
                 <div className="">
                   <div className="text-xl font-bold">Tren Pembatalan</div>
@@ -364,7 +416,7 @@ const RingkasanStatistik = () => {
                   h="24px"
                   onChange={(e) => {
                     console.log(e);
-                    setFilterProfit(e.target.value);
+                    setFilterPembatalan(e.target.value);
                   }}
                 >
                   <option value="bulan">Bulan</option>
@@ -374,7 +426,7 @@ const RingkasanStatistik = () => {
               <div className="mt-9 mx-4">
                 <Chart
                   type="bar"
-                  data={chartDataProfit}
+                  data={chartDataPembatalan}
                   width="400"
                   height="180"
                   options={options}
