@@ -82,7 +82,7 @@ export default function Home() {
       </div>
 
       {/* Home title card */}
-      <div className="mx-16">
+      <div className="mx-16 w-full">
         <HomeTitleCard />
       </div>
 

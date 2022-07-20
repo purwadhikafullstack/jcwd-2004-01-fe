@@ -3,7 +3,7 @@ import { IoIosArrowForward } from "react-icons/io";
 
 const HomeTitleCard = () => {
   return (
-    <div className="mt-10 w-[1244px] h-[226px] rounded-2xl bg-[#A7BFF4] drop-shadow-lg">
+    <div className="mt-10 w-full h-[226px] rounded-2xl bg-[#A7BFF4] drop-shadow-lg">
       <img
         className="absolute right-3 rounded-2xl"
         src="HomeTitleCardBackground1.svg"
