@@ -28,7 +28,7 @@ function toMonthName(monthNumber) {
   });
 }
 
-const laporanLabaRugi = () => {
+const LaporanLabaRugi = () => {
   //updated at
   const [update, setUpdate] = useState();
   const getUpdate = () => {
@@ -371,4 +371,4 @@ const laporanLabaRugi = () => {
   );
 };
 
-export default laporanLabaRugi;
+export default LaporanLabaRugi;

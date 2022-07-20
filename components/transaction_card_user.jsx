@@ -184,6 +184,7 @@ const TransactionCardUser = ({
         <div className="flex gap-[17px]">
           <div className="w-[91px] h-[80px]">
             <img
+              className="w-[91px] h-[80px] object-cover"
               src={
                 prescription.length > 0 &&
                 (status == "MENUNGGU_KONFIRMASI" || status == "DITOLAK")
@@ -217,7 +218,8 @@ const TransactionCardUser = ({
           status == "SELESAI" ||
           status == "DIPROSES" ||
           status == "MENUNGGU_KONFIRMASI" ||
-          status == "DIKIRIM" ? null : (
+          status == "DIKIRIM" ||
+          status == "MENUNGGU_KONFIRMASI_PEMBAYARAN" ? null : (
             <span className="countdown font-mono text-2xl text-[#FF6B6B] mt-[16px]">
               <span
                 className="text-white bg-[#FF6B6B] px-1 rounded-md"

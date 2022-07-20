@@ -329,7 +329,7 @@ const Dashboard = () => {
           <div className="w-[350px] h-[121px] rounded-lg shadow-lg hover:shadow-xl hover:scale-103 duration-500 flex items-center justify-between px-4">
             <div className="flex-col mt-4 ">
               <div className="text-[#737A8D] font-bold text-xs">
-                Profit Hari Ini
+                Sisa Stok Hari Ini
               </div>
               <div className="text-[#213360] font-bold text-2xl mt-2">
                 {!todayReportData ? (
@@ -340,7 +340,7 @@ const Dashboard = () => {
               </div>
               <div
                 className={`flex items-center gap-1 mt-2 font-bold text-2xs ${
-                  todayReportData?.profit.profitDifference > 0
+                  todayReportData?.totalStock.stockDifference > 0
                     ? ""
                     : "text-[#D95E53]"
                 }`}
