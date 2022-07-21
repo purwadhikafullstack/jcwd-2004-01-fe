@@ -814,12 +814,12 @@ const ModalInputDrugs = ({ isOpen, onClose, debounceAll }) => {
                       />
                       {selectedImage.length < 3 ? (
                         <label htmlFor="image">
-                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-white hover:cursor-pointer" />
+                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-black hover:cursor-pointer" />
                         </label>
                       ) : null}
                       <AiOutlineMinusCircle
                         z={10}
-                        className="navBtn absolute left-3 top-3 text-white hover:cursor-pointer"
+                        className="navBtn absolute left-3 top-3 text-black hover:cursor-pointer"
                         onClick={() => {
                           setselectedImage(
                             selectedImage.filter((e) => e !== val)

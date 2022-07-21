@@ -33,41 +33,42 @@ const ProductCard = ({
   console.log(id, "ini id");
 
   const buyHandler = async () => {
-    try {
-      if (!token) {
-        router.push("/login");
-        throw "You Need to Login!";
-      } else {
-        let response = await axios.post(
-          `${API_URL}/product/input-cart`,
-          { product_id: id, quantity: 1 },
-          {
-            headers: {
-              authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        toast({
-          title: "success!",
-          description: response.data.message,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-          position: "top-right",
-        });
-      }
-      router.push("/cart");
-    } catch (error) {
-      console.log(error);
-      toast({
-        title: "error",
-        description: error,
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-        position: "top-right",
-      });
-    }
+    router.push(`/produk/${id}`);
+    // try {
+    //   if (!token) {
+    //     router.push("/login");
+    //     throw "You Need to Login!";
+    //   } else {
+    //     let response = await axios.post(
+    //       `${API_URL}/product/input-cart`,
+    //       { product_id: id, quantity: 1 },
+    //       {
+    //         headers: {
+    //           authorization: `Bearer ${token}`,
+    //         },
+    //       }
+    //     );
+    //     toast({
+    //       title: "success!",
+    //       description: response.data.message,
+    //       status: "success",
+    //       duration: 3000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+    //   }
+    //   // router.push("/cart");
+    // } catch (error) {
+    //   console.log(error);
+    //   toast({
+    //     title: "error",
+    //     description: error,
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //     position: "top-right",
+    //   });
+    // }
   };
 
   switch (variant) {
