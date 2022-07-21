@@ -210,7 +210,7 @@ const MedicineTable = () => {
   const debouncedFetchData = useCallback(
     debounce((page, input, limit, cb) => {
       getDaftarProduk(page, input, limit, cb);
-    }, 1000),
+    }, 100),
     []
   );
 
@@ -218,12 +218,16 @@ const MedicineTable = () => {
     getComponent();
   }, []);
 
-  useEffect(() => {
+  const debounceAll = () => {
     debouncedFetchData(page, input, limit, (response) => {
       setTotalData(parseInt(response.headers["x-total-product"]));
       setData([...response.data]);
       setIsLoading(false);
     });
+  };
+
+  useEffect(() => {
+    debounceAll();
   }, [page, input, limit]);
 
   return (
@@ -275,7 +279,11 @@ const MedicineTable = () => {
             Tambah Obat
           </Button>
         </div>
-        <ModalInputDrugs isOpen={isOpen} onClose={onClose} />
+        <ModalInputDrugs
+          isOpen={isOpen}
+          onClose={onClose}
+          debounceAll={debounceAll}
+        />
         <DetailTableObat columns={columns} data={data} isLoading={isLoading} />
         <div className="mt-[10px]">
           <PaginationProductAdmin

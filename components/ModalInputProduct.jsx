@@ -32,7 +32,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import Image from "next/image";
 
-const ModalInputDrugs = ({ isOpen, onClose }) => {
+const ModalInputDrugs = ({ isOpen, onClose, debounceAll }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
@@ -174,6 +174,7 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       formik.resetForm();
       setselectedImage([]);
       setKuantitas(0);
+      debounceAll();
     } catch (error) {
       console.log(error);
       toast({
