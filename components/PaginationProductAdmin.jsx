@@ -21,6 +21,7 @@ const PaginationProductAdmin = ({
   const onPageSelect = (page) => setCurrentPage(page);
 
   const [pagination, setPagination] = useState([]);
+  const [disabledPage, setDisabledPage] = useState([]);
 
   const PaginationBar = () => {
     if (totalPage < 6) {

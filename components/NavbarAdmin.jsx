@@ -59,14 +59,16 @@ const NavbarAdmin = ({ where }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} display="flex" flexDirection="column">
-              <Button
-                variant="unstyled"
-                _hover={{ color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Daftar Produk
-              </Button>
+              <Link href="/admin/daftarProduk">
+                <Button
+                  variant="unstyled"
+                  _hover={{ color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Daftar Produk
+                </Button>
+              </Link>
               <Button
                 variant="unstyled"
                 _hover={{ bgColor: "none", color: "blackPrimary" }}
@@ -160,14 +162,16 @@ const NavbarAdmin = ({ where }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} display="flex" flexDirection="column">
-              <Button
-                variant="unstyled"
-                _hover={{ color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Ringkasan Statistik
-              </Button>
+              <Link href="/admin/ringkasanstatistik">
+                <Button
+                  variant="unstyled"
+                  _hover={{ color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Ringkasan Statistik
+                </Button>
+              </Link>
               <Button
                 variant="unstyled"
                 _hover={{ bgColor: "none", color: "blackPrimary" }}
@@ -176,14 +180,16 @@ const NavbarAdmin = ({ where }) => {
               >
                 Buku Kas
               </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Laba dan Rugi
-              </Button>
+              <Link href="laporanlabarugi">
+                <Button
+                  variant="unstyled"
+                  _hover={{ bgColor: "none", color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Laba dan Rugi
+                </Button>
+              </Link>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

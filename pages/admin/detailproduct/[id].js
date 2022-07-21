@@ -223,7 +223,7 @@ const DetailProduct = () => {
   const columns = useMemo(() => [
     {
       Header: "No",
-      accessor: "id",
+      accessor: "num",
       isNumeric: true,
     },
     {
