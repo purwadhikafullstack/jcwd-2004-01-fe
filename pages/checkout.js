@@ -52,6 +52,7 @@ import { useRef } from "react";
 import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Head from "next/head";
+import Link from "next/link";
 // import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
@@ -252,33 +253,43 @@ const Checkout = ({ getCartAction }) => {
         <Head>
           <title>Checkout | Healthymed</title>
         </Head>
-        <div className="shadow-xl w-full px-[76px] pb-2">
-          <MobileHeader
-            firstProp={null}
-            secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
-            thirdProp={
-              isLogin ? (
-                <FaShoppingCart />
-              ) : (
-                <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
-                  Masuk
-                </Button>
-              )
-            }
-            fourthProp={
-              isLogin ? (
-                <div className="flex items-center gap-2">
-                  <FaUserCircle />
-                  <div className="text-base">{fullname}</div>
-                </div>
-              ) : (
-                <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
-                  Daftar
-                </Button>
-              )
-            }
-            classExtend={"hidden lg:flex"}
-          />
+        <div className="shadow-xl w-full pb-2">
+          <div className="mx-8">
+            <MobileHeader
+              firstProp={null}
+              secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
+              thirdProp={
+                isLogin ? (
+                  <Link href="/cart">
+                    <FaShoppingCart />
+                  </Link>
+                ) : (
+                  <Link href="/login">
+                    <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
+                      Masuk
+                    </Button>
+                  </Link>
+                )
+              }
+              fourthProp={
+                isLogin ? (
+                  <Link href="/userprofile/biodata">
+                    <div className="flex items-center gap-2">
+                      <FaUserCircle />
+                      <div className="text-base">{fullname}</div>
+                    </div>
+                  </Link>
+                ) : (
+                  <Link href="/register">
+                    <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
+                      Daftar
+                    </Button>
+                  </Link>
+                )
+              }
+              classExtend={"hidden lg:flex"}
+            />
+          </div>
         </div>
         <MobileHeader
           firstProp={<IoIosArrowBack className="text-base ml-8" />}
@@ -387,6 +398,7 @@ const Checkout = ({ getCartAction }) => {
                   originalPrice="Rp.65.000"
                   formattedPrice={Rupiah(val.price)}
                   unit={val.unit}
+                  id={val.id}
                 />
               </div>
             );
