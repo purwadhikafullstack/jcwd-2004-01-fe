@@ -46,7 +46,7 @@ const DiscountCarousel = () => {
         {products.map((val, index) => {
           return (
             <Link href={`/produk/${val.id}`} key={index}>
-              <div className="hover:cursor-pointer">
+              <div className="hover:cursor-pointer pb-4">
                 <ProductCardMap
                   key={index}
                   variant="discount"
