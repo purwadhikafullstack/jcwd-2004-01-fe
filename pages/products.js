@@ -66,16 +66,31 @@ const Products = () => {
   // };
 
   const getProductsHome = async (page, input, cb) => {
-    let response = await axios.get(
-      `${API_URL}/product/get-home-product?page=${page}&search=${
-        input.search
-      }&symptom=${input.symptom}&type=${input.type}&brand=${
-        input.brand
-      }&category=${input.category || cat}&orderName=${
-        input.orderName
-      }&orderPrice=${input.orderPrice}`
-    ); //! Dipersingkat querynya (dibuat conditional)
+    let url = `${API_URL}/product/get-home-product?page=${page}`;
+    if (input.search) {
+      url += `&search=${input.search}`;
+    }
+    if (input.symptom) {
+      url += `&symptom=${input.symptom}`;
+    }
+    if (input.category) {
+      url += `&category=${input.category || cat}`;
+    }
+    if (input.type) {
+      url += `&type=${input.type}`;
+    }
+    if (input.orderName) {
+      url += `&orderName=${input.orderName}`;
+    }
+    if (input.brand) {
+      url += `&brand=${input.brand}`;
+    }
+    if (input.orderPrice) {
+      url += `&orderPrice=${input.orderPrice}`;
+    }
+    let response = await axios.get(url); //! Dipersingkat querynya (dibuat conditional)
     console.log(response, "ini response");
+    console.log(cat, "inicat");
     cb(response);
   };
 
@@ -218,6 +233,7 @@ const Products = () => {
                       onChange={(e) => handleCheckbox(e, "symptom")}
                       key={index}
                       id={val.id}
+                      isChecked={input.symptom.includes(val.id)}
                       name="symptom"
                     >
                       {capitalize(val.name)}
@@ -256,7 +272,8 @@ const Products = () => {
                       key={index}
                       id={val.id}
                       value={val.id}
-                      onChange={(e) => handleCheckbox(e, "symptom")}
+                      onChange={(e) => handleCheckbox(e, "type")}
+                      isChecked={input.type.includes(val.id)}
                       name="type"
                     >
                       {capitalize(val.name)}
@@ -278,7 +295,8 @@ const Products = () => {
                       key={index}
                       id={val.id}
                       value={val.id}
-                      onChange={(e) => handleCheckbox(e, "symptom")}
+                      onChange={(e) => handleCheckbox(e, "brand")}
+                      isChecked={input.brand.includes(val.id)}
                       name="brand"
                     >
                       {capitalize(val.name)}
@@ -308,6 +326,19 @@ const Products = () => {
               </span>
             </div>
             <div className="flex gap-4 items-center">
+              <div className="w-[300px]">
+                <Input
+                  placeholder={
+                    input.category || cat
+                      ? `Cari produk di ${input.category || cat}`
+                      : "Cari produk"
+                  }
+                  focusBorderColor="blackPrimary"
+                  name="search"
+                  value={input.search}
+                  onChange={(e) => handleInput(e)}
+                />
+              </div>
               <div>Urutkan</div>
               <Select
                 value={input.orderPrice}
