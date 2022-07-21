@@ -32,7 +32,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import Image from "next/image";
 
-const ModalInputDrugs = ({ isOpen, onClose }) => {
+const ModalInputDrugs = ({ isOpen, onClose, debounceAll }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
@@ -174,6 +174,7 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       formik.resetForm();
       setselectedImage([]);
       setKuantitas(0);
+      debounceAll();
     } catch (error) {
       console.log(error);
       toast({
@@ -813,12 +814,12 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
                       />
                       {selectedImage.length < 3 ? (
                         <label htmlFor="image">
-                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-white hover:cursor-pointer" />
+                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-black hover:cursor-pointer" />
                         </label>
                       ) : null}
                       <AiOutlineMinusCircle
                         z={10}
-                        className="navBtn absolute left-3 top-3 text-white hover:cursor-pointer"
+                        className="navBtn absolute left-3 top-3 text-black hover:cursor-pointer"
                         onClick={() => {
                           setselectedImage(
                             selectedImage.filter((e) => e !== val)

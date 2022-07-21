@@ -1,7 +1,18 @@
 import { Box } from "@chakra-ui/react";
-import { useMediaQuery, Center, Button, Tooltip } from "@chakra-ui/react";
+import {
+  useMediaQuery,
+  Center,
+  Button,
+  Tooltip,
+  useToast,
+} from "@chakra-ui/react";
 import { FaHeart } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
+import Cookies from "js-cookie";
+import { useRouter } from "next/router";
+import axios from "axios";
+import API_URL from "../helpers/apiurl";
 
 const ProductCard = ({
   variant,
@@ -12,8 +23,53 @@ const ProductCard = ({
   originalPrice,
   formattedPrice,
   unit,
+  id,
 }) => {
   const [lg] = useMediaQuery("(min-width: 1024px)");
+  const router = useRouter();
+  let token = Cookies.get("token");
+  const toast = useToast();
+
+  console.log(id, "ini id");
+
+  const buyHandler = async () => {
+    router.push(`/produk/${id}`);
+    // try {
+    //   if (!token) {
+    //     router.push("/login");
+    //     throw "You Need to Login!";
+    //   } else {
+    //     let response = await axios.post(
+    //       `${API_URL}/product/input-cart`,
+    //       { product_id: id, quantity: 1 },
+    //       {
+    //         headers: {
+    //           authorization: `Bearer ${token}`,
+    //         },
+    //       }
+    //     );
+    //     toast({
+    //       title: "success!",
+    //       description: response.data.message,
+    //       status: "success",
+    //       duration: 3000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+    //   }
+    //   // router.push("/cart");
+    // } catch (error) {
+    //   console.log(error);
+    //   toast({
+    //     title: "error",
+    //     description: error,
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //     position: "top-right",
+    //   });
+    // }
+  };
 
   switch (variant) {
     case "discount":
@@ -32,14 +88,16 @@ const ProductCard = ({
               bg="white"
             >
               {/* image */}
-              <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-4 right-4">
                 <div className="flex justify-center w-[44px] h-[44px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -81,6 +139,7 @@ const ProductCard = ({
                 right="0px"
                 position="absolute"
                 fontSize="12px"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
@@ -97,14 +156,16 @@ const ProductCard = ({
               shadow="lg"
             >
               {/* image */}
-              <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-3 right-3">
                 <div className="flex justify-center w-[28px] h-[28px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -151,6 +212,7 @@ const ProductCard = ({
                 position="absolute"
                 fontSize="10px"
                 fontWeight="bold"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
@@ -174,14 +236,16 @@ const ProductCard = ({
               bg="white"
             >
               {/* image */}
-              <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-4 right-4">
                 <div className="flex justify-center w-[44px] h-[44px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -223,6 +287,7 @@ const ProductCard = ({
                 right="0px"
                 position="absolute"
                 fontSize="12px"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
@@ -239,14 +304,16 @@ const ProductCard = ({
               shadow="lg"
             >
               {/* image */}
-              <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-3 right-3">
                 <div className="flex justify-center w-[28px] h-[28px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -291,6 +358,7 @@ const ProductCard = ({
                 position="absolute"
                 fontSize="10px"
                 fontWeight="bold"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
@@ -314,14 +382,16 @@ const ProductCard = ({
               bg="white"
             >
               {/* image */}
-              <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[114px] h-[114px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-4 right-4">
                 <div className="flex justify-center w-[44px] h-[44px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -363,6 +433,7 @@ const ProductCard = ({
                 right="0px"
                 position="absolute"
                 fontSize="12px"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
@@ -380,14 +451,16 @@ const ProductCard = ({
               bg="white"
             >
               {/* image */}
-              <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto">
-                <img
-                  src={imageUrl}
-                  alt={imageAlt}
-                  layout="fill"
-                  objectfit="cover"
-                />
-              </div>
+              <Link href={`/produk/${id}`}>
+                <div className="w-[70px] h-[70px] relative overflow-hidden mx-auto hover:cursor-pointer">
+                  <img
+                    src={imageUrl}
+                    alt={imageAlt}
+                    layout="fill"
+                    objectfit="cover"
+                  />
+                </div>
+              </Link>
               {/* like button */}
               <div className="absolute top-3 right-3">
                 <div className="flex justify-center w-[28px] h-[28px] rounded-full shadow-gray-100 bg-white shadow-md hover:cursor-pointer">
@@ -432,6 +505,7 @@ const ProductCard = ({
                 position="absolute"
                 fontSize="10px"
                 fontWeight="bold"
+                onClick={() => buyHandler()}
               >
                 Keranjang
               </Button>
