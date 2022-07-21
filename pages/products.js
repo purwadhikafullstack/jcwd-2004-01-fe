@@ -298,12 +298,14 @@ const Products = () => {
             ) : (
               "Semua"
             )} */}
-            {capitalize(input.category)}
+            {input.category ? capitalize(input.category) : "Semua"}
           </div>
           <div className="flex justify-between w-full items-center py-5 text-[14px]">
             <div>
               <span>{data.length}</span> Produk di{" "}
-              <span>{capitalize(input.category)}</span>
+              <span>
+                {input.category ? capitalize(input.category) : "Semua"}
+              </span>
             </div>
             <div className="flex gap-4 items-center">
               <div>Urutkan</div>
