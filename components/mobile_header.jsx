@@ -34,16 +34,10 @@ const MobileHeader = ({
         </div>
       )}
 
-      {thirdProp ? (
-        <Link href="">
-          <div className="icon-mobile-header">{thirdProp}</div>
-        </Link>
-      ) : null}
+      {thirdProp ? <div className="icon-mobile-header">{thirdProp}</div> : null}
 
       {fourthProp ? (
-        <Link href="">
-          <div className="icon-mobile-header">{fourthProp}</div>
-        </Link>
+        <div className="icon-mobile-header">{fourthProp}</div>
       ) : null}
     </div>
   );
