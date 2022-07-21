@@ -3,7 +3,6 @@ import API_URL from "../helpers/apiurl";
 
 export async function middleware(req) {
   const token = req.cookies.token;
-  console.log(token, "askdajskdjds");
   let response = await fetch(`${API_URL}/auth/check-role`, {
     method: "GET",
     headers: {

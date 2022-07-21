@@ -35,7 +35,6 @@ const ModalEditQuantityProduct = ({ isOpen, onClose, id, getLogData }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
-  const mounted = useRef(false);
 
   const [loading, setLoading] = useState(true);
 

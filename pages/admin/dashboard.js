@@ -257,7 +257,7 @@ const Dashboard = () => {
                 {!todayReportData ? (
                   <Spinner size="md" />
                 ) : (
-                  formatThousand(todayReportData.transaction.totalToday)
+                  formatThousand(todayReportData?.transaction.totalToday)
                 )}
               </div>
               <div
@@ -275,14 +275,14 @@ const Dashboard = () => {
 
                 {!todayReportData ? (
                   <Spinner size="xs" />
-                ) : todayReportData.transaction.totalTrasactionDifference >
+                ) : todayReportData?.transaction.totalTrasactionDifference >
                   0 ? (
                   `+${formatThousand(
-                    todayReportData.transaction.totalTrasactionDifference
+                    todayReportData?.transaction.totalTrasactionDifference
                   )}`
                 ) : (
                   `${formatThousand(
-                    todayReportData.transaction.totalTrasactionDifference
+                    todayReportData?.transaction.totalTrasactionDifference
                   )}`
                 )}
               </div>

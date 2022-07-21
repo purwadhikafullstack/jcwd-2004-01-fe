@@ -170,6 +170,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       });
       console.log(res);
       setPage(4);
+      formik.resetForm();
+      setselectedImage([]);
+      setKuantitas(0);
     } catch (error) {
       console.log(error);
       toast({
@@ -229,6 +232,8 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
     { value: "strawberry", label: "Strawberry" },
     { value: "vanilla", label: "Vanilla" },
   ];
+
+  // valid
 
   return (
     <>
