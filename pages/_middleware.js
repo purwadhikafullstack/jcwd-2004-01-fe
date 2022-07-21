@@ -75,4 +75,8 @@ export async function middleware(req) {
   if (req.nextUrl.pathname === "/uploadprescription" && !token) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
+
+  //Do nothing
+  if (req.nextUrl.pathname === "/products") {
+  }
 }

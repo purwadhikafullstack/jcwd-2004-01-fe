@@ -723,13 +723,13 @@ const Biodata = () => {
                 <label
                   htmlFor="profilePic"
                   type="submit"
-                  className="p-2 mt-2 w-56 border-2 border-gray-400 rounded-md hover:cursor-pointer text-center font-bold"
+                  className="p-2 mt-2 w-56 border-2 border-gray-400 rounded-md hover:cursor-pointer text-center font-bold bg-white hover:bg-opacity-10 hover:bg-blackPrimary duration-300"
                 >
                   Pilih Foto
                 </label>
                 <button
                   onClick={onOpen}
-                  className="p-2 mt-2 w-56 border-2 border-gray-400 rounded-md font-bold"
+                  className="p-2 mt-2 w-56 border-2 border-gray-400 rounded-md font-bold bg-white hover:bg-opacity-10 hover:bg-blackPrimary duration-300"
                 >
                   Ubah Kata Sandi
                 </button>
@@ -738,7 +738,7 @@ const Biodata = () => {
                     onClick={() => {
                       verifyMe();
                     }}
-                    className="font-bold text-white file:border-2 border-green-500 rounded-md p-2 mt-2 w-56 bg-green-500"
+                    className="font-bold text-white file:border-2 border-green-500 rounded-md p-2 mt-2 w-56 hover:bg-opacity-75 duration-300 bg-green-500"
                   >
                     Verifikasi Akun
                   </button>

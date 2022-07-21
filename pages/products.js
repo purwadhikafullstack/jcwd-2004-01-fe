@@ -28,8 +28,11 @@ import { Rupiah } from "../lib/convertRupiah";
 import Capitalize from "../lib/capitalize";
 import Link from "next/link";
 import Head from "next/head";
+import { useRouter } from "next/router";
 
 const Products = () => {
+  const router = useRouter();
+  let cat = router.query["category"];
   const [categoryList, setcategoryList] = useState({});
   // const [productsHome, setproductsHome] = useState([]);
   const [page, setPage] = useState(0);
@@ -38,7 +41,7 @@ const Products = () => {
   const [limit, setLimit] = useState(12);
   const [input, setInput] = useState({
     search: "",
-    category: "ibu dan anak",
+    category: cat || "",
     type: [],
     symptom: [],
     brand: [],
@@ -64,7 +67,13 @@ const Products = () => {
 
   const getProductsHome = async (page, input, cb) => {
     let response = await axios.get(
-      `${API_URL}/product/get-home-product?page=${page}&search=${input.search}&symptom=${input.symptom}&type=${input.type}&brand=${input.brand}&category=${input.category}&orderName=${input.orderName}&orderPrice=${input.orderPrice}`
+      `${API_URL}/product/get-home-product?page=${page}&search=${
+        input.search
+      }&symptom=${input.symptom}&type=${input.type}&brand=${
+        input.brand
+      }&category=${input.category || cat}&orderName=${
+        input.orderName
+      }&orderPrice=${input.orderPrice}`
     ); //! Dipersingkat querynya (dibuat conditional)
     console.log(response, "ini response");
     cb(response);
@@ -283,7 +292,13 @@ const Products = () => {
 
         <div className="w-[900px] h-[2283px]">
           <div className="w-full h-[50px] text-[24px] font-bold border-b-2 border-[#D5D7DD]">
-            Obat
+            {/* {cat ? <div hidden={input.category}>{capitalize(cat)}</div> : null}
+            {input.category ? (
+              <div hidden={cat}>{capitalize(input.category)}</div>
+            ) : (
+              "Semua"
+            )} */}
+            {capitalize(input.category)}
           </div>
           <div className="flex justify-between w-full items-center py-5 text-[14px]">
             <div>
@@ -341,8 +356,8 @@ const Products = () => {
                       unit={Capitalize(val.unit)}
                       imgsrc={
                         val.images.length
-                          ? `${API_URL}${val.images[0]}`
-                          : `${API_URL}/photos/defaultprofilepicture.png`
+                          ? `${API_URL}${val.images[0].image}`
+                          : "/defaultprofilepicture.png"
                       }
                       imgalt={val.name}
                     />

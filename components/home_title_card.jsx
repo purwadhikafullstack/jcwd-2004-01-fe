@@ -20,12 +20,12 @@ const HomeTitleCard = () => {
       <div className="text-[18px] font-bold pl-20 pt-4">
         100% Asli Produk BPOM Uang Dijamin Kembali!
       </div>
-      <button className="p-3 rounded-full bg-white text-2xl absolute top-20 -left-6">
+      {/* <button className="p-3 rounded-full bg-white text-2xl absolute top-20 -left-6">
         <IoIosArrowBack />
       </button>
       <button className="p-3 rounded-full bg-white text-2xl absolute top-20 -right-6">
         <IoIosArrowForward />
-      </button>
+      </button> */}
     </div>
   );
 };

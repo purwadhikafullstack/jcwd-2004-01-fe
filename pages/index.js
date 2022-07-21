@@ -18,6 +18,7 @@ import HomeDiscount from "../components/home_today's_discount";
 import PopularCarousel from "../components/popular_carousel";
 import Link from "next/link";
 import Head from "next/head";
+import TitleCarousel from "../components/card_title_carousel";
 
 export default function Home() {
   const logo = "/LogoHealthymed.svg";
@@ -82,8 +83,9 @@ export default function Home() {
       </div>
 
       {/* Home title card */}
-      <div className="mx-auto">
-        <HomeTitleCard />
+      <div className="mx-auto w-[1244px]">
+        {/* <HomeTitleCard /> */}
+        <TitleCarousel />
       </div>
 
       {/* Home Prescription Card */}
