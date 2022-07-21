@@ -3,7 +3,6 @@ import API_URL from "../helpers/apiurl";
 
 export async function middleware(req) {
   const token = req.cookies.token;
-  console.log(token, "askdajskdjds");
   let response = await fetch(`${API_URL}/auth/check-role`, {
     method: "GET",
     headers: {
@@ -75,5 +74,9 @@ export async function middleware(req) {
   }
   if (req.nextUrl.pathname === "/uploadprescription" && !token) {
     return NextResponse.redirect(new URL("/login", req.url));
+  }
+
+  //Do nothing
+  if (req.nextUrl.pathname === "/products") {
   }
 }

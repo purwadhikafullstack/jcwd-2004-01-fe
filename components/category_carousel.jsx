@@ -6,6 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoIosArrowForward } from "react-icons/io";
 import NextArrow from "./nextArrow";
 import PrevArrow from "./prevArrow";
+import Link from "next/link";
 
 // export default class PauseOnHover extends Component {
 //   render() {}
@@ -26,37 +27,42 @@ const CategoryCarousel = () => {
   return (
     <div className="ml-8 mr-8">
       <Slider {...settings}>
-        <div className="px-5 py-1">
-          <HomeCategoryCard
-            icon={<img src="Obat.svg" />}
-            caption={"Obat-obatan"}
-          />
-        </div>
-        <div className="px-5 py-1">
-          <HomeCategoryCard
-            icon={<img src="Nutrition.svg" />}
-            caption={"Nutrisi"}
-          />
-        </div>
-        <div className="px-5 py-1">
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=obat-obatan&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Obat.svg" />}
+              caption={"Obat-obatan"}
+            />
+          </div>
+        </Link>
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=plester&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Nutrition.svg" />}
+              caption={"Nutrisi"}
+            />
+          </div>
+        </Link>
+
+        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
           <HomeCategoryCard
             icon={<img src="Herbal.svg" />}
             caption={"Herbal"}
           />
         </div>
-        <div className="px-5 py-1">
+        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
           <HomeCategoryCard
             icon={<img src="Vitamin.svg" />}
             caption={"Vitamin & Suplemen"}
           />
         </div>
-        <div className="px-5 py-1">
+        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
           <HomeCategoryCard
             icon={<img src="Alat Kesehatan.svg" />}
             caption={"Alat Kesehatan"}
           />
         </div>
-        <div className="px-5 py-1">
+        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
           <HomeCategoryCard
             icon={<img src="Perawatan Tubuh.svg" />}
             caption={"Perawatan Tubuh"}

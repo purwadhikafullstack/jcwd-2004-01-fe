@@ -16,6 +16,7 @@ import {
   useNumberInput,
   Tooltip,
   useToast,
+  Textarea,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -170,6 +171,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
       });
       console.log(res);
       setPage(4);
+      formik.resetForm();
+      setselectedImage([]);
+      setKuantitas(0);
     } catch (error) {
       console.log(error);
       toast({
@@ -230,9 +234,11 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
     { value: "vanilla", label: "Vanilla" },
   ];
 
+  // valid
+
   return (
     <>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} scrollBehavior="inside">
         <ModalOverlay />
         <form onSubmit={formik.handleSubmit}>
           <ModalContent maxWidth="792px">
@@ -244,7 +250,11 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
               }}
             />
 
-            <ModalBody display="flex" flexDirection="column">
+            <ModalBody
+              display="flex"
+              flexDirection="column"
+              className="scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 scrollbar-thumb-rounded-full scrollbar-track-rounded-full"
+            >
               {/* Bread Crumbs */}
               <div
                 className={`flex items-center pb-[28px] ${
@@ -481,9 +491,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
               <div className={`flex-row ${page !== 1 ? "hidden" : null}`}>
                 <div className="flex items-center my-2">
                   <p className="w-[154px]">Indikasi</p>
-                  <Input
+                  <Textarea
                     name="indication"
-                    w="226px"
+                    w="452px"
                     h="32px"
                     size="xs"
                     rounded="md"
@@ -500,9 +510,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex items-center my-2">
                   <p className="w-[154px]">Komposisi</p>
-                  <Input
+                  <Textarea
                     name="composition"
-                    w="226px"
+                    w="452px"
                     h="32px"
                     size="xs"
                     rounded="md"
@@ -636,9 +646,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex items-center my-2">
                   <p className="w-[154px]">Peringatan</p>
-                  <Input
+                  <Textarea
                     name="warning"
-                    w="226px"
+                    w="452px"
                     h="32px"
                     size="xs"
                     rounded="md"
@@ -655,9 +665,9 @@ const ModalInputDrugs = ({ isOpen, onClose }) => {
                 </div>
                 <div className="flex items-center my-2">
                   <p className="w-[154px]">Cara Pakai</p>
-                  <Input
+                  <Textarea
                     name="usage"
-                    w="226px"
+                    w="452px"
                     h="32px"
                     size="xs"
                     rounded="md"

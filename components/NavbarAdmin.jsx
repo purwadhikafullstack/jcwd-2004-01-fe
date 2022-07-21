@@ -28,20 +28,22 @@ const NavbarAdmin = ({ where }) => {
           color="gray.500"
           mt="15px"
         >
-          <AccordionItem>
-            <h2>
-              <AccordionButton
-                _focus={{ boxShadow: "none" }}
-                h="80px"
-                _hover={{ textColor: "blackPrimary" }}
-              >
-                <MdHomeFilled className="w-6 h-6 mr-2" />
-                <Box flex="1" textAlign="left">
-                  Dashboard
-                </Box>
-              </AccordionButton>
-            </h2>
-          </AccordionItem>
+          <Link href="/admin/dashboard">
+            <AccordionItem>
+              <h2>
+                <AccordionButton
+                  _focus={{ boxShadow: "none" }}
+                  h="80px"
+                  _hover={{ textColor: "blackPrimary" }}
+                >
+                  <MdHomeFilled className="w-6 h-6 mr-2" />
+                  <Box flex="1" textAlign="left">
+                    Dashboard
+                  </Box>
+                </AccordionButton>
+              </h2>
+            </AccordionItem>
+          </Link>
           <AccordionItem>
             <h2>
               <AccordionButton
@@ -57,14 +59,16 @@ const NavbarAdmin = ({ where }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} display="flex" flexDirection="column">
-              <Button
-                variant="unstyled"
-                _hover={{ color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Daftar Produk
-              </Button>
+              <Link href="/admin/daftarProduk">
+                <Button
+                  variant="unstyled"
+                  _hover={{ color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Daftar Produk
+                </Button>
+              </Link>
               <Button
                 variant="unstyled"
                 _hover={{ bgColor: "none", color: "blackPrimary" }}
@@ -158,14 +162,16 @@ const NavbarAdmin = ({ where }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} display="flex" flexDirection="column">
-              <Button
-                variant="unstyled"
-                _hover={{ color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Ringkasan Statistik
-              </Button>
+              <Link href="/admin/ringkasanstatistik">
+                <Button
+                  variant="unstyled"
+                  _hover={{ color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Ringkasan Statistik
+                </Button>
+              </Link>
               <Button
                 variant="unstyled"
                 _hover={{ bgColor: "none", color: "blackPrimary" }}
@@ -174,14 +180,16 @@ const NavbarAdmin = ({ where }) => {
               >
                 Buku Kas
               </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Laba dan Rugi
-              </Button>
+              <Link href="laporanlabarugi">
+                <Button
+                  variant="unstyled"
+                  _hover={{ bgColor: "none", color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Laba dan Rugi
+                </Button>
+              </Link>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>
