@@ -75,7 +75,7 @@ const UserTransaction = ({
             ) : (
               <FaUserCircle />
             )}
-            <div className="text-base w-[50px] truncate">
+            <div className="text-base w-[80px] truncate">
               {userData.fullname}
             </div>
           </div>

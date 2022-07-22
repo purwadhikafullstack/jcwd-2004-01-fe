@@ -35,10 +35,12 @@ import { Rupiah } from "../lib/convertRupiah";
 const TransactionCardCard = ({
   transaction_id,
   transaction_code,
+  bank_id,
   index,
   created_at,
   expired_at,
   prescription,
+  delivery_fee,
   username,
   fullname,
   address,
@@ -743,7 +745,7 @@ const TransactionCardCard = ({
           <ModalBody>
             <div className="w-full pb-5 flex justify-between items-center border-b-2 border-gray-400">
               <div className="flex text-[16px] gap-2">
-                <div className=" font-bold border-r-2 border-gray-400 pr-2">
+                <div className="font-bold border-r-2 border-gray-400 pr-2 w-[180px] truncate">
                   {transaction_code}
                 </div>
                 <div className="flex items-center gap-2">
@@ -755,7 +757,7 @@ const TransactionCardCard = ({
               </div>
               <div
                 className="flex items-center gap-3"
-                hidden={status == "MENUNGGU_PEMBAYARAN" ? true : false}
+                hidden={status == "MENUNGGU_PEMBAYARAN" ? false : true}
               >
                 <div className="font-bold">Respon sebelum</div>
                 <div className="w-[164px] h-[28px] bg-orange-200 p-1.5 rounded-md text-[12px] flex items-center gap-2">
@@ -767,73 +769,110 @@ const TransactionCardCard = ({
               </div>
             </div>
 
-            <div className="flex gap-10 mt-5">
-              <div className="flex flex-col gap-4">
-                {prescription.length > 0 && orderedProduct <= 0
-                  ? prescription.map((val, i) => {
-                      return (
-                        <div
-                          className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+            <div className="mt-[10px] font-bold">Daftar Pesanan</div>
+
+            <div className="flex flex-col gap-4 mt-[10px]">
+              {prescription.length > 0 && orderedProduct <= 0
+                ? prescription.map((val, i) => {
+                    return (
+                      <div
+                        className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                        key={i}
+                      >
+                        <img
                           key={i}
-                        >
-                          <img
-                            className="w-[75px] h-[75px] rounded-lg"
-                            src={`${API_URL}${val.img}`}
-                          />
-                          <div>
-                            Prescription no. <span>{i + 1}</span>
+                          className="w-[75px] h-[75px] rounded-lg"
+                          src={`${API_URL}${val.img}`}
+                        />
+                        <div>
+                          Prescription no. <span>{i + 1}</span>
+                        </div>
+                      </div>
+                    );
+                  })
+                : orderedProduct.map((val, i) => {
+                    return (
+                      <div
+                        className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
+                        key={i}
+                      >
+                        <img
+                          key={i}
+                          className="w-[75px] h-[75px] rounded-lg"
+                          src={`${API_URL}${val.image}`}
+                        />
+                        <div>
+                          <div className="text-[14px] font-bold">
+                            {val.name}
+                          </div>
+                          <div className="text-[12px] mt-[7px]">
+                            {val.quantity} x {val.price}
+                          </div>
+                          <div className="text-[12px] mt-[10px]">
+                            {val.dosage ? val.dosage : null}
                           </div>
                         </div>
-                      );
-                    })
-                  : orderedProduct.map((val, i) => {
-                      return (
-                        <div
-                          className="flex items-center gap-4 bg-white drop-shadow-lg rounded-lg p-4"
-                          key={i}
-                        >
-                          <img
-                            className="w-[75px] h-[75px] rounded-lg"
-                            src={`${API_URL}${val.image}`}
-                          />
-                          <div>
-                            <div className="text-[14px] font-bold">
-                              {val.name}
-                            </div>
-                            <div className="text-[12px] mt-[2px]">
-                              {val.quantity} x {val.price}
-                            </div>
-                            <div className="text-[12px] mt-[2px]">
-                              {val.dosage ? val.dosage : null}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
-              </div>
-              <div className="pb-5 bg-white drop-shadow-lg rounded-lg h-fit pr-5">
-                <div className="flex gap-10">
-                  <div className="mt-[19px] w-fit ml-[20px]">
-                    <div className="flex flex-col text-[14px]">
-                      <div className="font-bold">Pembeli</div>
-                      <div>{fullname ? fullname : username}</div>
+                      </div>
+                    );
+                  })}
+            </div>
+
+            {prescription.length > 0 && orderedProduct <= 0 ? (
+              <>
+                {" "}
+                <div className="mt-[10px] font-bold">Info Pengiriman</div>
+                <div className="mt-[8px] flex flex-col gap-2">
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Kurir</div>
+                    <div className="text-[14px]">JNE</div>
+                  </div>
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Alamat</div>
+                    <div className="text-[14px]">{address}</div>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mt-[10px] font-bold">Info Pengiriman</div>
+                <div className="mt-[8px] flex flex-col gap-2">
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Kurir</div>
+                    <div className="text-[14px]">JNE</div>
+                  </div>
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Alamat</div>
+                    <div className="text-[14px]">{address}</div>
+                  </div>
+                </div>
+                <div className="mt-[10px] font-bold">Rincian Pembayaran</div>
+                <div className="mt-[8px] flex flex-col gap-2">
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Metode Pembayaran</div>
+                    <div className="text-[14px]">
+                      {bank_id ? (bank_id == 1 ? "BCA" : null) : null}
+                      {bank_id ? (bank_id == 2 ? "Mandiri" : null) : null}
+                      {bank_id ? (bank_id == 3 ? "Permata" : null) : null}
+                      &nbsp;Virtual Account
                     </div>
                   </div>
-                  <div className="mt-[19px] w-fit ml-[20px]">
-                    <div className="flex flex-col text-[14px]">
-                      <div className="font-bold">Alamat</div>
-                      <div>{address}</div>
-                    </div>
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Total Harga</div>
+                    <div className="text-[14px]">{Rupiah(total_price)}</div>
                   </div>
-                  <div className="mt-[19px]">
-                    <div className="flex flex-col text-[14px] ml-[20px]">
-                      <div className="font-bold">Kurir</div>
-                      <div>Grab Same Day</div>
+                  <div className="flex justify-between border-b-2 border-gray-100">
+                    <div className="text-[14px]">Total Ongkos Kirim</div>
+                    <div className="text-[14px]">{Rupiah(delivery_fee)}</div>
+                  </div>
+                  <div className="flex justify-between font-bold border-b-2 border-gray-100">
+                    <div className="text-[14px]">Total Bayar</div>
+                    <div className="text-[14px]">
+                      {Rupiah(parseInt(total_price) + parseInt(delivery_fee))}
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
+              </>
+            )}
           </ModalBody>
 
           <ModalFooter>

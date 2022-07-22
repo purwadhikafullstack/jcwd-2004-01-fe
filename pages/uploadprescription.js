@@ -11,7 +11,7 @@ import Head from "next/head";
 const UploadPrescription = () => {
   const [userAddress, setUserAddress] = useState([]);
 
-  const { isLogin } = useUser();
+  const { isLogin, fullname, profile_picture } = useUser();
 
   const router = useRouter();
 
@@ -80,6 +80,8 @@ const UploadPrescription = () => {
       <PrescriptionUpload
         uploadPrescription={uploadPrescription}
         userAddress={userAddress}
+        fullname={fullname}
+        profile_picture={profile_picture}
       />
     </div>
   );

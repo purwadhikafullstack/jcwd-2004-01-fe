@@ -34,7 +34,7 @@
   }
 
   .icon-mobile-header {
-    @apply text-blackPrimary text-3xl hover:cursor-pointer;
+    @apply text-blackPrimary text-2xl hover:cursor-pointer;
   }
 
   .container-mobile-navbar {

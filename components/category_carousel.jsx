@@ -35,7 +35,7 @@ const CategoryCarousel = () => {
             />
           </div>
         </Link>
-        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=plester&orderName=asc&orderPrice=asc">
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=nutrisi&orderName=asc&orderPrice=asc">
           <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
             <HomeCategoryCard
               icon={<img src="Nutrition.svg" />}
@@ -43,31 +43,38 @@ const CategoryCarousel = () => {
             />
           </div>
         </Link>
-
-        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
-          <HomeCategoryCard
-            icon={<img src="Herbal.svg" />}
-            caption={"Herbal"}
-          />
-        </div>
-        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
-          <HomeCategoryCard
-            icon={<img src="Vitamin.svg" />}
-            caption={"Vitamin & Suplemen"}
-          />
-        </div>
-        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
-          <HomeCategoryCard
-            icon={<img src="Alat Kesehatan.svg" />}
-            caption={"Alat Kesehatan"}
-          />
-        </div>
-        <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
-          <HomeCategoryCard
-            icon={<img src="Perawatan Tubuh.svg" />}
-            caption={"Perawatan Tubuh"}
-          />
-        </div>
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=herbal&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Herbal.svg" />}
+              caption={"Herbal"}
+            />
+          </div>
+        </Link>
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=vitamin%20%26%20suplemen&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Vitamin.svg" />}
+              caption={"Vitamin & Suplemen"}
+            />
+          </div>
+        </Link>
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=alat%20kesehatan&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Alat Kesehatan.svg" />}
+              caption={"Alat Kesehatan"}
+            />
+          </div>
+        </Link>
+        <Link href="/products?page=0&search=&symptom=&type=&brand=&category=perawatan%20tubuh&orderName=asc&orderPrice=asc">
+          <div className="px-5 py-1 hover:bg-blackPrimary hover:bg-opacity-10 rounded-2xl duration-300 hover:cursor-pointer">
+            <HomeCategoryCard
+              icon={<img src="Perawatan Tubuh.svg" />}
+              caption={"Perawatan Tubuh"}
+            />
+          </div>
+        </Link>
       </Slider>
     </div>
   );
