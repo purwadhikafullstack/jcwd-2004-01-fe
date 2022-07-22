@@ -442,7 +442,6 @@ const TransactionCardUser = ({
                   {transaction_code}
                 </div>
                 <div className="flex items-center gap-2">
-                  {" "}
                   <span>
                     <BsClock />
                   </span>

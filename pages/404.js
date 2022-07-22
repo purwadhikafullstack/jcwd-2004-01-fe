@@ -5,7 +5,7 @@ const NotFound = () => {
     <div className="w-full h-[620px] bg-[#f9fafc]">
       <div className="flex justify-center">
         <div className="flex flex-col">
-          <img className="h-[620px] object-cover" src="/404.JPG" />
+          <img className="h-[620px] object-cover" src="/404.jpg" />
           <div className="w-fit text-[24px] font-bold absolute bottom-20">
             Maaf halaman yang kamu tuju tidak ada, kembali ke&nbsp;
             <Link href="/">

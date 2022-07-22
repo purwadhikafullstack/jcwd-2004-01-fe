@@ -22,11 +22,17 @@ const CardCartDetail = ({
   getCartAction,
   UpdateCartAction,
   selected_product,
+  allChecked,
+  selectedId,
+  setSelectedId,
+  handleInc,
+  handleDec,
 }) => {
   const [kuantitas, setKuantitas] = useState(cartData.quantity);
   const [checked, setChecked] = useState(false);
   let token = Cookies.get("token");
   const toast = useToast();
+  console.log(checked, "ini ceked");
 
   //deleteCart
   const deletCartHandler = async () => {
@@ -72,6 +78,14 @@ const CardCartDetail = ({
   };
 
   useEffect(() => {
+    if (allChecked) {
+      setChecked(true);
+    } else if (!allChecked) {
+      setChecked(false);
+    }
+  }, [allChecked]);
+
+  useEffect(() => {
     updateQuantityInputHandler();
   }, [kuantitas]);
 
@@ -79,13 +93,14 @@ const CardCartDetail = ({
     if (checked) {
       UpdateCartAction({ data: cartData, selected_product });
     }
-  }, [cartData]);
+  }, [cartData, checked]);
 
   const subtractQuantityHandler = async () => {
     try {
       let angka = parseInt(kuantitas) - 1;
       angka = angka + "";
       setKuantitas(angka);
+      handleDec(cartData);
     } catch (error) {
       console.log(error);
     }
@@ -96,6 +111,7 @@ const CardCartDetail = ({
       let angka = parseInt(kuantitas) + 1;
       angka = angka + "";
       setKuantitas(angka);
+      handleInc(cartData);
     } catch (error) {
       console.log(error);
     }
@@ -108,12 +124,8 @@ const CardCartDetail = ({
         iconColor="black"
         value={cartData.id}
         onChange={(e) => {
-          try {
-            handleCheckbox(e, cartData);
-            setChecked(!checked);
-          } catch (error) {
-            console.log(error);
-          }
+          handleCheckbox(e, cartData);
+          setChecked(!checked);
         }}
         isChecked={checked}
       >
@@ -154,7 +166,7 @@ const CardCartDetail = ({
               roundedRight="none"
               h="28px"
               w="28px"
-              onClick={() => {
+              onClick={(e) => {
                 subtractQuantityHandler();
               }}
             >
@@ -192,7 +204,8 @@ const CardCartDetail = ({
               roundedLeft="none"
               h="28px"
               w="28px"
-              onClick={() => {
+              checked={checked}
+              onClick={(e) => {
                 addQuantityHandler();
               }}
             >

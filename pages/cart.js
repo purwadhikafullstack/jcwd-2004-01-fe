@@ -15,7 +15,6 @@ import {
 import { FaUserCircle } from "react-icons/fa";
 import CardCart from "../components/CardCart";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useEffect } from "react";
 import API_URL from "../helpers/apiurl";
 import { useState } from "react";
@@ -28,14 +27,29 @@ import { connect, useDispatch } from "react-redux";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import Cookies from "js-cookie";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
-  const { isLogin, fullname } = useUser();
+  const { isLogin, fullname, profile_picture } = useUser();
   const { cart, selected_product } = useCart();
   console.log(cart, selected_product, "hehe");
   const dispatch = useDispatch();
   const router = useRouter();
+  const token = Cookies.get("token");
+
+  const [userAddress, setUserAddress] = useState();
+  //Get User Address
+  const getUserAddress = async () => {
+    let res = await axios.get(`${API_URL}/profile/getuseraddresses`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("ini kedua");
+    console.log(res.data);
+    setUserAddress([...res.data]);
+  };
 
   let subTotal = 0;
   let totalQuantity = 0;
@@ -63,10 +77,15 @@ const Cart = ({ getCartAction }) => {
 
   const beliButtonHandler = () => {
     dispatch({ type: "CHECKOUT" });
-    router.push("/checkout");
+    if (userAddress.length < 1) {
+      router.push("/address");
+    } else {
+      router.push("/checkout");
+    }
   };
 
   useEffect(() => {
+    getUserAddress();
     dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
@@ -137,8 +156,17 @@ const Cart = ({ getCartAction }) => {
                 isLogin ? (
                   <Link href="/userprofile/biodata">
                     <div className="flex items-center gap-2">
-                      <FaUserCircle />
-                      <div className="text-base">{fullname}</div>
+                      {profile_picture ? (
+                        <img
+                          className="rounded-full w-[25px] h-[25px] object-cover"
+                          src={`${API_URL}${profile_picture}`}
+                        />
+                      ) : (
+                        <FaUserCircle />
+                      )}
+                      <div className="text-base w-[80px] truncate">
+                        {fullname}
+                      </div>
                     </div>
                   </Link>
                 ) : (
