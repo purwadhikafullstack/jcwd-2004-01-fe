@@ -11,14 +11,21 @@ import axios from "axios";
 import API_URL from "../helpers/apiurl";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useRouter } from "next/router";
 import useUser from "../hooks/useUser";
 import Link from "next/link";
+import useCart from "../hooks/useCart";
+import { connect, useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import { getCartAction } from "../redux/actions/cart_action";
 
-const AddAddress = () => {
+const AddAddress = ({ getCartAction }) => {
   const [disableButtonAddress, setDisableButtonAddress] = useState(false);
   const [provinceOption, setProvinceOption] = useState([]);
   const [cityOption, setCityOption] = useState([]);
+  const { cart, selected_product } = useCart();
+  const dispatch = useDispatch();
+
+  console.log(selected_product, "huhu");
 
   const { isLogin, fullname, profile_picture } = useUser();
 
@@ -78,6 +85,10 @@ const AddAddress = () => {
           progress: undefined,
           theme: "colored",
         });
+        if (selected_product.length > 0) {
+          router.push("/checkout");
+          dispatch({ type: "CHECKOUT" });
+        }
         router.push("/uploadprescription");
       } catch (error) {
         console.log(error);
@@ -482,4 +493,4 @@ const AddAddress = () => {
   );
 };
 
-export default AddAddress;
+export default connect(null, { getCartAction })(AddAddress);

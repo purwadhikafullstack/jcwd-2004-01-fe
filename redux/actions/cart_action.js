@@ -25,7 +25,7 @@ export const UpdateCartAction = ({ data, selected_product }) => {
   return async (dispatch) => {
     try {
       console.log(data, selected_product, "data");
-      // dispatch({ type: "UPDATE_SELECTED_QUANTITY", payload: });
+      // dispatch({ type: "UPDATE_SELECTED_QUANTITY", payload: data });
       // console.log(response);
     } catch (error) {
       console.log(error);
