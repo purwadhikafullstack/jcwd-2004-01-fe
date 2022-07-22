@@ -627,7 +627,7 @@ const Biodata = () => {
           src={
             userData.profile_picture
               ? `${API_URL}${userData.profile_picture}`
-              : `${API_URL}/photos/defaultprofilepicture.png`
+              : `/defaultprofilepicture.png`
           }
         />
       </div>
@@ -664,8 +664,17 @@ const Biodata = () => {
           </div>
           <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
             <div className="flex items-center gap-2">
-              <FaUserCircle />
-              <div className="text-base">{fullname}</div>
+              {userData.profile_picture ? (
+                <img
+                  className="rounded-full w-[25px] h-[25px] object-cover"
+                  src={`${API_URL}${userData.profile_picture}`}
+                />
+              ) : (
+                <FaUserCircle />
+              )}
+              <div className="text-base w-[50px] truncate">
+                {userData.fullname}
+              </div>
             </div>
           </div>
         </div>
@@ -680,7 +689,7 @@ const Biodata = () => {
                   src={
                     userData.profile_picture
                       ? `${API_URL}${userData.profile_picture}`
-                      : `${API_URL}/photos/defaultprofilepicture.png`
+                      : `/defaultprofilepicture.png`
                   }
                 />
                 <div>{userData.fullname}</div>

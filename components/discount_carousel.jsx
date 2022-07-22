@@ -55,8 +55,8 @@ const DiscountCarousel = () => {
                   unit={Capitalize(val.unit)}
                   imgsrc={
                     val.images.length
-                      ? `${API_URL}${val.images[0]}`
-                      : `${API_URL}/photos/defaultprofilepicture.png`
+                      ? `${API_URL}${val.images[0].image}`
+                      : `/defaultprofilepicture.png`
                   }
                   imgalt={val.name}
                 />
