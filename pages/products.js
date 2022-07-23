@@ -49,7 +49,7 @@ const Products = () => {
     orderPrice: "asc",
   });
 
-  const { isLogin, fullname } = useUser();
+  const { isLogin, fullname, profile_picture } = useUser();
 
   const getCategoryList = async () => {
     let res = await axios.get(`${API_URL}/product/get-category-list`);
@@ -163,14 +163,27 @@ const Products = () => {
             }
             fourthProp={
               isLogin ? (
-                <div className="flex items-center gap-2">
-                  <FaUserCircle />
-                  <div className="text-base">{fullname}</div>
-                </div>
+                <Link href="/userprofile/biodata">
+                  <div className="flex items-center gap-2">
+                    {profile_picture ? (
+                      <img
+                        className="rounded-full w-[25px] h-[25px] object-cover"
+                        src={`${API_URL}${profile_picture}`}
+                      />
+                    ) : (
+                      <FaUserCircle />
+                    )}
+                    <div className="text-base w-[80px] truncate">
+                      {fullname}
+                    </div>
+                  </div>
+                </Link>
               ) : (
-                <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
-                  Daftar
-                </Button>
+                <Link href="/register">
+                  <Button variant={"fillCustom"} h={"44px"} w={"114px"}>
+                    Daftar
+                  </Button>
+                </Link>
               )
             }
             classExtend={"hidden lg:flex"}

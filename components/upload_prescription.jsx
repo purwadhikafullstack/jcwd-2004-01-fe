@@ -8,10 +8,19 @@ import { useState, useEffect } from "react";
 import prettyBytes from "pretty-bytes";
 import { IoAddSharp, IoClose } from "react-icons/io5";
 import Link from "next/link";
+import API_URL from "../helpers/apiurl";
+import { useRouter } from "next/router";
 
-const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
+const PrescriptionUpload = ({
+  uploadPrescription,
+  userAddress,
+  fullname,
+  profile_picture,
+}) => {
   const [selectedImage, setselectedImage] = useState([]);
   const [success, setSuccess] = useState(false);
+
+  const router = useRouter();
 
   // Input Prescription
   const onFileChange = (e) => {
@@ -31,18 +40,110 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
         formData.append(`img`, selectedImage[i]);
       }
       uploadPrescription(formData);
-
-      setSuccess(true);
+      router.push("/userprofile/transactions");
+      // setSuccess(true);
     } catch (error) {
       console.log(error);
+      router.push("/");
     }
   };
 
-  if (success) {
-    return (
-      <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
-        <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-          <div className="ml-[16px] lg:ml-[76px] text-lg">
+  // if (success) {
+  //   return (
+  //     <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
+  //       <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
+  //         <div className="ml-[16px] lg:ml-[76px] text-lg">
+  //           <div className="lg:hidden">
+  //             <IoIosArrowBack />
+  //           </div>
+  //           <img
+  //             className="hidden lg:inline-block"
+  //             src="/LogoHealthymedBW.svg"
+  //             alt=""
+  //           />
+  //         </div>
+  //         <div className="ml-[36px] w-[744px] hidden lg:inline-block">
+  //           <SearchBar
+  //             placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
+  //           />
+  //         </div>
+  //         <div className="ml-[60px] text-2xl hidden lg:inline-block">
+  //           <FaShoppingCart />
+  //         </div>
+  //         <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
+  //           <div className="flex items-center gap-2">
+  //             {profile_picture ? (
+  //               <img
+  //                 className="rounded-full w-[25px] h-[25px] object-cover"
+  //                 src={`${API_URL}${profile_picture}`}
+  //               />
+  //             ) : (
+  //               <FaUserCircle />
+  //             )}
+  //             <div className="text-base w-[80px] truncate">{fullname}</div>
+  //           </div>
+  //         </div>
+  //       </div>
+
+  //       <div className="w-[327px] h-[680px] mx-[24px] my-[20px] lg:hidden">
+  //         <img className="mt-[144px] mx-[106px]" src="/Hourglass.svg" alt="" />
+  //         <p className="text-[18px] font-bold text-center mt-6 pb-3 mx-[64px]">
+  //           Unggah resep berhasil!
+  //         </p>
+  //         <p className="text-[14px] text-center pb-6 mx-[18px]">
+  //           Kami akan review file anda secepatnya
+  //         </p>
+  //         <div className="flex flex-col gap-2 mt-[142px]">
+  //           <div>
+  //             <Link href="/userprofile/transactions">
+  //               <Button variant={"fillCustom"} w={"327px"} h={"48px"}>
+  //                 Status Pemesanan
+  //               </Button>
+  //             </Link>
+  //           </div>
+  //           <div>
+  //             <Link href="/">
+  //               <Button variant={"outlineCustom"} w={"327px"} h={"48px"}>
+  //                 Ke Beranda
+  //               </Button>
+  //             </Link>
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <div className="hidden lg:inline-block h-[668px] w-full">
+  //         <div className="mx-[110px] mt-[156px] mb-[120px]">
+  //           <img
+  //             src="/PrescriptionSuccess.svg"
+  //             className="w-[248px] h-[172px] mx-[486px]"
+  //           />
+  //           <p className="text-[20px] font-bold w-[406px] mx-[407px] mt-[36px] text-center">
+  //             Unggah resep berhasil!
+  //           </p>
+  //           <p className="text-[14px] w-[406px] mx-[407px] text-center mt-[2px]">
+  //             Kamu akan mendapat notifikasi apabila resep doktermu dikonfirmasi
+  //             oleh admin
+  //           </p>
+  //           <div className="mt-[48px] mx-[407px]">
+  //             <Link href="/userprofile/transactions">
+  //               <Button variant={"fillCustom"} w={"406px"} h={"46px"}>
+  //                 Lihat Progress Pemesanan
+  //               </Button>
+  //             </Link>
+  //           </div>
+  //         </div>
+  //       </div>
+  //       <div className="hidden lg:inline-block">
+  //         <Footer />
+  //       </div>
+  //     </div>
+  //   );
+  // }
+
+  return (
+    <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
+      <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
+        <Link href="/">
+          <div className="ml-[16px] lg:ml-[76px] text-lg hover:cursor-pointer">
             <div className="lg:hidden">
               <IoIosArrowBack />
             </div>
@@ -52,82 +153,8 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
               alt=""
             />
           </div>
-          <div className="ml-[36px] w-[744px] hidden lg:inline-block">
-            <SearchBar
-              placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
-            />
-          </div>
-          <div className="ml-[60px] text-2xl hidden lg:inline-block">
-            <FaShoppingCart />
-          </div>
-          <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-            <FaUserCircle />
-          </div>
-        </div>
+        </Link>
 
-        <div className="w-[327px] h-[680px] mx-[24px] my-[20px] lg:hidden">
-          <img className="mt-[144px] mx-[106px]" src="/Hourglass.svg" alt="" />
-          <p className="text-[18px] font-bold text-center mt-6 pb-3 mx-[64px]">
-            Unggah resep berhasil!
-          </p>
-          <p className="text-[14px] text-center pb-6 mx-[18px]">
-            Kami akan review file anda secepatnya
-          </p>
-          <div className="flex flex-col gap-2 mt-[142px]">
-            <div>
-              <Button variant={"fillCustom"} w={"327px"} h={"48px"}>
-                Status Pemesanan
-              </Button>
-            </div>
-            <div>
-              <Button variant={"outlineCustom"} w={"327px"} h={"48px"}>
-                Ke Beranda
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="hidden lg:inline-block h-[668px] w-full">
-          <div className="mx-[110px] mt-[156px] mb-[120px]">
-            <img
-              src="/PrescriptionSuccess.svg"
-              className="w-[248px] h-[172px] mx-[486px]"
-            />
-            <p className="text-[20px] font-bold w-[406px] mx-[407px] mt-[36px] text-center">
-              Unggah resep berhasil!
-            </p>
-            <p className="text-[14px] w-[406px] mx-[407px] text-center mt-[2px]">
-              Kamu akan mendapat notifikasi apabila resep doktermu dikonfirmasi
-              oleh admin
-            </p>
-            <div className="mt-[48px] mx-[407px]">
-              <Link href="/userprofile/transactions">
-                <Button variant={"fillCustom"} w={"406px"} h={"46px"}>
-                  Lihat Progress Pemesanan
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-        <div className="hidden lg:inline-block">
-          <Footer />
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
-      <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-        <div className="ml-[16px] lg:ml-[76px] text-lg">
-          <div className="lg:hidden">
-            <IoIosArrowBack />
-          </div>
-          <img
-            className="hidden lg:inline-block"
-            src="/LogoHealthymedBW.svg"
-            alt=""
-          />
-        </div>
         <div className="ml-[8px] font-bold text-[16px] text-blackPrimary lg:hidden">
           Unggah File
         </div>
@@ -140,7 +167,19 @@ const PrescriptionUpload = ({ uploadPrescription, userAddress }) => {
           <FaShoppingCart />
         </div>
         <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
-          <FaUserCircle />
+          <Link href="/userprofile/biodata">
+            <div className="flex items-center gap-2 hover:cursor-pointer">
+              {profile_picture ? (
+                <img
+                  className="rounded-full w-[25px] h-[25px] object-cover"
+                  src={`${API_URL}${profile_picture}`}
+                />
+              ) : (
+                <FaUserCircle />
+              )}
+              <div className="text-base w-[80px] truncate">{fullname}</div>
+            </div>
+          </Link>
         </div>
       </div>
       <div

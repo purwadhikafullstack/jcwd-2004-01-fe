@@ -31,7 +31,7 @@ import Cookies from "js-cookie";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
-  const { isLogin, fullname } = useUser();
+  const { isLogin, fullname, profile_picture } = useUser();
   const { cart, selected_product } = useCart();
   console.log(cart, selected_product, "hehe");
   const dispatch = useDispatch();
@@ -156,8 +156,17 @@ const Cart = ({ getCartAction }) => {
                 isLogin ? (
                   <Link href="/userprofile/biodata">
                     <div className="flex items-center gap-2">
-                      <FaUserCircle />
-                      <div className="text-base">{fullname}</div>
+                      {profile_picture ? (
+                        <img
+                          className="rounded-full w-[25px] h-[25px] object-cover"
+                          src={`${API_URL}${profile_picture}`}
+                        />
+                      ) : (
+                        <FaUserCircle />
+                      )}
+                      <div className="text-base w-[80px] truncate">
+                        {fullname}
+                      </div>
                     </div>
                   </Link>
                 ) : (

@@ -46,7 +46,7 @@ const DetailProdukUserSide = () => {
   const toast = useToast();
 
   const { idProduk } = router.query;
-  const { isLogin, fullname, is_verified } = useUser();
+  const { isLogin, fullname, is_verified, profile_picture } = useUser();
 
   const [pageLoading, setPageLoading] = useState(false);
 
@@ -286,8 +286,17 @@ const DetailProdukUserSide = () => {
                   isLogin ? (
                     <Link href="/userprofile/biodata">
                       <div className="flex items-center gap-2">
-                        <FaUserCircle />
-                        <div className="text-base">{fullname}</div>
+                        {profile_picture ? (
+                          <img
+                            className="rounded-full w-[25px] h-[25px] object-cover"
+                            src={`${API_URL}${profile_picture}`}
+                          />
+                        ) : (
+                          <FaUserCircle />
+                        )}
+                        <div className="text-base w-[80px] truncate">
+                          {fullname}
+                        </div>
                       </div>
                     </Link>
                   ) : (
