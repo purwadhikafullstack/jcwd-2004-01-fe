@@ -50,7 +50,7 @@ const CardCart = ({ cartData, selected_product }) => {
   };
 
   const handleCheckbox = (e, cartData) => {
-    console.log(e.target.value, cartData, "oooiiii");
+    console.log(e, "eeeee");
     let tempArr = selectedId.item;
     console.log(tempArr, "tempArrSebelum");
     if (e.target.checked) {

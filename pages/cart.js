@@ -60,7 +60,7 @@ const Cart = ({ getCartAction }) => {
     const price = selected_product[i].detail_product.price;
     totalQuantity = totalQuantity + quantity;
     subTotal = subTotal + quantity * price;
-    if (!isInteger(subTotal) || !isInteger(totalQuantity)) {
+    if (!isInteger(subTotal) || !isInteger(totalQuantity) || quantity < 0) {
       subTotal = 0;
       totalQuantity = 0;
     }
