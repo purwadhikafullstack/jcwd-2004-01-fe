@@ -180,15 +180,15 @@ const CardCartDetail = ({
               onChange={(value) => {
                 console.log(value, typeof value);
                 try {
-                  setKuantitas(value);
-                  handleInput(cartData, value);
+                  setKuantitas(parseInt(value));
+                  handleInput(cartData, parseInt(value));
                 } catch (error) {
                   console.log(error);
                 } finally {
                   // updateQuantityInputHandler();
                 }
               }}
-              value={kuantitas}
+              value={kuantitas || 0}
               w="40px"
               h="28px"
             >
