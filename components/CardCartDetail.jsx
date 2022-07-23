@@ -27,6 +27,7 @@ const CardCartDetail = ({
   setSelectedId,
   handleInc,
   handleDec,
+  handleInput,
 }) => {
   const [kuantitas, setKuantitas] = useState(cartData.quantity);
   const [checked, setChecked] = useState(false);
@@ -180,6 +181,7 @@ const CardCartDetail = ({
                 console.log(value, typeof value);
                 try {
                   setKuantitas(value);
+                  handleInput(cartData, value);
                 } catch (error) {
                   console.log(error);
                 } finally {
