@@ -39,13 +39,12 @@ import { Rupiah } from "../../lib/convertRupiah";
 import Link from "next/link";
 import Head from "next/head";
 
-const DetailProdukUserSide = () => {
+const DetailProdukUserSide = ({ product, productTerkaitData }) => {
   const router = useRouter();
   let token = Cookies.get("token");
 
   const toast = useToast();
 
-  const { idProduk } = router.query;
   const { isLogin, fullname, is_verified, profile_picture } = useUser();
 
   const [pageLoading, setPageLoading] = useState(false);
@@ -53,20 +52,9 @@ const DetailProdukUserSide = () => {
   const [kuantitas, setKuantitas] = useState(1);
   const [maxInput, setMaxInput] = useState(0);
 
-  const [image, setImage] = useState([]);
-
-  const [brand, setBrand] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  let [unit, setUnit] = useState("");
-
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const capitalizeName = name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-    letter.toUpperCase()
-  );
-  unit = unit.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
-
+  const [productTerkait, setProductTerkait] = useState([]);
   const [data, setData] = useState({
     brand: "",
     categories: [{}],
@@ -94,56 +82,17 @@ const DetailProdukUserSide = () => {
     warning: "",
   });
 
-  const [productTerkait, setProductTerkait] = useState([]);
-  console.log(productTerkait, "line 87");
-
-  console.log(data.symptom[0].id);
-
-  const getProdcutTerkait = async (idSymptom) => {
-    try {
-      let response = await axios.get(
-        `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
-      );
-      let data = response.data;
-
-      setProductTerkait(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getProduct = async () => {
-    try {
-      setPageLoading(true);
-      let response = await axios.get(
-        `${API_URL}/product/get-product?id=${idProduk}`
-      );
-
-      let { data } = response;
-      console.log(data, "line39");
-
-      let imageArr = [];
-      for (let i = 0; i < data.imageProduct.length; i++) {
-        imageArr.push(data.imageProduct[i].image);
-      }
-      setImage(imageArr);
-      setMaxInput(data.total_stock);
-      setPrice(data.price);
-      setBrand(data.brand);
-      setName(data.name);
-      setUnit(data.unit);
-      setData(data);
-      let idSymptom = data.symptom[0].id;
-      getProdcutTerkait(idSymptom);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setPageLoading(false);
-    }
-  };
+  const capitalizeName = data.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+    letter.toUpperCase()
+  );
+  let unit = data.unit.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+    letter.toUpperCase()
+  );
 
   useEffect(() => {
-    getProduct();
+    setData(product);
+    setMaxInput(product.total_stock);
+    setProductTerkait(productTerkaitData);
   }, []);
 
   function NextArrow(props) {
@@ -321,15 +270,15 @@ const DetailProdukUserSide = () => {
           <div className="hidden md:inline-block md:ml-[120px] md:my-11">
             <Breadcrumb fontSize="12px">
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">Beranda</BreadcrumbLink>
+                <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">produk</BreadcrumbLink>
+                <BreadcrumbLink href="/products">produk</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink>{name}</BreadcrumbLink>
+                <BreadcrumbLink>{data.name}</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
           </div>
@@ -337,7 +286,7 @@ const DetailProdukUserSide = () => {
             <div className="w-fit h-fit mx-auto md:inline-block md:w-[405px] md:h-[300px] md:shadow-2xl rounded-lg">
               <div className="w-[150.52px] h-[150.52px] md:w-[225px] md:h-[225px] mt-8 mx-auto">
                 <Slider {...settings} className="">
-                  {image.map((val, i) => {
+                  {data.imageProduct.map((val, i) => {
                     return (
                       <>
                         {pageLoading ? (
@@ -345,7 +294,7 @@ const DetailProdukUserSide = () => {
                         ) : (
                           <img
                             key={i}
-                            src={`${API_URL}${val}`}
+                            src={`${API_URL}${val.image}`}
                             alt=""
                             className="object-cover"
                           />
@@ -385,11 +334,11 @@ const DetailProdukUserSide = () => {
             {/* brand, nama, quantity, unit product */}
             <div className="md:flex-col  md:w-[616px]">
               <div className="flex-col mx-6 mt-6  md:w-fit">
-                <p className="text-xs font-bold md:text-sm">{brand}</p>
+                <p className="text-xs font-bold md:text-sm">{data.brand}</p>
                 <p className="text-lg md:text-[22px]">{capitalizeName}</p>
                 <span className="">
                   <p className="text-xl font-bold md:text-2xl md:flex md:items-center md:justify-between md:w-[250px]">
-                    <span>{Rupiah(price)}</span>
+                    <span>{Rupiah(data.price)}</span>
                     <span className="font-normal text-xs md:text-sm">
                       /{unit}
                     </span>
@@ -615,10 +564,37 @@ const DetailProdukUserSide = () => {
   );
 };
 
-export async function getServerSideProps() {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
+export async function getServerSideProps(context) {
+  const { query, req, res } = context;
+
+  try {
+    const idProduk = query.idProduk;
+    // const brand = query.brand;
+
+    const productReq = await axios.get(
+      `${API_URL}/product/get-product?id=${idProduk}`
+    );
+
+    let idSymptom = productReq.data.symptom[0].id;
+
+    const produkTerkaitReq = await axios.get(
+      `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
+    );
+
+    // const productTerkaitReq = await axios.get(``);
+
+    return {
+      props: {
+        product: productReq.data,
+        productTerkaitData: produkTerkaitReq.data,
+      }, // will be passed to the page component as props
+    };
+  } catch {
+    res.status = 404;
+    return {
+      props: {},
+    };
+  }
 }
 
 export default DetailProdukUserSide;
