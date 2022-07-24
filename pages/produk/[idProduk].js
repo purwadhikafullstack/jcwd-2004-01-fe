@@ -16,9 +16,18 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
   Spinner,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Center,
+  Link as CLink,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import useUser from "../../hooks/useUser";
@@ -38,16 +47,29 @@ import Cookies from "js-cookie";
 import { Rupiah } from "../../lib/convertRupiah";
 import Link from "next/link";
 import Head from "next/head";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+} from "next-share";
+import PageLoading from "../../components/pageLoading";
 
-const DetailProdukUserSide = ({ product, productTerkaitData }) => {
+const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
   const router = useRouter();
   let token = Cookies.get("token");
+  const { idProduk } = router.query;
 
+  // chakra
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
+  // user hook
   const { isLogin, fullname, is_verified, profile_picture } = useUser();
 
-  const [pageLoading, setPageLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const [kuantitas, setKuantitas] = useState(1);
   const [maxInput, setMaxInput] = useState(0);
@@ -93,7 +115,8 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
     setData(product);
     setMaxInput(product.total_stock);
     setProductTerkait(productTerkaitData);
-  }, []);
+    setPageLoading(false);
+  }, [product]);
 
   function NextArrow(props) {
     const { className, style, onClick } = props;
@@ -196,7 +219,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
         },
       },
       {
-        breakpoint: 375,
+        breakpoint: 500,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -208,9 +231,35 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
     <>
       <Head>
         <title> {capitalizeName} | Healthymed</title>
+        {/* facebook & Whatssapp*/}
+        <meta property="og:site_name" content="Healthymed" />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.indication} />
+        <meta
+          property="og:url"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta
+          property="og:image"
+          itemprop="image"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta property="og:type" content="website" />
+        {/* twitter */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={product.name} />
+        <meta name="twitter:description" content={product.indication} />
+        <meta
+          name="twitter:image"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta
+          name="twitter:url"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
       </Head>
       {pageLoading ? (
-        <div>Loading...</div>
+        <PageLoading />
       ) : (
         <div className="">
           <div className="shadow-xl w-full pb-2 ">
@@ -324,6 +373,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                   bg="#EFEFEF"
                   leftIcon={<IoShareSocialSharp className="text-xl" />}
                   rounded="full"
+                  onClick={onOpen}
                 >
                   Bagikan
                 </Button>
@@ -346,14 +396,13 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                 </span>
                 <div className="flex items-center mt-3">
                   <Button
-                    isDisabled={kuantitas == 1}
+                    isDisabled={kuantitas <= 1}
                     roundedRight="none"
                     h="32px"
                     w="32px"
                     onClick={() => {
                       let angka = parseInt(kuantitas) - 1;
-                      angka = angka + "";
-                      setKuantitas(angka);
+                      setKuantitas(parseInt(angka));
                     }}
                   >
                     -
@@ -361,8 +410,8 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                   <NumberInput
                     min={1}
                     max={maxInput}
-                    onChange={(value) => setKuantitas(value)}
-                    value={kuantitas}
+                    onChange={(value) => setKuantitas(parseInt(value))}
+                    value={kuantitas || 1}
                   >
                     <NumberInputField
                       name="kuantitas"
@@ -372,14 +421,13 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                     />
                   </NumberInput>
                   <Button
-                    isDisabled={kuantitas == maxInput}
+                    isDisabled={kuantitas >= maxInput}
                     roundedLeft="none"
                     h="32px"
                     w="32px"
                     onClick={() => {
                       let angka = parseInt(kuantitas) + 1;
-                      angka = angka + "";
-                      setKuantitas(angka);
+                      setKuantitas(parseInt(angka));
                     }}
                   >
                     +
@@ -396,7 +444,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                     h="47px"
                     fontWeight="700"
                     leftIcon={<FaCartPlus className="text-xl mr-6" />}
-                    isDisabled={kuantitas <= 0}
+                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
                     onClick={() => buyHandler()}
                     isLoading={buttonLoading}
                   >
@@ -406,15 +454,11 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                     variant="fillCustom"
                     w="153px"
                     h="48px"
-                    isDisabled={kuantitas <= 0}
+                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
                     isLoading={buttonLoading}
                     onClick={() => {
-                      try {
-                        buyHandler();
-                        router.push("/cart");
-                      } catch (error) {
-                        console.log();
-                      }
+                      buyHandler();
+                      router.push("/cart");
                     }}
                   >
                     Beli
@@ -546,7 +590,10 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
                     w="207px"
                     h="46px"
                     fontSize="14px"
-                    onClick={() => {}}
+                    onClick={() => {
+                      buyHandler();
+                      router.push("/cart");
+                    }}
                     isLoading={buttonLoading}
                   >
                     Beli Sekarang
@@ -558,6 +605,65 @@ const DetailProdukUserSide = ({ product, productTerkaitData }) => {
           <div className="">
             <Footer />
           </div>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <Center>Bagikan di...</Center>
+              </ModalHeader>
+              <ModalBody>
+                <Divider />
+                <Center>
+                  <WhatsappShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>Whatssapp</CLink>
+                  </WhatsappShareButton>
+                </Center>
+                <Divider />
+                <Center>
+                  <FacebookShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>Facebook</CLink>
+                  </FacebookShareButton>
+                </Center>
+                <Divider />
+                <Center>
+                  <TwitterShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>twitter</CLink>
+                  </TwitterShareButton>
+                </Center>
+                <Divider />
+                <Divider />
+                <Center>
+                  <CLink
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `${host}/produk/${idProduk}`
+                      );
+                      toast({
+                        title: "Success",
+                        description: "Coppy to clipboard!",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  >
+                    Copy link to clipboard
+                  </CLink>
+                </Center>
+
+                <Center>
+                  <CLink
+                    color="blue.300"
+                    fontWeight="semibold"
+                    margin={2}
+                    onClick={onClose}
+                  >
+                    No
+                  </CLink>
+                </Center>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </div>
       )}
     </>
@@ -581,12 +687,15 @@ export async function getServerSideProps(context) {
       `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
     );
 
+    let host = "https://" + req.headers.host;
+
     // const productTerkaitReq = await axios.get(``);
 
     return {
       props: {
         product: productReq.data,
         productTerkaitData: produkTerkaitReq.data,
+        host,
       }, // will be passed to the page component as props
     };
   } catch {
