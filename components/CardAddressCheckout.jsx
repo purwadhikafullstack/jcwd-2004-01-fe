@@ -245,7 +245,7 @@ const CardAddressCheckout = ({ addressData, getAddress }) => {
   };
 
   return (
-    <div className="mx-6 md:ml-[96px] md:w-[783px] md:shadow-2xl md:p-9 md:mt-[64px] md:rounded-lg">
+    <div className="md:mx-6 px-3 mt-3 md:ml-[96px] w-[100vw] md:w-[783px] md:shadow-2xl md:p-9 md:mt-[64px] md:rounded-lg">
       {addressData ? (
         <>
           <p className="text-xl font-bold">Alamat Pengiriman</p>
@@ -260,14 +260,14 @@ const CardAddressCheckout = ({ addressData, getAddress }) => {
           </div>
           <div className="text-sm mt-[14px]">
             <p>{addressData.address_label}</p>
-            <p className="w-[523px]">
+            <p className="">
               {addressData.address}, Kota {addressData.city},{" "}
               {addressData.province}
             </p>
           </div>
           <Divider mt="24px" />
           <div
-            className="flex gap-4 items-center mt-[12px] hover:cursor-pointer"
+            className="justify-center md:justify-start flex gap-4 items-center mt-[12px] hover:cursor-pointer"
             onClick={onOpenAddress}
           >
             <div className="rounded-full w-6 h-6 shadow-lg">

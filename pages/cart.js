@@ -119,7 +119,7 @@ const Cart = ({ getCartAction }) => {
         },
       },
       {
-        breakpoint: 375,
+        breakpoint: 415,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -205,7 +205,7 @@ const Cart = ({ getCartAction }) => {
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />
         </div>
-        <div className="w-[405px] h-[299px] shadow-xl rounded-xl mr-3 mt-16">
+        <div className="hidden md:inline w-[405px] h-[299px] shadow-xl rounded-xl mr-3 mt-16">
           <div className="mt-[28px]">
             <p className="text-xl font-bold ml-3">Total</p>
             <div className="flex justify-between w-[320px] mx-auto mt-[32px] text-[#6B6B6B]">
@@ -232,8 +232,8 @@ const Cart = ({ getCartAction }) => {
         </div>
       </div>
       {/* Button Beli Cart */}
-      <div className="h-[100px] w-[100%] mt-11 bg-slate-100 flex justify-between items-center md:hidden">
-        <div className="flex items-center gap-4 mx-auto">
+      <div className="h-[100px] w-[100%] mt-11 bg-slate-100 flex justify-between items-center md:hidden fixed inset-x-0 bottom-0">
+        <div className="flex items-center justify-between gap-4 mx-auto">
           <div>
             <p className="text-sm">Total</p>
             <p className="text-lg font-bold">{Rupiah(subTotal)}</p>
@@ -253,7 +253,7 @@ const Cart = ({ getCartAction }) => {
       </div>
       <Divider className="hidden md:inline-block md:mt-[72px] md:mb-[60px]" />
       {/* Produk Terkait */}
-      <div className="mx-8 mt-6">
+      <div className="hidden md:inline mx-8 mt-6">
         <p className="font-bold text-sm mb-[26px]">Produk Terkait</p>
         <Slider {...settingsProdukTerkait}>
           {productTerkait.map((val, i) => {

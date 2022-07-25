@@ -80,9 +80,11 @@ const CardCartDetail = ({
 
   useEffect(() => {
     if (allChecked) {
-      setChecked(true);
-      let e = { target: { checked: true } };
-      handleCheckbox(e, cartData);
+      if (!checked) {
+        setChecked(true);
+        let e = { target: { checked: true } };
+        handleCheckbox(e, cartData);
+      }
     } else if (!allChecked) {
       setChecked(false);
       setSelectedId({ item: [] });

@@ -331,7 +331,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
               </BreadcrumbItem>
             </Breadcrumb>
           </div>
-          <div className="flex-none md:flex md:mr-16">
+          <div className="flex-none md:flex md:mx-[3vw] 2xl:mx-[10vw]">
             <div className="w-fit h-fit mx-auto md:inline-block md:w-[405px] md:h-[300px] md:shadow-2xl rounded-lg">
               <div className="w-[150.52px] h-[150.52px] md:w-[225px] md:h-[225px] mt-8 mx-auto">
                 <Slider {...settings} className="">
@@ -444,7 +444,9 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                     h="47px"
                     fontWeight="700"
                     leftIcon={<FaCartPlus className="text-xl mr-6" />}
-                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
+                    isDisabled={
+                      kuantitas <= 0 || kuantitas > maxInput || maxInput == 0
+                    }
                     onClick={() => buyHandler()}
                     isLoading={buttonLoading}
                   >
@@ -454,7 +456,9 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                     variant="fillCustom"
                     w="153px"
                     h="48px"
-                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
+                    isDisabled={
+                      kuantitas <= 0 || kuantitas > maxInput || maxInput || 0
+                    }
                     isLoading={buttonLoading}
                     onClick={() => {
                       buyHandler();
