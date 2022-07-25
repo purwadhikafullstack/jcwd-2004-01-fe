@@ -28,6 +28,7 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
 import Cookies from "js-cookie";
+import { isInteger } from "lodash";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
@@ -54,10 +55,15 @@ const Cart = ({ getCartAction }) => {
   let subTotal = 0;
   let totalQuantity = 0;
   for (let i = 0; i < selected_product.length; i++) {
-    const quantity = selected_product[i].quantity;
+    let quantity = selected_product[i].quantity;
+    console.log(typeof selected_product[i].quantity);
     const price = selected_product[i].detail_product.price;
     totalQuantity = totalQuantity + quantity;
     subTotal = subTotal + quantity * price;
+    if (!isInteger(subTotal) || !isInteger(totalQuantity) || quantity < 0) {
+      subTotal = 0;
+      totalQuantity = 0;
+    }
   }
 
   const [productTerkait, setProductTerkait] = useState([]);
