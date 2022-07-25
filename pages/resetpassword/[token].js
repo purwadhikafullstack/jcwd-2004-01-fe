@@ -123,8 +123,8 @@ const ResetPassword = () => {
               <InputForm
                 leftIcon={<AiFillLock />}
                 placeholder={"Password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
+                rightIcon={<BsEyeFill />}
+                altIcon={<BsEyeSlashFill />}
                 name="password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -135,8 +135,8 @@ const ResetPassword = () => {
               <InputForm
                 leftIcon={<AiFillLock />}
                 placeholder={"Password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
+                rightIcon={<BsEyeFill />}
+                altIcon={<BsEyeSlashFill />}
                 name="password"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -151,8 +151,8 @@ const ResetPassword = () => {
               <InputForm
                 leftIcon={<AiFillLock />}
                 placeholder={"Confirm password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
+                rightIcon={<BsEyeFill />}
+                altIcon={<BsEyeSlashFill />}
                 name="confirmPassword"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -163,8 +163,8 @@ const ResetPassword = () => {
               <InputForm
                 leftIcon={<AiFillLock />}
                 placeholder={"Confirm password"}
-                rightIcon={<BsEyeSlashFill />}
-                altIcon={<BsEyeFill />}
+                rightIcon={<BsEyeFill />}
+                altIcon={<BsEyeSlashFill />}
                 name="confirmPassword"
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}

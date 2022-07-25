@@ -13,11 +13,17 @@ import { debounce } from "lodash";
 import { toast } from "react-toastify";
 const dayjs = require("dayjs");
 import Cookies from "js-cookie";
+import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 const NewOrderTransaction = () => {
   const [cardData, setCardData] = useState([]);
   const [input, setInput] = useState({
     search: "",
+    menunggu: "",
+    diproses: "",
+    dikirim: "",
+    selesai: "",
+    dibatalkan: "",
     orderDate: "",
     orderPrice: "",
   });
@@ -38,7 +44,11 @@ const NewOrderTransaction = () => {
   //Get Transaction Card
   const getTransactionCard = async (page, input, startDate, endDate, cb) => {
     let response = await axios.get(
-      `${API_URL}/transaction/get-transaction-prescription-list?page=${page}&search=${
+      `${API_URL}/transaction/get-transaction-prescription-list?page=${page}&menunggu=${
+        input.menunggu
+      }&diproses=${input.diproses}&dikirim=${input.dikirim}&selesai=${
+        input.selesai
+      }&dibatalkan=${input.dibatalkan}&search=${
         input.search
       }&transaction_date_from=${
         startDate ? dayjs(startDate).format("YYYY-MM-DD HH:mm:ss") : ""
@@ -53,6 +63,86 @@ const NewOrderTransaction = () => {
     //   dayjs(startDate).format("YYYY-MM-DD HH:mm:ss"),
     //   "ini startDate"
     // );
+  };
+
+  //Filter status
+  const clickMenunggu = () => {
+    setInput({
+      ...input,
+      menunggu: true,
+      diproses: "",
+      dikirim: "",
+      selesai: "",
+      dibatalkan: "",
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
+  };
+  const clickSemua = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: "",
+      selesai: "",
+      dibatalkan: "",
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
+  };
+  const clickDiproses = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: true,
+      dikirim: "",
+      selesai: "",
+      dibatalkan: "",
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
+  };
+  const clickDikirim = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: true,
+      selesai: "",
+      dibatalkan: "",
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
+  };
+  const clickSelesai = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: "",
+      selesai: true,
+      dibatalkan: "",
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
+  };
+  const clickDibatalkan = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: "",
+      selesai: "",
+      dibatalkan: true,
+      search: "",
+      orderDate: "",
+      orderPrice: "",
+    });
   };
 
   //Get Product List
@@ -297,7 +387,56 @@ const NewOrderTransaction = () => {
           <p className="text-xl font-bold">Pesanan Baru</p>
         </div>
 
-        <div className="flex justify-between mt-[68px]">
+        <div className="mt-[30px]">
+          <Tabs variant="soft-rounded" isFitted>
+            <TabList justifyContent="space-between">
+              <Tab
+                onClick={clickSemua}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Semua
+              </Tab>
+              <Tab
+                onClick={clickMenunggu}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Menunggu
+              </Tab>
+              <Tab
+                onClick={clickDiproses}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Diproses
+              </Tab>
+              <Tab
+                onClick={clickDikirim}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Dikirim
+              </Tab>
+              <Tab
+                onClick={clickSelesai}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Selesai
+              </Tab>
+              <Tab
+                onClick={clickDibatalkan}
+                _focus={{ boxShadow: "none" }}
+                fontSize="14px"
+              >
+                Dibatalkan
+              </Tab>
+            </TabList>
+          </Tabs>
+        </div>
+
+        <div className="flex justify-between mt-[38px]">
           <div className="flex gap-3">
             <Input
               placeholder="Cari transaksi"
