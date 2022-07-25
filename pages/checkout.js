@@ -158,7 +158,7 @@ const Checkout = ({ getCartAction }) => {
     getProdcutTerkait();
     getAddress();
     setCheckoutProduct(selected_product);
-    if (!checkoutProduct.length) {
+    if (selected_product.length < 1) {
       router.push("/");
     }
   }, []);
@@ -187,7 +187,7 @@ const Checkout = ({ getCartAction }) => {
         },
       },
       {
-        breakpoint: 375,
+        breakpoint: 415,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -327,9 +327,12 @@ const Checkout = ({ getCartAction }) => {
             cartData={cart}
             selected_product={selected_product}
             subTotal={subTotal}
+            shippingCost={shippingCost}
+            onOpen={onOpen}
+            total={total}
           />
         </div>
-        <div className="w-[405px] h-fit py-[28px] shadow-xl rounded-xl mr-3 mt-16">
+        <div className="hidden md:inline w-[405px] h-fit py-[28px] shadow-xl rounded-xl mr-3 mt-16">
           <div className="mt-[28px]">
             <p className="text-xl font-bold ml-3">Total</p>
             <div className="flex justify-between w-[320px] mx-auto mt-[32px] text-[#6B6B6B]">
@@ -376,18 +379,14 @@ const Checkout = ({ getCartAction }) => {
         </div>
       </div>
       {/* Button Beli Cart */}
-      <div className="h-[100px] w-[100%] mt-11 bg-slate-100 flex justify-between items-center md:hidden">
+      <div className="h-[100px] w-[100%] mt-11 bg-slate-100 flex justify-between items-center md:hidden fixed bottom-0 left-0">
         <div className="flex items-center gap-4 mx-auto">
-          <div>
-            <p className="text-sm">Total</p>
-            <p className="text-lg font-bold">{Rupiah(subTotal)}</p>
-          </div>
           <Button
             variant="fillCustom"
-            w="204px"
+            w="90vw"
             h="46px"
             fontSize="14px"
-            onClick={() => {}}
+            onClick={onOpen}
             // isLoading={buttonLoading}
           >
             Pilih Metode Pembayaran({totalQuantity})
@@ -396,7 +395,7 @@ const Checkout = ({ getCartAction }) => {
       </div>
       <Divider className="hidden md:inline-block md:mt-[72px] md:mb-[60px]" />
       {/* Produk Terkait */}
-      <div className="mx-8 mt-6">
+      <div className="hidden md:inline mx-8 mt-6">
         <p className="font-bold text-sm mb-[26px]">Produk Terkait</p>
         <Slider {...settingsProdukTerkait}>
           {productTerkait.map((val, i) => {
@@ -416,66 +415,6 @@ const Checkout = ({ getCartAction }) => {
               </div>
             );
           })}
-          {/* <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div>
-              <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div>
-              <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div>
-              <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div>
-              <div className="w-[20px]">
-                <ProductCard
-                  variant="popular"
-                  imageUrl="/Barbara_ProfilePicture.jpg"
-                  imageAlt="PANADOL 10 KAPLET HEHEHEHE"
-                  title="PANADOL 10 KAPLET HEHEHEHE"
-                  discount="17%"
-                  originalPrice="Rp.65.000"
-                  formattedPrice="Rp.35.000"
-                  unit="strip"
-                />
-              </div> */}
         </Slider>
       </div>
       <div className="hidden md:inline">

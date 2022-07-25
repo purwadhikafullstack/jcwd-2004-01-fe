@@ -7,19 +7,21 @@ const CardCheckoutDetail = ({ val }) => {
     <div className="flex-col">
       <div className="mt-[40px]">
         <div>
-          <div className="flex justify-between w-[302px] md:w-[680px]">
-            <img
-              src={`${API_URL}${val.image}`}
-              alt=""
-              className="w-[71px] h-[72px] object-cover"
-            />
-            <div className="mr-[48px] md:mr-[188px]">
-              <p className="text-xs w-[77px] md:text-base md:w-[167px]">
-                {val.detail_product.name}
-              </p>
-              <p className="text-[10px] mt-1 md:text-xs">
-                {val.quantity} {val.detail_product.unit}
-              </p>
+          <div className="flex justify-between w-[90vw] md:w-[680px]">
+            <div className="flex justify-between">
+              <img
+                src={`${API_URL}${val.image}`}
+                alt=""
+                className="w-[71px] h-[72px] object-cover"
+              />
+              <div className="ml-[24px] mr-[48px] md:mr-[188px]">
+                <p className="text-xs w-[77px] md:text-base md:w-[167px]">
+                  {val.detail_product.name}
+                </p>
+                <p className="text-[10px] mt-1 md:text-xs">
+                  {val.quantity} {val.detail_product.unit}
+                </p>
+              </div>
             </div>
 
             <div className="text-sm font-bold">{Rupiah(totalHargaProduct)}</div>
