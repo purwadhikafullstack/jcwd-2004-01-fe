@@ -27,6 +27,7 @@ const CardCartDetail = ({
   setSelectedId,
   handleInc,
   handleDec,
+  handleInput,
 }) => {
   const [kuantitas, setKuantitas] = useState(cartData.quantity);
   const [checked, setChecked] = useState(false);
@@ -80,8 +81,11 @@ const CardCartDetail = ({
   useEffect(() => {
     if (allChecked) {
       setChecked(true);
+      let e = { target: { checked: true } };
+      handleCheckbox(e, cartData);
     } else if (!allChecked) {
       setChecked(false);
+      setSelectedId({ item: [] });
     }
   }, [allChecked]);
 
@@ -179,14 +183,15 @@ const CardCartDetail = ({
               onChange={(value) => {
                 console.log(value, typeof value);
                 try {
-                  setKuantitas(value);
+                  setKuantitas(parseInt(value));
+                  handleInput(cartData, parseInt(value));
                 } catch (error) {
                   console.log(error);
                 } finally {
                   // updateQuantityInputHandler();
                 }
               }}
-              value={kuantitas}
+              value={kuantitas || 0}
               w="40px"
               h="28px"
             >

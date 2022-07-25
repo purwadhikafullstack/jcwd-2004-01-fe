@@ -22,7 +22,18 @@ const CardCart = ({ cartData, selected_product }) => {
         return { ...val };
       }
     });
-    console.log(newArr, "sesudah");
+    setSelectedId({ item: newArr });
+  };
+  const handleInput = (cartData, value) => {
+    let tempArr = selectedId.item;
+    console.log(tempArr, cartData.id, "oiiiiiiii");
+    let newArr = tempArr.map((val, i) => {
+      if (val.id == cartData.id) {
+        return { ...val, quantity: value };
+      } else {
+        return { ...val };
+      }
+    });
     setSelectedId({ item: newArr });
   };
   const handleDec = (cartData) => {
@@ -35,12 +46,11 @@ const CardCart = ({ cartData, selected_product }) => {
         return { ...val };
       }
     });
-    console.log(newArr, "sesudah");
     setSelectedId({ item: newArr });
   };
 
   const handleCheckbox = (e, cartData) => {
-    console.log(e.target.value, cartData, "oooiiii");
+    console.log(e, "eeeee");
     let tempArr = selectedId.item;
     console.log(tempArr, "tempArrSebelum");
     if (e.target.checked) {
@@ -94,6 +104,7 @@ const CardCart = ({ cartData, selected_product }) => {
                   setSelectedId={setSelectedId}
                   handleInc={handleInc}
                   handleDec={handleDec}
+                  handleInput={handleInput}
                 />
               );
             })}

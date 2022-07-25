@@ -158,6 +158,9 @@ const Checkout = ({ getCartAction }) => {
     getProdcutTerkait();
     getAddress();
     setCheckoutProduct(selected_product);
+    if (!checkoutProduct.length) {
+      router.push("/");
+    }
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -226,6 +229,7 @@ const Checkout = ({ getCartAction }) => {
         progress: undefined,
         theme: "colored",
       });
+      router.push("/userprofile/transactions");
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message || "Network Error", {

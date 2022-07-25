@@ -16,9 +16,18 @@ import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
   Spinner,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Center,
+  Link as CLink,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import useUser from "../../hooks/useUser";
@@ -38,35 +47,36 @@ import Cookies from "js-cookie";
 import { Rupiah } from "../../lib/convertRupiah";
 import Link from "next/link";
 import Head from "next/head";
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+  WhatsappShareButton,
+  WhatsappIcon,
+} from "next-share";
+import PageLoading from "../../components/pageLoading";
 
-const DetailProdukUserSide = () => {
+const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
   const router = useRouter();
   let token = Cookies.get("token");
-
-  const toast = useToast();
-
   const { idProduk } = router.query;
+
+  // chakra
+  const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // user hook
   const { isLogin, fullname, is_verified, profile_picture } = useUser();
 
-  const [pageLoading, setPageLoading] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const [kuantitas, setKuantitas] = useState(1);
   const [maxInput, setMaxInput] = useState(0);
 
-  const [image, setImage] = useState([]);
-
-  const [brand, setBrand] = useState("");
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  let [unit, setUnit] = useState("");
-
   const [buttonLoading, setButtonLoading] = useState(false);
 
-  const capitalizeName = name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-    letter.toUpperCase()
-  );
-  unit = unit.replace(/(^\w{1})|(\s+\w{1})/g, (letter) => letter.toUpperCase());
-
+  const [productTerkait, setProductTerkait] = useState([]);
   const [data, setData] = useState({
     brand: "",
     categories: [{}],
@@ -94,57 +104,19 @@ const DetailProdukUserSide = () => {
     warning: "",
   });
 
-  const [productTerkait, setProductTerkait] = useState([]);
-  console.log(productTerkait, "line 87");
-
-  console.log(data.symptom[0].id);
-
-  const getProdcutTerkait = async (idSymptom) => {
-    try {
-      let response = await axios.get(
-        `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
-      );
-      let data = response.data;
-
-      setProductTerkait(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getProduct = async () => {
-    try {
-      setPageLoading(true);
-      let response = await axios.get(
-        `${API_URL}/product/get-product?id=${idProduk}`
-      );
-
-      let { data } = response;
-      console.log(data, "line39");
-
-      let imageArr = [];
-      for (let i = 0; i < data.imageProduct.length; i++) {
-        imageArr.push(data.imageProduct[i].image);
-      }
-      setImage(imageArr);
-      setMaxInput(data.total_stock);
-      setPrice(data.price);
-      setBrand(data.brand);
-      setName(data.name);
-      setUnit(data.unit);
-      setData(data);
-      let idSymptom = data.symptom[0].id;
-      getProdcutTerkait(idSymptom);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setPageLoading(false);
-    }
-  };
+  const capitalizeName = data.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+    letter.toUpperCase()
+  );
+  let unit = data.unit.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+    letter.toUpperCase()
+  );
 
   useEffect(() => {
-    getProduct();
-  }, []);
+    setData(product);
+    setMaxInput(product.total_stock);
+    setProductTerkait(productTerkaitData);
+    setPageLoading(false);
+  }, [product]);
 
   function NextArrow(props) {
     const { className, style, onClick } = props;
@@ -247,7 +219,7 @@ const DetailProdukUserSide = () => {
         },
       },
       {
-        breakpoint: 375,
+        breakpoint: 500,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
@@ -259,9 +231,35 @@ const DetailProdukUserSide = () => {
     <>
       <Head>
         <title> {capitalizeName} | Healthymed</title>
+        {/* facebook & Whatssapp*/}
+        <meta property="og:site_name" content="Healthymed" />
+        <meta property="og:title" content={product.name} />
+        <meta property="og:description" content={product.indication} />
+        <meta
+          property="og:url"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta
+          property="og:image"
+          itemprop="image"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta property="og:type" content="website" />
+        {/* twitter */}
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:title" content={product.name} />
+        <meta name="twitter:description" content={product.indication} />
+        <meta
+          name="twitter:image"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
+        <meta
+          name="twitter:url"
+          content={`${API_URL}${product.imageProduct[0].image}`}
+        />
       </Head>
       {pageLoading ? (
-        <div>Loading...</div>
+        <PageLoading />
       ) : (
         <div className="">
           <div className="shadow-xl w-full pb-2 ">
@@ -321,15 +319,15 @@ const DetailProdukUserSide = () => {
           <div className="hidden md:inline-block md:ml-[120px] md:my-11">
             <Breadcrumb fontSize="12px">
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">Beranda</BreadcrumbLink>
+                <BreadcrumbLink href="/">Beranda</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem>
-                <BreadcrumbLink href="#">produk</BreadcrumbLink>
+                <BreadcrumbLink href="/products">produk</BreadcrumbLink>
               </BreadcrumbItem>
 
               <BreadcrumbItem isCurrentPage>
-                <BreadcrumbLink>{name}</BreadcrumbLink>
+                <BreadcrumbLink>{data.name}</BreadcrumbLink>
               </BreadcrumbItem>
             </Breadcrumb>
           </div>
@@ -337,7 +335,7 @@ const DetailProdukUserSide = () => {
             <div className="w-fit h-fit mx-auto md:inline-block md:w-[405px] md:h-[300px] md:shadow-2xl rounded-lg">
               <div className="w-[150.52px] h-[150.52px] md:w-[225px] md:h-[225px] mt-8 mx-auto">
                 <Slider {...settings} className="">
-                  {image.map((val, i) => {
+                  {data.imageProduct.map((val, i) => {
                     return (
                       <>
                         {pageLoading ? (
@@ -345,7 +343,7 @@ const DetailProdukUserSide = () => {
                         ) : (
                           <img
                             key={i}
-                            src={`${API_URL}${val}`}
+                            src={`${API_URL}${val.image}`}
                             alt=""
                             className="object-cover"
                           />
@@ -375,6 +373,7 @@ const DetailProdukUserSide = () => {
                   bg="#EFEFEF"
                   leftIcon={<IoShareSocialSharp className="text-xl" />}
                   rounded="full"
+                  onClick={onOpen}
                 >
                   Bagikan
                 </Button>
@@ -385,11 +384,11 @@ const DetailProdukUserSide = () => {
             {/* brand, nama, quantity, unit product */}
             <div className="md:flex-col  md:w-[616px]">
               <div className="flex-col mx-6 mt-6  md:w-fit">
-                <p className="text-xs font-bold md:text-sm">{brand}</p>
+                <p className="text-xs font-bold md:text-sm">{data.brand}</p>
                 <p className="text-lg md:text-[22px]">{capitalizeName}</p>
                 <span className="">
                   <p className="text-xl font-bold md:text-2xl md:flex md:items-center md:justify-between md:w-[250px]">
-                    <span>{Rupiah(price)}</span>
+                    <span>{Rupiah(data.price)}</span>
                     <span className="font-normal text-xs md:text-sm">
                       /{unit}
                     </span>
@@ -397,14 +396,13 @@ const DetailProdukUserSide = () => {
                 </span>
                 <div className="flex items-center mt-3">
                   <Button
-                    isDisabled={kuantitas == 1}
+                    isDisabled={kuantitas <= 1}
                     roundedRight="none"
                     h="32px"
                     w="32px"
                     onClick={() => {
                       let angka = parseInt(kuantitas) - 1;
-                      angka = angka + "";
-                      setKuantitas(angka);
+                      setKuantitas(parseInt(angka));
                     }}
                   >
                     -
@@ -412,8 +410,8 @@ const DetailProdukUserSide = () => {
                   <NumberInput
                     min={1}
                     max={maxInput}
-                    onChange={(value) => setKuantitas(value)}
-                    value={kuantitas}
+                    onChange={(value) => setKuantitas(parseInt(value))}
+                    value={kuantitas || 1}
                   >
                     <NumberInputField
                       name="kuantitas"
@@ -423,14 +421,13 @@ const DetailProdukUserSide = () => {
                     />
                   </NumberInput>
                   <Button
-                    isDisabled={kuantitas == maxInput}
+                    isDisabled={kuantitas >= maxInput}
                     roundedLeft="none"
                     h="32px"
                     w="32px"
                     onClick={() => {
                       let angka = parseInt(kuantitas) + 1;
-                      angka = angka + "";
-                      setKuantitas(angka);
+                      setKuantitas(parseInt(angka));
                     }}
                   >
                     +
@@ -447,7 +444,7 @@ const DetailProdukUserSide = () => {
                     h="47px"
                     fontWeight="700"
                     leftIcon={<FaCartPlus className="text-xl mr-6" />}
-                    isDisabled={kuantitas <= 0}
+                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
                     onClick={() => buyHandler()}
                     isLoading={buttonLoading}
                   >
@@ -457,15 +454,11 @@ const DetailProdukUserSide = () => {
                     variant="fillCustom"
                     w="153px"
                     h="48px"
-                    isDisabled={kuantitas <= 0}
+                    isDisabled={kuantitas <= 0 || kuantitas > maxInput}
                     isLoading={buttonLoading}
                     onClick={() => {
-                      try {
-                        buyHandler();
-                        router.push("/cart");
-                      } catch (error) {
-                        console.log();
-                      }
+                      buyHandler();
+                      router.push("/cart");
                     }}
                   >
                     Beli
@@ -597,7 +590,10 @@ const DetailProdukUserSide = () => {
                     w="207px"
                     h="46px"
                     fontSize="14px"
-                    onClick={() => {}}
+                    onClick={() => {
+                      buyHandler();
+                      router.push("/cart");
+                    }}
                     isLoading={buttonLoading}
                   >
                     Beli Sekarang
@@ -609,16 +605,105 @@ const DetailProdukUserSide = () => {
           <div className="">
             <Footer />
           </div>
+          <Modal isOpen={isOpen} onClose={onClose}>
+            <ModalOverlay />
+            <ModalContent>
+              <ModalHeader>
+                <Center>Bagikan di...</Center>
+              </ModalHeader>
+              <ModalBody>
+                <Divider />
+                <Center>
+                  <WhatsappShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>Whatssapp</CLink>
+                  </WhatsappShareButton>
+                </Center>
+                <Divider />
+                <Center>
+                  <FacebookShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>Facebook</CLink>
+                  </FacebookShareButton>
+                </Center>
+                <Divider />
+                <Center>
+                  <TwitterShareButton url={`${host}/produk/${idProduk}`}>
+                    <CLink>twitter</CLink>
+                  </TwitterShareButton>
+                </Center>
+                <Divider />
+                <Divider />
+                <Center>
+                  <CLink
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `${host}/produk/${idProduk}`
+                      );
+                      toast({
+                        title: "Success",
+                        description: "Coppy to clipboard!",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                      });
+                    }}
+                  >
+                    Copy link to clipboard
+                  </CLink>
+                </Center>
+
+                <Center>
+                  <CLink
+                    color="blue.300"
+                    fontWeight="semibold"
+                    margin={2}
+                    onClick={onClose}
+                  >
+                    No
+                  </CLink>
+                </Center>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
         </div>
       )}
     </>
   );
 };
 
-export async function getServerSideProps() {
-  return {
-    props: {}, // will be passed to the page component as props
-  };
+export async function getServerSideProps(context) {
+  const { query, req, res } = context;
+
+  try {
+    const idProduk = query.idProduk;
+    // const brand = query.brand;
+
+    const productReq = await axios.get(
+      `${API_URL}/product/get-product?id=${idProduk}`
+    );
+
+    let idSymptom = productReq.data.symptom[0].id;
+
+    const produkTerkaitReq = await axios.get(
+      `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
+    );
+
+    let host = "https://" + req.headers.host;
+
+    // const productTerkaitReq = await axios.get(``);
+
+    return {
+      props: {
+        product: productReq.data,
+        productTerkaitData: produkTerkaitReq.data,
+        host,
+      }, // will be passed to the page component as props
+    };
+  } catch {
+    res.status = 404;
+    return {
+      props: {},
+    };
+  }
 }
 
 export default DetailProdukUserSide;
