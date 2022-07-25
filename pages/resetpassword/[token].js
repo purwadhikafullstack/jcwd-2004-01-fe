@@ -66,6 +66,7 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#48BB78" },
         });
         router.push("/login");
       } catch (error) {
@@ -79,6 +80,7 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#e85362" },
         });
       } finally {
         setDisable(false);

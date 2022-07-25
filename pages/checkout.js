@@ -228,6 +228,7 @@ const Checkout = ({ getCartAction }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
       router.push("/userprofile/transactions");
     } catch (error) {
@@ -241,6 +242,7 @@ const Checkout = ({ getCartAction }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };

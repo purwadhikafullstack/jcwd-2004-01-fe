@@ -30,6 +30,7 @@ import Link from "next/link";
 import "react-datepicker/dist/react-datepicker.css";
 const dayjs = require("dayjs");
 import { IoIosArrowBack } from "react-icons/io";
+import { BiLogOut } from "react-icons/bi";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
@@ -39,6 +40,8 @@ import useUser from "../../hooks/useUser";
 import Head from "next/head";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 const Address = () => {
   const { isLogin, fullname } = useUser();
@@ -82,6 +85,11 @@ const Address = () => {
     formik.resetForm();
     onCloseAddress();
   };
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
 
   //Get user addresses
   const getUserAddress = async () => {
@@ -147,6 +155,7 @@ const Address = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#48BB78" },
         });
       } catch (error) {
         console.log(error);
@@ -159,6 +168,7 @@ const Address = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#e85362" },
         });
       } finally {
         setDisableButtonAddress(false);
@@ -194,6 +204,7 @@ const Address = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -206,6 +217,7 @@ const Address = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       //  getUserAddress();
@@ -253,6 +265,16 @@ const Address = () => {
         </div>
       );
     });
+  };
+
+  //Logout
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logout = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+    onCloseLogout();
   };
 
   return (
@@ -337,6 +359,13 @@ const Address = () => {
                   <IoLocationSharp /> Alamat Pengiriman
                 </div>
               </Link>
+
+              <div
+                onClick={onOpenLogout}
+                className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer"
+              >
+                <BiLogOut /> Keluar
+              </div>
             </div>
           </div>
           <div className="w-[900px]">
@@ -522,6 +551,32 @@ const Address = () => {
                 </Flex>
               </form>
             </ModalBody>
+          </ModalContent>
+        </Modal>
+
+        {/* Modal Logout */}
+        <Modal isOpen={isOpenLogout} onClose={onCloseLogout}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Keluar</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <div>Apakah anda yakin untuk keluar?</div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button variant="fillCustom" mr={3} onClick={onCloseLogout}>
+                Batal
+              </Button>
+              <Button
+                onClick={() => {
+                  logout();
+                }}
+                variant="outlineCustom"
+              >
+                Ya
+              </Button>
+            </ModalFooter>
           </ModalContent>
         </Modal>
       </div>

@@ -46,6 +46,7 @@ const UploadPrescription = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -58,6 +59,7 @@ const UploadPrescription = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };

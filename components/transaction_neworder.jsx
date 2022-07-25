@@ -194,6 +194,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -206,6 +207,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       debouncedFetchData(page, input, startDate, endDate, (response) => {
@@ -228,6 +230,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -240,6 +243,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       debouncedFetchData(page, input, startDate, endDate, (response) => {
@@ -266,6 +270,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -278,6 +283,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       debouncedFetchData(page, input, startDate, endDate, (response) => {
@@ -300,6 +306,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -312,6 +319,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       debouncedFetchData(page, input, startDate, endDate, (response) => {
@@ -334,6 +342,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -346,6 +355,7 @@ const NewOrderTransaction = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       debouncedFetchData(page, input, startDate, endDate, (response) => {
@@ -488,8 +498,8 @@ const NewOrderTransaction = () => {
 
         <div className="flex items-center justify-between mt-[38px]">
           <div className="flex items-center gap-[12px]">
-            <Checkbox />
-            <p className="text-[14px]">Pilih Semua</p>
+            {/* <Checkbox /> */}
+            <p className="text-[14px] font-bold">Daftar Pesanan</p>
           </div>
           <PaginationProductAdmin
             page={page}

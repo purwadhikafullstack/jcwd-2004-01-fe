@@ -43,6 +43,7 @@ const ForgotPassword = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
       setEmailSent(true);
     } catch (error) {
@@ -56,6 +57,7 @@ const ForgotPassword = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       setDisable(false);

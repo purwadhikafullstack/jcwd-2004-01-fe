@@ -37,10 +37,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
 import Head from "next/head";
 import Capitalize from "../../lib/capitalize";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
 
 const Biodata = () => {
   //Modal Hook
@@ -74,6 +77,11 @@ const Biodata = () => {
     isOpen: isOpenGender,
     onOpen: onOpenGender,
     onClose: onCloseGender,
+  } = useDisclosure();
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
   } = useDisclosure();
 
   //Toggle password
@@ -147,6 +155,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -159,6 +168,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -193,6 +203,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -205,6 +216,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -239,6 +251,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -251,6 +264,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -285,6 +299,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -297,6 +312,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -335,6 +351,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -347,6 +364,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -384,6 +402,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -396,6 +415,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -515,6 +535,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -527,6 +548,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };
@@ -548,6 +570,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -560,8 +583,19 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
+  };
+
+  //Logout
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logout = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+    onCloseLogout();
   };
 
   const renderUserprofileData = () => {
@@ -716,6 +750,13 @@ const Biodata = () => {
                   <IoLocationSharp /> Alamat Pengiriman
                 </div>
               </Link>
+
+              <div
+                onClick={onOpenLogout}
+                className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer"
+              >
+                <BiLogOut /> Keluar
+              </div>
             </div>
           </div>
           <div>
@@ -1091,6 +1132,32 @@ const Biodata = () => {
                     </Button>
                   </ModalFooter>
                 </form>
+              </ModalContent>
+            </Modal>
+
+            {/* Modal Logout */}
+            <Modal isOpen={isOpenLogout} onClose={onCloseLogout}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Keluar</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <div>Apakah anda yakin untuk keluar?</div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button variant="fillCustom" mr={3} onClick={onCloseLogout}>
+                    Batal
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      logout();
+                    }}
+                    variant="outlineCustom"
+                  >
+                    Ya
+                  </Button>
+                </ModalFooter>
               </ModalContent>
             </Modal>
           </div>

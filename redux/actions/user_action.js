@@ -20,6 +20,7 @@ export const registerAction = ({ ...values }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
 
       Cookies.set("token", res1.headers["x-token-access"]);
@@ -37,6 +38,7 @@ export const registerAction = ({ ...values }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
       console.log(error);
     } finally {
@@ -65,6 +67,7 @@ export const loginAction = ({ ...values }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       dispatch({
@@ -80,6 +83,7 @@ export const loginAction = ({ ...values }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       dispatch({ type: "DONE" });
