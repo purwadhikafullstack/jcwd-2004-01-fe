@@ -34,6 +34,12 @@ const UserTransaction = ({
   clickMenunggu,
   clickSemua,
   clickDiproses,
+  clickSemuaJenis,
+  clickDikirim,
+  clickDibatalkan,
+  clickPrescription,
+  clickNonPrescription,
+  clickSelesai,
   getCardData,
   handleInput,
   orderByDate,
@@ -126,7 +132,7 @@ const UserTransaction = ({
             </div>
           </div>
           <div className="mt-[30px] mx-[40px]">
-            <Tabs>
+            <Tabs isFitted variant="soft-rounded">
               <TabList justifyContent="space-between">
                 <Tab
                   onClick={clickSemua}
@@ -149,13 +155,25 @@ const UserTransaction = ({
                 >
                   Diproses
                 </Tab>
-                <Tab _focus={{ boxShadow: "none" }} fontSize="14px">
+                <Tab
+                  onClick={clickDikirim}
+                  _focus={{ boxShadow: "none" }}
+                  fontSize="14px"
+                >
                   Dikirim
                 </Tab>
-                <Tab _focus={{ boxShadow: "none" }} fontSize="14px">
+                <Tab
+                  onClick={clickSelesai}
+                  _focus={{ boxShadow: "none" }}
+                  fontSize="14px"
+                >
                   Selesai
                 </Tab>
-                <Tab _focus={{ boxShadow: "none" }} fontSize="14px">
+                <Tab
+                  onClick={clickDibatalkan}
+                  _focus={{ boxShadow: "none" }}
+                  fontSize="14px"
+                >
                   Dibatalkan
                 </Tab>
               </TabList>
@@ -168,10 +186,25 @@ const UserTransaction = ({
               <div>
                 <Tabs variant="soft-rounded" colorScheme="blue">
                   <TabList>
-                    <Tab _focus={{ boxShadow: "none" }} fontSize="14px">
+                    <Tab
+                      onClick={clickSemuaJenis}
+                      _focus={{ boxShadow: "none" }}
+                      fontSize="14px"
+                    >
+                      Semua Obat
+                    </Tab>
+                    <Tab
+                      onClick={clickPrescription}
+                      _focus={{ boxShadow: "none" }}
+                      fontSize="14px"
+                    >
                       Obat Resep
                     </Tab>
-                    <Tab _focus={{ boxShadow: "none" }} fontSize="14px">
+                    <Tab
+                      onClick={clickNonPrescription}
+                      _focus={{ boxShadow: "none" }}
+                      fontSize="14px"
+                    >
                       Obat Bebas
                     </Tab>
                   </TabList>

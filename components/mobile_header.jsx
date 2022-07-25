@@ -13,7 +13,7 @@ const MobileHeader = ({
   return (
     <div className={`container-mobile-header ${classExtend}`}>
       <Link href="/">
-        <div className="hidden lg:inline-block">
+        <div className="hidden lg:inline-block hover:cursor-pointer">
           <img src={logo} alt="" />
         </div>
       </Link>

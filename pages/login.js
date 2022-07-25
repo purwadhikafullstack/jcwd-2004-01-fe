@@ -132,8 +132,8 @@ const Login = ({ loginAction }) => {
                 <InputForm
                   leftIcon={<AiFillLock />}
                   placeholder={"Password"}
-                  rightIcon={<BsEyeSlashFill />}
-                  altIcon={<BsEyeFill />}
+                  rightIcon={<BsEyeFill />}
+                  altIcon={<BsEyeSlashFill />}
                   name="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -144,8 +144,8 @@ const Login = ({ loginAction }) => {
                 <InputForm
                   leftIcon={<AiFillLock />}
                   placeholder={"Password"}
-                  rightIcon={<BsEyeSlashFill />}
-                  altIcon={<BsEyeFill />}
+                  rightIcon={<BsEyeFill />}
+                  altIcon={<BsEyeSlashFill />}
                   name="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}

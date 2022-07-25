@@ -117,30 +117,33 @@ const AddAddress = ({ getCartAction }) => {
   };
 
   return (
-    <div className="w-[375px] lg:w-[1349px] h-[1212px] lg:h[1366px]">
+    <div className="w-[375px] lg:w-[1349px] h-[1212px] lg:h[1369px]">
       <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
-        <div className="ml-[16px] lg:ml-[76px] text-lg">
-          <div className="lg:hidden">
-            <IoIosArrowBack />
+        <Link href="/">
+          <div className="ml-[16px] lg:ml-[76px] text-lg hover:cursor-pointer">
+            <div className="lg:hidden">
+              <IoIosArrowBack />
+            </div>
+            <img
+              className="hidden lg:inline-block"
+              src="/LogoHealthymedBW.svg"
+              alt=""
+            />
           </div>
-          <img
-            className="hidden lg:inline-block"
-            src="/LogoHealthymedBW.svg"
-            alt=""
-          />
-        </div>
+        </Link>
+
         <div className="ml-[8px] font-bold text-[16px] text-blackPrimary lg:hidden">
           Alamat Pengiriman
         </div>
-        <div className="ml-[36px] w-[744px] hidden lg:inline-block">
+        <div className="ml-[36px] w-fit hidden lg:inline">
           <SearchBar
             placeholder={"Cari Obat, Suplemen, Vitamin, Produk Kesehatan"}
           />
         </div>
-        <div className="ml-[60px] text-2xl hidden lg:inline-block">
+        <div className="ml-[60px] text-2xl hidden lg:inline">
           <FaShoppingCart />
         </div>
-        <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline-block">
+        <div className="mr-[16px] ml-[50px] text-2xl hidden lg:inline">
           <Link href="/userprofile/biodata">
             <div className="flex items-center gap-2 hover:cursor-pointer">
               {profile_picture ? (
@@ -320,172 +323,175 @@ const AddAddress = ({ getCartAction }) => {
           </div>
         </form>
       </div>
-      <div className="hidden lg:inline-block h-[668px] w-full mx-[412px] pb-10">
-        <form onSubmit={formik.handleSubmit}>
-          <div className="mx-[24px]">
-            <div className="text-[24px] mt-[96px] font-bold">
-              Alamat Pengiriman
+      <div className="flex justify-center">
+        <div className="hidden lg:inline-block h-[668px] w-fit pb-10">
+          <form onSubmit={formik.handleSubmit}>
+            <div className="mx-[24px]">
+              <div className="text-[24px] mt-[96px] font-bold">
+                Alamat Pengiriman
+              </div>
+              <FormLabel fontSize="16px" fontWeight="bold" mt="68px">
+                Label Alamat
+              </FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nama alamat"
+                name="address_label"
+                w="616px"
+                h="44px"
+                mt="16px"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address_label}
+              />
+              {formik.touched.address_label && formik.errors.address_label ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.address_label}
+                </p>
+              ) : null}
             </div>
-            <FormLabel fontSize="16px" fontWeight="bold" mt="68px">
-              Label Alamat
-            </FormLabel>
-            <Input
-              type="text"
-              placeholder="Masukkan nama alamat"
-              name="address_label"
-              w="616px"
-              h="44px"
-              mt="16px"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.address_label}
-            />
-            {formik.touched.address_label && formik.errors.address_label ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.address_label}
-              </p>
-            ) : null}
-          </div>
-          <div className="mt-[24px] mx-[24px]">
-            <FormLabel fontSize="16px" fontWeight="bold" mt="52px" mb={4}>
-              Info Penerima
-            </FormLabel>
-            <FormLabel fontSize="14px" mt="36px">
-              Nama Penerima
-            </FormLabel>
-            <Input
-              type="text"
-              placeholder="Masukkan nama penerima"
-              name="recipient_name"
-              w="616px"
-              h="44px"
-              mt="16px"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.recipient_name}
-            />
-            {formik.touched.recipient_name && formik.errors.recipient_name ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.recipient_name}
-              </p>
-            ) : null}
-            <FormLabel fontSize="14px" mt="36px">
-              Nomor HP
-            </FormLabel>
-            <Input
-              type="text"
-              placeholder="Masukkan nomor telepon"
-              name="recipient_number"
-              w="616px"
-              h="44px"
-              mt="16px"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.recipient_number}
-            />
-            {formik.touched.recipient_number &&
-            formik.errors.recipient_number ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.recipient_number}
-              </p>
-            ) : null}
-            <FormLabel fontSize="14px" mt="36px">
-              Provinsi
-            </FormLabel>
-            <Select
-              placeholder="Provinsi"
-              name="province_id"
-              w="616px"
-              h="44px"
-              mt="16px"
-              onChange={provinceHandleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.province_id}
-            >
-              {provinceOption.map((val, index) => {
-                return (
-                  <option key={index} value={val.id}>
-                    {val.name}
-                  </option>
-                );
-              })}
-            </Select>
-            {formik.touched.province_id && formik.errors.province_id ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.province_id}
-              </p>
-            ) : null}
-            <FormLabel fontSize="14px" mt="36px">
-              Kota/Kabupaten
-            </FormLabel>
-            <Select
-              placeholder="Kota"
-              name="city_id"
-              w="616px"
-              h="44px"
-              mt="16px"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              isDisabled={formik.values.province_id == ""}
-            >
-              {cityOption.map((val, index) => {
-                return (
-                  <option key={index} value={val.id}>
-                    {val.name}
-                  </option>
-                );
-              })}
-            </Select>
-            {formik.touched.city_id && formik.errors.city_id ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.city_id}
-              </p>
-            ) : null}
-            <FormLabel fontSize="14px" mt="36px">
-              Alamat
-            </FormLabel>
-            <Textarea
-              type="text"
-              placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
-              name="address"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.address}
-              resize="none"
-              mt="16px"
-              w="616px"
-            />
-            {formik.touched.address && formik.errors.address ? (
-              <p className="text-xs text-red-500 pt-1">
-                {formik.errors.address}
-              </p>
-            ) : null}
-          </div>
-          <div className="flex gap-2 mt-[68px] mx-[26px]">
-            <div>
-              <Button
-                type="button"
-                variant={"outlineCustom"}
-                w={"300px"}
-                h={"52px"}
+            <div className="mt-[24px] mx-[24px]">
+              <FormLabel fontSize="16px" fontWeight="bold" mt="52px" mb={4}>
+                Info Penerima
+              </FormLabel>
+              <FormLabel fontSize="14px" mt="36px">
+                Nama Penerima
+              </FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nama penerima"
+                name="recipient_name"
+                w="616px"
+                h="44px"
+                mt="16px"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.recipient_name}
+              />
+              {formik.touched.recipient_name && formik.errors.recipient_name ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.recipient_name}
+                </p>
+              ) : null}
+              <FormLabel fontSize="14px" mt="36px">
+                Nomor HP
+              </FormLabel>
+              <Input
+                type="text"
+                placeholder="Masukkan nomor telepon"
+                name="recipient_number"
+                w="616px"
+                h="44px"
+                mt="16px"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.recipient_number}
+              />
+              {formik.touched.recipient_number &&
+              formik.errors.recipient_number ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.recipient_number}
+                </p>
+              ) : null}
+              <FormLabel fontSize="14px" mt="36px">
+                Provinsi
+              </FormLabel>
+              <Select
+                placeholder="Provinsi"
+                name="province_id"
+                w="616px"
+                h="44px"
+                mt="16px"
+                onChange={provinceHandleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.province_id}
               >
-                Batalkan
-              </Button>
-            </div>
-            <div>
-              <Button
-                disabled={disableButtonAddress}
-                variant={"fillCustom"}
-                w={"300px"}
-                h={"52px"}
-                type="submit"
+                {provinceOption.map((val, index) => {
+                  return (
+                    <option key={index} value={val.id}>
+                      {val.name}
+                    </option>
+                  );
+                })}
+              </Select>
+              {formik.touched.province_id && formik.errors.province_id ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.province_id}
+                </p>
+              ) : null}
+              <FormLabel fontSize="14px" mt="36px">
+                Kota/Kabupaten
+              </FormLabel>
+              <Select
+                placeholder="Kota"
+                name="city_id"
+                w="616px"
+                h="44px"
+                mt="16px"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                isDisabled={formik.values.province_id == ""}
               >
-                Simpan Alamat
-              </Button>
+                {cityOption.map((val, index) => {
+                  return (
+                    <option key={index} value={val.id}>
+                      {val.name}
+                    </option>
+                  );
+                })}
+              </Select>
+              {formik.touched.city_id && formik.errors.city_id ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.city_id}
+                </p>
+              ) : null}
+              <FormLabel fontSize="14px" mt="36px">
+                Alamat
+              </FormLabel>
+              <Textarea
+                type="text"
+                placeholder="contoh : Jl. Gatot Subroto no. 12 RT 01/02"
+                name="address"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.address}
+                resize="none"
+                mt="16px"
+                w="616px"
+              />
+              {formik.touched.address && formik.errors.address ? (
+                <p className="text-xs text-red-500 pt-1">
+                  {formik.errors.address}
+                </p>
+              ) : null}
             </div>
-          </div>
-        </form>
+            <div className="flex gap-2 mt-[68px] mx-[26px]">
+              <div>
+                <Button
+                  type="button"
+                  variant={"outlineCustom"}
+                  w={"300px"}
+                  h={"52px"}
+                >
+                  Batalkan
+                </Button>
+              </div>
+              <div>
+                <Button
+                  disabled={disableButtonAddress}
+                  variant={"fillCustom"}
+                  w={"300px"}
+                  h={"52px"}
+                  type="submit"
+                >
+                  Simpan Alamat
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
       </div>
+
       {/* <div className="hidden lg:inline mt-[158px]">
         <Footer />
       </div> */}
