@@ -180,7 +180,7 @@ export default function Home() {
         </div>
       </div>
 
-      <div className="w-[1300px] h-[350px] mx-auto">
+      <div className="w-[1244px] h-[350px] mx-auto">
         <PopularCarousel />
       </div>
 

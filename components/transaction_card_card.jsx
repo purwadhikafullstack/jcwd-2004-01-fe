@@ -260,8 +260,26 @@ const TransactionCardCard = ({
           <div className="flex items-center gap-[15px] text-[16px]">
             <div className="">
               <div className="flex items-center gap-[12px]">
-                <Checkbox />
-                <p className="font-bold">Pesanan Baru</p>
+                {/* <Checkbox /> */}
+                <p className="font-bold">
+                  Pesanan{" "}
+                  <span>
+                    {" "}
+                    {status == "MENUNGGU_KONFIRMASI"
+                      ? "Menunggu Konfirmasi"
+                      : null}
+                    {status == "MENUNGGU_PEMBAYARAN"
+                      ? "Menunggu Pembayaran"
+                      : null}
+                    {status == "DIPROSES" ? "Diproses" : null}
+                    {status == "MENUNGGU_KONFIRMASI_PEMBAYARAN"
+                      ? "Menunggu Konfirmasi Pembayaran"
+                      : null}
+                    {status == "DITOLAK" ? "Ditolak" : null}
+                    {status == "SELESAI" ? "Selesai" : null}
+                    {status == "DIKIRIM" ? "Dikirim" : null}
+                  </span>
+                </p>
               </div>
             </div>
 
@@ -785,7 +803,7 @@ const TransactionCardCard = ({
                           src={`${API_URL}${val.img}`}
                         />
                         <div>
-                          Prescription no. <span>{i + 1}</span>
+                          Resep no. <span>{i + 1}</span>
                         </div>
                       </div>
                     );

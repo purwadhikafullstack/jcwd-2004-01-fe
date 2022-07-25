@@ -75,6 +75,7 @@ const TransactionCardUser = ({
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -87,6 +88,7 @@ const TransactionCardUser = ({
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       onClosePaymentSlip();
@@ -107,6 +109,7 @@ const TransactionCardUser = ({
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -119,6 +122,7 @@ const TransactionCardUser = ({
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getCardData();
@@ -478,7 +482,7 @@ const TransactionCardUser = ({
                           src={`${API_URL}${val.img}`}
                         />
                         <div>
-                          Prescription no. <span>{i + 1}</span>
+                          Resep no. <span>{i + 1}</span>
                         </div>
                       </div>
                     );

@@ -84,12 +84,13 @@ const AddAddress = ({ getCartAction }) => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#48BB78" },
         });
         if (selected_product.length > 0) {
           router.push("/checkout");
           dispatch({ type: "CHECKOUT" });
         }
-        router.push("/uploadprescription");
+        router.back("/uploadprescription");
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message || "Network Error", {
@@ -101,6 +102,7 @@ const AddAddress = ({ getCartAction }) => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#e85362" },
         });
       } finally {
         setDisableButtonAddress(false);
