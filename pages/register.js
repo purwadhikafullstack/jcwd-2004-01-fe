@@ -228,8 +228,8 @@ const Register = ({ registerAction }) => {
                 <InputForm
                   leftIcon={<AiFillLock />}
                   placeholder={"Password"}
-                  rightIcon={<BsEyeSlashFill />}
-                  altIcon={<BsEyeFill />}
+                  rightIcon={<BsEyeFill />}
+                  altIcon={<BsEyeSlashFill />}
                   name="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -240,8 +240,8 @@ const Register = ({ registerAction }) => {
                 <InputForm
                   leftIcon={<AiFillLock />}
                   placeholder={"Password"}
-                  rightIcon={<BsEyeSlashFill />}
-                  altIcon={<BsEyeFill />}
+                  rightIcon={<BsEyeFill />}
+                  altIcon={<BsEyeSlashFill />}
                   name="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}

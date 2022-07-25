@@ -18,7 +18,7 @@ const NavbarAdmin = ({ where }) => {
       <div className="relative left-0 top-0 w-[256px] h-[100vh] shadow-lg overflow-y-scroll scrollbar-hide z-10 bg-white">
         {/* Logo */}
         <div className="w-[170px] h-[43px] relative mt-2 mx-auto">
-          <Image src="/LogoHealthymed.svg" width="204px" layout="fill" />
+          <Image src="/LogoHealthymedBW.svg" width="204px" layout="fill" />
         </div>
 
         <Accordion
@@ -95,16 +95,18 @@ const NavbarAdmin = ({ where }) => {
               </AccordionButton>
             </h2>
             <AccordionPanel pb={4} display="flex" flexDirection="column">
-              <Button
-                variant="unstyled"
-                _hover={{ color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Semua Pesanan
-              </Button>
+              <Link href="/admin/transaction/neworder">
+                <Button
+                  variant="unstyled"
+                  _hover={{ color: "blackPrimary" }}
+                  w="fit-content"
+                  ml="30px"
+                >
+                  Daftar Pesanan
+                </Button>
+              </Link>
 
-              <Button
+              {/* <Button
                 variant="unstyled"
                 _hover={{ bgColor: "none", color: "blackPrimary" }}
                 w="fit-content"
@@ -143,7 +145,7 @@ const NavbarAdmin = ({ where }) => {
                 ml="30px"
               >
                 Dibatalkan
-              </Button>
+              </Button> */}
             </AccordionPanel>
           </AccordionItem>
 

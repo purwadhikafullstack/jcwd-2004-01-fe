@@ -27,6 +27,8 @@ const Transaction = () => {
     dikirim: "",
     selesai: "",
     dibatalkan: "",
+    prescription: "",
+    non_prescription: "",
     orderByDate: "",
   });
 
@@ -46,7 +48,7 @@ const Transaction = () => {
   const getCardData = async () => {
     try {
       let res = await axios.get(
-        `${API_URL}/transaction/get-transaction-user-list?page=${page}&menunggu=${input.menunggu}&diproses=${input.diproses}&dikirim=${input.dikirim}&selesai=${input.selesai}&dibatalkan=${input.dibatalkan}&orderByDate=${input.orderByDate}`,
+        `${API_URL}/transaction/get-transaction-user-list?page=${page}&menunggu=${input.menunggu}&diproses=${input.diproses}&dikirim=${input.dikirim}&selesai=${input.selesai}&dibatalkan=${input.dibatalkan}&prescription=${input.prescription}&non%5Fprescription=${input.non_prescription}&orderByDate=${input.orderByDate}`,
         {
           headers: {
             authorization: `Bearer ${token}`,
@@ -104,6 +106,60 @@ const Transaction = () => {
       orderByDate: "",
     });
   };
+  const clickDikirim = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: true,
+      selesai: "",
+      dibatalkan: "",
+      orderByDate: "",
+    });
+  };
+  const clickSelesai = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: "",
+      selesai: true,
+      dibatalkan: "",
+      orderByDate: "",
+    });
+  };
+  const clickDibatalkan = () => {
+    setInput({
+      ...input,
+      menunggu: "",
+      diproses: "",
+      dikirim: "",
+      selesai: "",
+      dibatalkan: true,
+      orderByDate: "",
+    });
+  };
+  const clickPrescription = () => {
+    setInput({
+      ...input,
+      prescription: true,
+      non_prescription: "",
+    });
+  };
+  const clickNonPrescription = () => {
+    setInput({
+      ...input,
+      prescription: "",
+      non_prescription: true,
+    });
+  };
+  const clickSemuaJenis = () => {
+    setInput({
+      ...input,
+      prescription: "",
+      non_prescription: "",
+    });
+  };
 
   useEffect(() => {
     getCardData();
@@ -132,6 +188,12 @@ const Transaction = () => {
         clickMenunggu={clickMenunggu}
         clickSemua={clickSemua}
         clickDiproses={clickDiproses}
+        clickSemuaJenis={clickSemuaJenis}
+        clickDikirim={clickDikirim}
+        clickSelesai={clickSelesai}
+        clickDibatalkan={clickDibatalkan}
+        clickPrescription={clickPrescription}
+        clickNonPrescription={clickNonPrescription}
         getCardData={getCardData}
         orderByDate={input.orderByDate}
         fullname={fullname}

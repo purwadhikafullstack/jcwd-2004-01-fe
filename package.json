@@ -47,6 +47,9 @@
     "slick-carousel": "^1.8.1",
     "sweetalert2": "^11.4.17",
     "tailwind-scrollbar-hide": "^1.1.7",
+    "tailwindcss-autofill": "^1.0.2",
+    "tailwindcss-shadow-fill": "^1.0.1",
+    "tailwindcss-text-fill": "^0.2.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
