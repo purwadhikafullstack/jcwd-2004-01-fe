@@ -66,7 +66,7 @@
   }
 
   .input-form {
-    @apply w-full h-[40px] rounded-md text-base focus:outline-none ml-4 mb-1 mr-2;
+    @apply w-full h-[40px] rounded-md text-base focus:outline-none ml-4 mb-1 mr-2 autofill:!bg-yellow-400;
   }
 
   .right-icon-true {
@@ -88,4 +88,22 @@
 }
 .red-circle {
   animation-delay: 0.3s;
+}
+
+/* Change Autocomplete styles in Chrome*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  border: 1px solid #ffffff;
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset;
+  box-shadow: 0 0 0px 1000px #ffffff inset;
+  transition: background-color 5000s ease-in-out 0s;
+  color: black;
 }
