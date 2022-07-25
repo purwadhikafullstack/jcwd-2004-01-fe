@@ -81,6 +81,7 @@ const MedicineTable = () => {
           status: "success",
           duration: 3000,
           isClosable: true,
+          position: "top-right",
         });
         console.log(response);
       } catch (error) {
@@ -91,6 +92,7 @@ const MedicineTable = () => {
           status: "error",
           duration: 3000,
           isClosable: true,
+          position: "top-right",
         });
       } finally {
         debouncedFetchData(page, input, (response) => {

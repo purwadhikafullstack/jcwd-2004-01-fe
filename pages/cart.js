@@ -188,11 +188,20 @@ const Cart = ({ getCartAction }) => {
           </div>
         </div>
         <MobileHeader
-          firstProp={<IoIosArrowBack className="text-base ml-8" />}
+          firstProp={
+            <IoIosArrowBack
+              className="text-base ml-8"
+              onClick={() => router.back()}
+            />
+          }
           secondProp={
             <p className="text-base mr-[110px] w-[120px]">Keranjang Saya</p>
           }
-          thirdProp={<FaShoppingCart className="text-xl" />}
+          thirdProp={
+            <Link href="/cart">
+              <FaShoppingCart />
+            </Link>
+          }
           fourthProp={<HiOutlineDotsVertical className="mr-5 text-xl" />}
           classExtend={"flex shadow-xl lg:hidden"}
         />
@@ -200,7 +209,7 @@ const Cart = ({ getCartAction }) => {
       <div className="hidden md:inline md:text-2xl md:font-bold ">
         <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
       </div>
-      <div className="flex">
+      <div className="flex mb-[200px] md:mb-0">
         {/* Card Cart */}
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />

@@ -177,6 +177,7 @@ const ModalInputAddress = ({ isOpen, onClose }) => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     } finally {
       setButtonLoadingSubmit(false);

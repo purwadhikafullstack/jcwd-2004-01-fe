@@ -178,6 +178,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     } finally {
       setButtonLoadingSubmit(false);
@@ -499,25 +500,6 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                   {formik.touched.type_name && formik.errors.type_name ? (
                     <p className="text-sm ml-3 text-red-500 pt-1">
                       {formik.errors.type_name}
-                    </p>
-                  ) : null}
-                </div>
-                <div className="flex items-center my-2">
-                  <p className="w-[154px]">Expired</p>
-                  <DatePicker
-                    name="expired_at"
-                    className="ml-7 pl-2 w-[226px] h-[32px] border-[1px] border-grayDisable rounded-md focus:outline-blue-500 transition ease-in-out delay-150 duration-300"
-                    onChange={(value) =>
-                      formik.setFieldValue("expired_at", value)
-                    }
-                    selected={formik.values.expired_at}
-                    onBlur={() => formik.setFieldTouched("expired_at", true)}
-                    value={formik.values.expired_at}
-                    dateFormat="dd-MM-yyyy"
-                  />
-                  {formik.touched.expired_at && formik.errors.expired_at ? (
-                    <p className="text-sm ml-3 text-red-500 pt-1">
-                      {formik.errors.expired_at}
                     </p>
                   ) : null}
                 </div>
