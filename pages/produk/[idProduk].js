@@ -241,7 +241,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
         />
         <meta
           property="og:image"
-          itemprop="image"
+          itemProp="image"
           content={`${API_URL}${product.imageProduct[0].image}`}
         />
         <meta property="og:type" content="website" />
