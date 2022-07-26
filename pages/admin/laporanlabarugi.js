@@ -1,6 +1,7 @@
 // component
 import NavbarAdmin from "../../components/NavbarAdmin";
 import NavbarAdminTop from "../../components/NavbarAdminTop";
+import PageLoading from "../../components/pageLoading";
 
 //lib
 import updateTerahir from "../../lib/dayjs";
@@ -35,6 +36,9 @@ const LaporanLabaRugi = () => {
     const update = updateTerahir(new Date());
     setUpdate(update);
   };
+
+  // page loading
+  const [pageLoading, setPageLoading] = useState(true);
 
   // filter year 3 th kebelakang
   var currentTime = new Date();
@@ -76,7 +80,12 @@ const LaporanLabaRugi = () => {
 
   useEffect(() => {
     getUpdate();
+    setPageLoading(false);
   }, []);
+
+  if (pageLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <>
