@@ -15,8 +15,9 @@ import * as Yup from "yup";
 import { loginAction } from "../redux/actions/user_action";
 import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
+import PageLoading from "../components/pageLoading";
 
 const Login = ({ loginAction }) => {
   const line = "/Line30.svg";
@@ -25,6 +26,8 @@ const Login = ({ loginAction }) => {
   const logo = "/LogoHealthymedBW.svg";
 
   const [disable, setDisable] = useState(false);
+
+  const [loading, setLoading] = useState(true);
 
   const router = useRouter();
 
@@ -57,6 +60,14 @@ const Login = ({ loginAction }) => {
       }
     },
   });
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   console.log(role_id, "role");
   if (isLogin && role_id == "user") {
@@ -164,7 +175,11 @@ const Login = ({ loginAction }) => {
               {/* <input type="checkbox" />
               <p className="text-sm">Ingat saya</p> */}
             </div>
-            <div className="text-sm text-gray-400">Lupa kata sandi?</div>
+            <Link href="/forgotpassword">
+              <div className="text-sm text-gray-400 hover:cursor-pointer">
+                Lupa kata sandi?
+              </div>
+            </Link>
           </div>
 
           <div className="w-[327px] lg:w-[528px] pt-8">

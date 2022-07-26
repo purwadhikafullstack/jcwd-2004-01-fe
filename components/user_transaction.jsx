@@ -143,9 +143,9 @@ const UserTransaction = ({
               <FaListUl /> Proses Pemesanan
             </div>
 
-            <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+            {/* <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
               <BsCashStack /> Metode Pembayaran
-            </div>
+            </div> */}
 
             <Link href="/userprofile/address">
               <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">

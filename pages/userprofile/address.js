@@ -42,11 +42,14 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import PageLoading from "../../components/pageLoading";
 
 const Address = () => {
   const { isLogin, fullname } = useUser();
   //Get token
   let token = Cookies.get("token");
+
+  const [loading, setLoading] = useState(true);
 
   //UserData
   const [userData, setUserData] = useState({
@@ -277,6 +280,13 @@ const Address = () => {
     onCloseLogout();
   };
 
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+  if (loading) {
+    return <PageLoading />;
+  }
+
   return (
     <>
       {/* Navbar */}
@@ -350,9 +360,9 @@ const Address = () => {
                 </div>
               </Link>
 
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+              {/* <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran
-              </div>
+              </div> */}
 
               <Link href="/userprofile/address">
                 <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer font-bold">

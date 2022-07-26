@@ -44,6 +44,7 @@ import Head from "next/head";
 import Capitalize from "../../lib/capitalize";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
+import PageLoading from "../../components/pageLoading";
 
 const Biodata = () => {
   //Modal Hook
@@ -587,6 +588,15 @@ const Biodata = () => {
       });
     }
   };
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   //Logout
   const router = useRouter();
@@ -741,9 +751,9 @@ const Biodata = () => {
                 </div>
               </Link>
 
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+              {/* <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran
-              </div>
+              </div> */}
 
               <Link href="/userprofile/address">
                 <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
