@@ -10,8 +10,8 @@ import updateTerahir from "../../lib/dayjs";
 import { Rupiah, formatThousand } from "../../lib/convertRupiah";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "chart.js/auto";
-import { ChartData, ChartArea } from "chart.js";
 import { Chart } from "react-chartjs-2";
+import PageLoading from "../../components/pageLoading";
 
 //react icon
 import {
@@ -27,6 +27,8 @@ import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 
 const Dashboard = () => {
+  const [pageLoading, setPageLoading] = useState(true);
+
   const options = {
     scales: {
       x: {
@@ -149,7 +151,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     getTodayReport();
+    setPageLoading(false);
   }, []);
+
+  if (pageLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <>

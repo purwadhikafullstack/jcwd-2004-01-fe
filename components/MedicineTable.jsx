@@ -14,6 +14,13 @@ import {
   MenuOptionGroup,
   MenuDivider,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
 import { GoSearch } from "react-icons/go";
 import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
@@ -95,34 +102,29 @@ const MedicineTable = () => {
           position: "top-right",
         });
       } finally {
-        debouncedFetchData(page, input, (response) => {
-          setTotalData(parseInt(response.headers["x-total-product"]));
-          setData([...response.data]);
-          setIsLoading(false);
-        });
+        debounceAll();
       }
     };
 
+    const {
+      isOpen: isOpenDelete,
+      onOpen: onOpenDelete,
+      onClose: onCloseDelete,
+    } = useDisclosure();
+
     return (
       <div className="flex items-center">
-        <Button
-          variant="outlineCustom"
-          w="80px"
-          h="20px"
-          fontSize="xs"
-          onClick={() => console.log(val)}
-        >
-          Lihat Detail
-        </Button>
+        <Link href={`detailproduct/${val}`}>
+          <Button variant="outlineCustom" w="80px" h="20px" fontSize="xs">
+            Lihat Detail
+          </Button>
+        </Link>
         <Menu>
           <MenuButton>
             <HiOutlineDotsVertical className="hover:cursor-pointer h-[20px] w-[20px]" />
           </MenuButton>
           <MenuList>
-            <MenuItem
-              textColor="red.500"
-              onClick={() => deleteProductHandler()}
-            >
+            <MenuItem textColor="red.500" onClick={onOpenDelete}>
               Delete
             </MenuItem>
             <Link href={`detailproduct/${val}`}>
@@ -131,6 +133,32 @@ const MedicineTable = () => {
             <MenuItem>Close</MenuItem>
           </MenuList>
         </Menu>
+        {/* Modal */}
+        <Modal isOpen={isOpenDelete} onClose={onCloseDelete}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Keluar</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              <div>Apakah anda yakin untuk hapus produk yang anda pilih?</div>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button variant="fillCustom" mr={3} onClick={onCloseDelete}>
+                Batal
+              </Button>
+              <Button
+                onClick={() => {
+                  deleteProductHandler();
+                  onCloseDelete();
+                }}
+                variant="outlineCustom"
+              >
+                Ya
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
       </div>
     );
   };

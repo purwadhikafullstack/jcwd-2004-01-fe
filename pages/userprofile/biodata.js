@@ -104,6 +104,9 @@ const Biodata = () => {
   const [disableGender, setDisableGender] = useState(false);
   const [disableDOB, setDisableDOB] = useState(false);
 
+  const router = useRouter();
+  const dispatch = useDispatch();
+
   //User Data state
   const [userData, setUserData] = useState({
     fullname: "",
@@ -599,8 +602,6 @@ const Biodata = () => {
   }
 
   //Logout
-  const router = useRouter();
-  const dispatch = useDispatch();
   const logout = () => {
     Cookies.remove("token");
     dispatch({ type: "LOGOUT" });

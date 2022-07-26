@@ -1,6 +1,7 @@
 // component
 import NavbarAdmin from "../../components/NavbarAdmin";
 import NavbarAdminTop from "../../components/NavbarAdminTop";
+import PageLoading from "../../components/pageLoading";
 
 // react hooks
 import { useState, useEffect, useRef } from "react";
@@ -103,7 +104,7 @@ function barGradient(ctx) {
 const RingkasanStatistik = () => {
   // state
   const [todayReportData, setTodayReportData] = useState();
-  console.log(todayReportData, "ini today report data");
+  const [pageLoading, setPageLoading] = useState(true);
 
   //updated at
   const [update, setUpdate] = useState();
@@ -233,7 +234,12 @@ const RingkasanStatistik = () => {
 
   useEffect(() => {
     getTodayReport();
+    setPageLoading(false);
   }, []);
+
+  if (pageLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <>

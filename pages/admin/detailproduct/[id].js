@@ -5,13 +5,13 @@ import {
   Input,
   Divider,
 } from "@chakra-ui/react";
+
 // commponent
 import ModalEditProduct from "../../../components/ModalEditProduct";
 import ModalEditQuantityProduct from "../../../components/ModalEditQuantityProduct";
-import NavbarAdmin from "../../../components/NavbarAdmin";
-import NavbarAdminTop from "../../../components/NavbarAdminTop";
 import TableLog from "../../../components/TableLog";
 import PaginationProductAdmin from "../../../components/PaginationProductAdmin";
+import PageLoading from "../../../components/pageLoading";
 
 // roter
 import { useRouter } from "next/router";
@@ -34,6 +34,8 @@ import { debounce } from "lodash";
 const DetailProduct = () => {
   const router = useRouter();
   const { id } = router.query;
+
+  const [pageLoading, setPageLoading] = useState(true);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -112,6 +114,10 @@ const DetailProduct = () => {
   };
 
   useEffect(() => {
+    setPageLoading(false);
+  }, []);
+
+  useEffect(() => {
     debounceAll();
   }, [page, input, limit]);
 
@@ -153,6 +159,10 @@ const DetailProduct = () => {
       accessor: "expired_at",
     },
   ]);
+
+  if (pageLoading) {
+    return <PageLoading />;
+  }
 
   return (
     <>
