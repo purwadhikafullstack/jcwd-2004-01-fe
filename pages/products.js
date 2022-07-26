@@ -51,10 +51,6 @@ const Products = () => {
   });
   const [loading, setLoading] = useState(true);
 
-  if (loading) {
-    return <PageLoading />;
-  }
-
   const { isLogin, fullname, profile_picture } = useUser();
 
   const getCategoryList = async () => {
@@ -141,8 +137,15 @@ const Products = () => {
 
   useEffect(() => {
     getCategoryList();
+  }, []);
+
+  useEffect(() => {
     setLoading(false);
   }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   function capitalize(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);
