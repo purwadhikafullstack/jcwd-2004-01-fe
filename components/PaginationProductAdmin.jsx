@@ -8,10 +8,11 @@ const PaginationProductAdmin = ({
   limit,
   updateLimit,
   pageChangeHandler,
+  isAdmin,
 }) => {
   const [currentPage, setCurrentPage] = useState(0);
 
-  let totalPage = Math.ceil(totalData / 10);
+  let totalPage = Math.ceil(totalData / limit);
 
   const [pageFirstRecord, setPageFirstRecord] = useState(1);
   const [pageLastRecord, setPageLastRecord] = useState(limit);
@@ -25,8 +26,22 @@ const PaginationProductAdmin = ({
 
   const PaginationBar = () => {
     if (totalPage < 6) {
-      let page = [1, 2, 3, 4, 5];
-      setPagination([...page]);
+      if (totalPage == 1) {
+        let page = [1];
+        setPagination([...page]);
+      } else if (totalPage == 2) {
+        let page = [1, 2];
+        setPagination([...page]);
+      } else if (totalPage == 3) {
+        let page = [1, 2, 3];
+        setPagination([...page]);
+      } else if (totalPage == 4) {
+        let page = [1, 2, 3, 4];
+        setPagination([...page]);
+      } else if (totalPage == 5) {
+        let page = [1, 2, 3, 4, 5];
+        setPagination([...page]);
+      }
     } else {
       if (currentPage <= 2) {
         let page = [1, 2, 3, "...", totalPage];
@@ -40,17 +55,11 @@ const PaginationProductAdmin = ({
   };
 
   useEffect(() => {
-    PaginationBar();
-    console.log("first");
-  }, []);
-
-  useEffect(() => {
     const skipFactor = currentPage * limit;
     pageChangeHandler(currentPage);
     setPageFirstRecord(skipFactor + 1);
     PaginationBar();
-    console.log("cur page");
-  }, [currentPage]);
+  }, [currentPage, limit, totalData]);
 
   useEffect(() => {
     const count = pageFirstRecord + limit;
@@ -68,20 +77,22 @@ const PaginationProductAdmin = ({
               &nbsp;
             </p>
           </div>
-          <div className="flex items-center  w-[200px]">
-            <p>Baris per halaman</p>
-            <Select
-              focusBorderColor="blackPrimary"
-              w="70px"
-              ml="10px"
-              value={limit}
-              onChange={(e) => updateLimit(e)}
-            >
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-            </Select>
-          </div>
+          {isAdmin ? (
+            <div className="flex items-center  w-[200px]">
+              <p>Baris per halaman</p>
+              <Select
+                focusBorderColor="blackPrimary"
+                w="70px"
+                ml="10px"
+                value={limit}
+                onChange={(e) => updateLimit(e)}
+              >
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+              </Select>
+            </div>
+          ) : null}
           <div className="flex">
             <button
               onClick={onPrevPage}

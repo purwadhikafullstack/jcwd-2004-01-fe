@@ -9,10 +9,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
+  Spinner,
   useToast,
   Modal,
   ModalOverlay,
@@ -27,13 +24,7 @@ import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
 import { debounce } from "lodash";
 import DetailTableObat from "./DetailTableObat";
 import ModalInputDrugs from "./ModalInputProduct";
-import {
-  useState,
-  useMemo,
-  useTransition,
-  useCallback,
-  useEffect,
-} from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import PaginationProductAdmin from "./PaginationProductAdmin";
 import API_URL from "../helpers/apiurl";
 import axios from "axios";
@@ -54,6 +45,7 @@ const MedicineTable = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [limit, setLimit] = useState(10);
   const [component, setComponent] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   console.log(data, "inidata");
 
@@ -246,6 +238,7 @@ const MedicineTable = () => {
 
   useEffect(() => {
     getComponent();
+    setLoading(false);
   }, []);
 
   const debounceAll = () => {
@@ -323,6 +316,7 @@ const MedicineTable = () => {
             setLimit={setLimit}
             updateLimit={updateLimit}
             pageChangeHandler={setPage}
+            isAdmin={true}
           />
         </div>
       </div>

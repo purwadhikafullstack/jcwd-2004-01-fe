@@ -508,6 +508,7 @@ const NewOrderTransaction = () => {
             setLimit={setLimit}
             updateLimit={updateLimit}
             pageChangeHandler={setPage}
+            isAdmin={true}
           />
         </div>
 

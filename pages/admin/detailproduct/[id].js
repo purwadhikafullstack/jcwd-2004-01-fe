@@ -268,6 +268,7 @@ const DetailProduct = () => {
             limit={limit}
             updateLimit={updateLimit}
             pageChangeHandler={setPage}
+            isAdmin={true}
           />
         </div>
 
