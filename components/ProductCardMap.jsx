@@ -55,22 +55,11 @@ const ProductCardMap = ({
 
               {/* Title */}
               <div className="absolute top-40 left-5 right-5">
-                <p className="font-sans text-sm font-bold text-blackPrimary">
+                <p className="font-sans text-sm font-bold text-blackPrimary line-clamp-2">
                   {title}
                 </p>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[207px] left-5">
-                <div className="border-[1px] border-[#FF6B6B] w-9 h-6 rounded-md flex justify-center">
-                  <p className="text-xs font-bold text-[#FF6B6B] mt-[2px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute left-5 top-[238px] justify-between text-blackPrimary text-base">
                 <p className="font-bold">{formattedPrice}</p>
@@ -124,18 +113,7 @@ const ProductCardMap = ({
                   </p>
                 </Tooltip>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[130px] left-2">
-                <div className="border-[1px] border-[#FF6B6B] w-7 h-[21px] rounded-md flex justify-center">
-                  <p className="text-[8px] font-bold text-[#FF6B6B] mt-[3.5px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute w-[28px] h-[28px] left-2 top-[155px] justify-between text-blackPrimary text-sm">
                 <span className="font-bold">
@@ -193,22 +171,11 @@ const ProductCardMap = ({
 
               {/* Title */}
               <div className="absolute top-40 left-5 right-5">
-                <p className="font-sans text-sm font-bold text-blackPrimary">
+                <p className="font-sans text-sm font-bold text-blackPrimary line-clamp-2">
                   {title}
                 </p>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[207px] left-5">
-                <div className="border-[1px] border-[#FF6B6B] w-9 h-6 rounded-md flex justify-center">
-                  <p className="text-xs font-bold text-[#FF6B6B] mt-[2px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute left-5 top-[238px] justify-between w-[155px] text-blackPrimary text-base">
                 <p className="font-bold">{formattedPrice}</p>
@@ -262,18 +229,7 @@ const ProductCardMap = ({
                   </p>
                 </Tooltip>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[140px] left-3">
-                <div className="border-[1px] border-[#FF6B6B] w-7 h-[21px] rounded-md flex justify-center">
-                  <p className="text-[8px] font-bold text-[#FF6B6B] mt-[3.5px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute w-[28px] h-[28px] left-3 top-[165px] justify-between text-blackPrimary text-sm">
                 <p className="font-bold">{formattedPrice}</p>
@@ -329,22 +285,11 @@ const ProductCardMap = ({
 
               {/* Title */}
               <div className="absolute top-40 left-6 right-6">
-                <p className="font-sans text-sm font-bold text-blackPrimary">
+                <p className="font-sans text-sm font-bold text-blackPrimary line-clamp-2">
                   {title}
                 </p>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[207px] left-6">
-                <div className="border-[1px] border-[#FF6B6B] w-9 h-6 rounded-md flex justify-center">
-                  <p className="text-xs font-bold text-[#FF6B6B] mt-[2px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-sm ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute w-[165px] left-6 top-[238px] justify-between text-blackPrimary text-base">
                 <p className="font-bold">{formattedPrice}</p>
@@ -398,18 +343,7 @@ const ProductCardMap = ({
                   </p>
                 </Tooltip>
               </div>
-              {/* Discount */}
-              <div className="flex absolute top-[140px] left-3">
-                <div className="border-[1px] border-[#FF6B6B] w-7 h-[21px] rounded-md flex justify-center">
-                  <p className="text-[8px] font-bold text-[#FF6B6B] mt-[3.5px]">
-                    17%
-                  </p>
-                </div>
-                {/* Original Price */}
-                <p className="text-gray-400 font-normal line-through text-[10px] ml-3">
-                  {Product.originalPrice}
-                </p>
-              </div>
+
               {/* Price/unit */}
               <div className="flex absolute w-[134px] h-[28px] left-3 top-[165px] justify-between text-blackPrimary text-sm">
                 <p className="font-bold">{formattedPrice}</p>
