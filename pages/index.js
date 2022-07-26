@@ -19,14 +19,25 @@ import PopularCarousel from "../components/popular_carousel";
 import Link from "next/link";
 import Head from "next/head";
 import TitleCarousel from "../components/card_title_carousel";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import API_URL from "../helpers/apiurl";
+import PageLoading from "../components/pageLoading";
 
 export default function Home() {
   const logo = "/LogoHealthymed.svg";
 
   const { isLogin, fullname, profile_picture } = useUser();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <div className="flex flex-col">

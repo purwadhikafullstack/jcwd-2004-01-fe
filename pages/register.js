@@ -15,8 +15,9 @@ import { connect } from "react-redux";
 import useUser from "../hooks/useUser";
 import { registerAction } from "../redux/actions/user_action";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
+import PageLoading from "../components/pageLoading";
 
 const Register = ({ registerAction }) => {
   const line = "/Line30.svg";
@@ -25,6 +26,7 @@ const Register = ({ registerAction }) => {
   const logo = "/LogoHealthymedBW.svg";
 
   const [disable, setDisable] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const { isLogin } = useUser();
 
@@ -73,6 +75,14 @@ const Register = ({ registerAction }) => {
 
   if (isLogin) {
     router.push("/");
+  }
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
   }
 
   return (

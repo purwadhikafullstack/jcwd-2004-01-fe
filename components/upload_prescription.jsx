@@ -44,7 +44,7 @@ const PrescriptionUpload = ({
       // setSuccess(true);
     } catch (error) {
       console.log(error);
-      router.push("/");
+      router.push("/userprofile/transactions");
     }
   };
 

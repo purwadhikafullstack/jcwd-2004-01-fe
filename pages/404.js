@@ -1,6 +1,17 @@
 import Link from "next/link";
+import PageLoading from "../components/pageLoading";
+import { useState, useEffect } from "react";
 
 const NotFound = () => {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
   return (
     <div className="w-full h-[620px] bg-[#f9fafc]">
       <div className="flex justify-center">
