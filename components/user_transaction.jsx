@@ -273,6 +273,7 @@ const UserTransaction = ({
               setLimit={setLimit}
               updateLimit={updateLimit}
               pageChangeHandler={setPage}
+              isAdmin={true}
             />
           </div>
 
