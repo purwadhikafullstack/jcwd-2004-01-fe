@@ -85,7 +85,9 @@ const PaginationProductAdmin = ({
                 w="70px"
                 ml="10px"
                 value={limit}
-                onChange={(e) => updateLimit(e)}
+                onChange={(e) => {
+                  updateLimit(e), setCurrentPage(0);
+                }}
               >
                 <option value="10">10</option>
                 <option value="15">15</option>
