@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 // import DetailTableObat from "../../components/DetailTableObat";
-const daftarProduk = () => {
+const DaftarProduk = () => {
   const [pageLoading, setPageLoading] = useState(true);
 
   useEffect(() => {
@@ -67,4 +67,4 @@ const daftarProduk = () => {
   );
 };
 
-export default daftarProduk;
+export default DaftarProduk;
