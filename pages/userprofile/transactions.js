@@ -5,9 +5,13 @@ import API_URL from "../../helpers/apiurl";
 import Cookies from "js-cookie";
 import useUser from "../../hooks/useUser";
 import Head from "next/head";
+import PageLoading from "../../components/pageLoading";
 
 const Transaction = () => {
   const { isLogin, fullname } = useUser();
+  //Loading
+  const [loading, setLoading] = useState(true);
+
   //UserData
   const [userData, setUserData] = useState({
     fullname: "",
@@ -168,7 +172,12 @@ const Transaction = () => {
 
   useEffect(() => {
     getUserData();
+    setLoading(false);
   }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <div>

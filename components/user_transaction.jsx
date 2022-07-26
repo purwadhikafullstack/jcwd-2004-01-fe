@@ -21,6 +21,20 @@ import {
 import TransactionCardUser from "./transaction_card_user";
 import PaginationProductAdmin from "./PaginationProductAdmin";
 import Footer from "./footer";
+import { BiLogOut } from "react-icons/bi";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import {
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import Cookies from "js-cookie";
 
 const UserTransaction = ({
   userData,
@@ -45,6 +59,21 @@ const UserTransaction = ({
   orderByDate,
   fullname,
 }) => {
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
+
+  //Logout
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const logout = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+    onCloseLogout();
+  };
   return (
     <div className="w-[375px] lg:w-[1349px] h-[812px] lg:h[1366px]">
       <div className="bg-white w-full h-[92px] lg:h-[109px] flex items-center drop-shadow-lg">
@@ -114,15 +143,22 @@ const UserTransaction = ({
               <FaListUl /> Proses Pemesanan
             </div>
 
-            <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+            {/* <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
               <BsCashStack /> Metode Pembayaran
-            </div>
+            </div> */}
 
             <Link href="/userprofile/address">
               <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <IoLocationSharp /> Alamat Pengiriman
               </div>
             </Link>
+
+            <div
+              onClick={onOpenLogout}
+              className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer"
+            >
+              <BiLogOut /> Keluar
+            </div>
           </div>
         </div>
         <div className="w-[900px] bg-white drop-shadow-lg rounded-2xl">
@@ -280,6 +316,31 @@ const UserTransaction = ({
           </div>
         </div>
       </div>
+      {/* Modal Logout */}
+      <Modal isOpen={isOpenLogout} onClose={onCloseLogout}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Keluar</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <div>Apakah anda yakin untuk keluar?</div>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button variant="fillCustom" mr={3} onClick={onCloseLogout}>
+              Batal
+            </Button>
+            <Button
+              onClick={() => {
+                logout();
+              }}
+              variant="outlineCustom"
+            >
+              Ya
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
       <div className="mt-[20px]">
         <Footer />
       </div>

@@ -28,6 +28,14 @@ import {
   useDisclosure,
   Center,
   Link as CLink,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuDivider,
 } from "@chakra-ui/react";
 import { FaUserCircle } from "react-icons/fa";
 import useUser from "../../hooks/useUser";
@@ -181,6 +189,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
           status: "success",
           duration: 3000,
           isClosable: true,
+          position: "top-right",
         });
       }
     } catch (error) {
@@ -191,6 +200,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     } finally {
       setButtonLoading(false);
@@ -310,10 +320,39 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
             </div>
           </div>
           <MobileHeader
-            firstProp={<IoIosArrowBack className="text-base ml-8" />}
+            firstProp={
+              <Link href="/">
+                <IoIosArrowBack className="text-base ml-8" />
+              </Link>
+            }
             secondProp={<p className="text-base mr-[150px]">Kategori</p>}
-            thirdProp={<FaShoppingCart className="text-xl" />}
-            fourthProp={<HiOutlineDotsVertical className="mr-8 text-xl" />}
+            thirdProp={
+              isLogin ? (
+                <Link href="/cart">
+                  <FaShoppingCart />
+                </Link>
+              ) : (
+                <Link href="/login">
+                  <FaShoppingCart className="text-xl" />
+                </Link>
+              )
+            }
+            fourthProp={
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  _focus={{ boxShadow: "none", bgColor: "white" }}
+                  bgColor="white"
+                >
+                  <HiOutlineDotsVertical className="text-xl" />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={onOpen} fontSize="sm">
+                    Bagikan
+                  </MenuItem>
+                </MenuList>
+              </Menu>
+            }
             classExtend={"flex shadow-xl lg:hidden"}
           />
           <div className="hidden md:inline-block md:ml-[120px] md:my-11">
@@ -457,7 +496,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                     w="153px"
                     h="48px"
                     isDisabled={
-                      kuantitas <= 0 || kuantitas > maxInput || maxInput || 0
+                      kuantitas <= 0 || kuantitas > maxInput || maxInput == 0
                     }
                     isLoading={buttonLoading}
                     onClick={() => {
@@ -648,6 +687,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                         status: "success",
                         duration: 3000,
                         isClosable: true,
+                        position: "top-right",
                       });
                     }}
                   >
@@ -662,7 +702,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                     margin={2}
                     onClick={onClose}
                   >
-                    No
+                    Batal
                   </CLink>
                 </Center>
               </ModalBody>
@@ -691,7 +731,7 @@ export async function getServerSideProps(context) {
       `${API_URL}/product/get-product-terkait?symptom_id=${idSymptom}`
     );
 
-    let host = "https://" + req.headers.host;
+    let host = "https://" + "jcwd200401.purwadhikabootcamp.com";
 
     // const productTerkaitReq = await axios.get(``);
 

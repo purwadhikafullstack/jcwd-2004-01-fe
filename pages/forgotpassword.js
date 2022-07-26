@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import API_URL from "../helpers/apiurl";
 import Head from "next/head";
+import PageLoading from "../components/pageLoading";
 
 const ForgotPassword = () => {
   const imageRegisterLogin = "/Frame.svg";
@@ -43,6 +44,7 @@ const ForgotPassword = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
       setEmailSent(true);
     } catch (error) {
@@ -56,11 +58,21 @@ const ForgotPassword = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       setDisable(false);
     }
   };
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <div className="flex">

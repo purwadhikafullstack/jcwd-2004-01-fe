@@ -92,6 +92,7 @@ const ModalEditQuantityProduct = ({ isOpen, onClose, id, getLogData }) => {
         status: "error",
         duration: 3000,
         isClosable: true,
+        position: "top-right",
       });
     } finally {
       getLogData();

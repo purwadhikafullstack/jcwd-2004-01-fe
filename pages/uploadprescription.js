@@ -7,6 +7,7 @@ import useUser from "../hooks/useUser";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Head from "next/head";
+import PageLoading from "../components/pageLoading";
 
 const UploadPrescription = () => {
   const [userAddress, setUserAddress] = useState([]);
@@ -46,6 +47,7 @@ const UploadPrescription = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -58,6 +60,7 @@ const UploadPrescription = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };
@@ -71,6 +74,15 @@ const UploadPrescription = () => {
   }, []);
 
   //LOADING DIBUAT YA
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <div>

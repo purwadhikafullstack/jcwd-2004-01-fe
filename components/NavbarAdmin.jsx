@@ -69,14 +69,6 @@ const NavbarAdmin = ({ where }) => {
                   Daftar Produk
                 </Button>
               </Link>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Tambah Produk
-              </Button>
             </AccordionPanel>
           </AccordionItem>
 
@@ -105,47 +97,6 @@ const NavbarAdmin = ({ where }) => {
                   Daftar Pesanan
                 </Button>
               </Link>
-
-              {/* <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Pesanan Baru
-              </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Siap Dikirim
-              </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Dalam Pengiriman
-              </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Selesai
-              </Button>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Dibatalkan
-              </Button> */}
             </AccordionPanel>
           </AccordionItem>
 
@@ -174,14 +125,6 @@ const NavbarAdmin = ({ where }) => {
                   Ringkasan Statistik
                 </Button>
               </Link>
-              <Button
-                variant="unstyled"
-                _hover={{ bgColor: "none", color: "blackPrimary" }}
-                w="fit-content"
-                ml="30px"
-              >
-                Buku Kas
-              </Button>
               <Link href="laporanlabarugi">
                 <Button
                   variant="unstyled"

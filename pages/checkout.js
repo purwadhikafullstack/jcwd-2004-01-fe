@@ -53,6 +53,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import PageLoading from "../components/pageLoading";
 // import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
@@ -64,6 +65,7 @@ const Checkout = ({ getCartAction }) => {
 
   const [checkoutProduct, setCheckoutProduct] = useState([]);
   const [bankData, setBankData] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
   console.log(bankData, "ini bank data");
 
   console.log(checkoutProduct);
@@ -161,6 +163,7 @@ const Checkout = ({ getCartAction }) => {
     if (selected_product.length < 1) {
       router.push("/");
     }
+    setPageLoading(false);
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -228,6 +231,7 @@ const Checkout = ({ getCartAction }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
       router.push("/userprofile/transactions");
     } catch (error) {
@@ -241,6 +245,7 @@ const Checkout = ({ getCartAction }) => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };
@@ -251,8 +256,12 @@ const Checkout = ({ getCartAction }) => {
     };
   }
 
+  if (pageLoading) {
+    return <PageLoading />;
+  }
+
   return (
-    <>
+    <div>
       <div className="">
         <Head>
           <title>Checkout | Healthymed</title>
@@ -305,7 +314,12 @@ const Checkout = ({ getCartAction }) => {
           </div>
         </div>
         <MobileHeader
-          firstProp={<IoIosArrowBack className="text-base ml-8" />}
+          firstProp={
+            <IoIosArrowBack
+              className="text-base ml-8"
+              onClick={() => router.back()}
+            />
+          }
           secondProp={
             <p className="text-base mr-[110px] w-[120px]">Keranjang Saya</p>
           }
@@ -317,7 +331,7 @@ const Checkout = ({ getCartAction }) => {
       <div className="hidden md:inline md:text-2xl md:font-bold ">
         <p className="pl-[96px] mt-[57px] "> Alat Pengiriman </p>
       </div>
-      <div className="flex">
+      <div className="flex mb-[120px] md:mb-0">
         <div>
           <CardAddressCheckout
             addressData={addressData}
@@ -379,7 +393,7 @@ const Checkout = ({ getCartAction }) => {
         </div>
       </div>
       {/* Button Beli Cart */}
-      <div className="h-[100px] w-[100%] mt-11 bg-slate-100 flex justify-between items-center md:hidden fixed bottom-0 left-0">
+      <div className="h-[100px] w-[100%] bg-slate-100 flex justify-between items-center md:hidden fixed bottom-0 left-0">
         <div className="flex items-center gap-4 mx-auto">
           <Button
             variant="fillCustom"
@@ -448,7 +462,7 @@ const Checkout = ({ getCartAction }) => {
               </div>
               <p className="text-xs font-bold">Lihat Detail</p>
             </div>
-            <Divider my="20px" w="500px" ml="-6" />
+            <Divider my="20px" w="500px" ml="-6" className="hidden md:inline" />
             {/* page pilih bank */}
             {selectBank == null ? (
               <div className="h-[286px] overflow-y-auto">
@@ -461,7 +475,7 @@ const Checkout = ({ getCartAction }) => {
                       <div className="flex items-center justify-between hover:cursor-pointer">
                         <div className="flex items-center gap-[34px]">
                           <img
-                            src={`${API_URL}${val.image}`}
+                            src={`${val.image}`}
                             alt=""
                             className="w-[42px] h-[42px] object-scale-down"
                           />
@@ -482,7 +496,7 @@ const Checkout = ({ getCartAction }) => {
                 <div className="flex items-center justify-between">
                   <p className="font-bold">{bankData[selectBank].name}</p>
                   <img
-                    src={`${API_URL}${bankData[selectBank].image}`}
+                    src={`${bankData[selectBank].image}`}
                     alt=""
                     className="w-[42px] h-[42px] object-scale-down"
                   />
@@ -503,7 +517,7 @@ const Checkout = ({ getCartAction }) => {
                 </div>
               </div>
             ) : null}
-            <Divider w="500px" ml="-6" />
+            <Divider w="500px" ml="-6" className="hidden md:inline" />
           </ModalBody>
 
           <Center>
@@ -521,7 +535,7 @@ const Checkout = ({ getCartAction }) => {
           </Center>
         </ModalContent>
       </Modal>
-    </>
+    </div>
   );
 };
 

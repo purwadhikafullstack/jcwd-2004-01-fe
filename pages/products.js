@@ -29,6 +29,7 @@ import Capitalize from "../lib/capitalize";
 import Link from "next/link";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import PageLoading from "../components/pageLoading";
 
 const Products = () => {
   const router = useRouter();
@@ -48,6 +49,7 @@ const Products = () => {
     orderName: "asc",
     orderPrice: "asc",
   });
+  const [loading, setLoading] = useState(true);
 
   const { isLogin, fullname, profile_picture } = useUser();
 
@@ -136,6 +138,14 @@ const Products = () => {
   useEffect(() => {
     getCategoryList();
   }, []);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   function capitalize(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);

@@ -37,10 +37,14 @@ import { IoIosArrowBack } from "react-icons/io";
 import { IoLocationSharp } from "react-icons/io5";
 import { FaShoppingCart, FaListUl } from "react-icons/fa";
 import { FaUserCircle } from "react-icons/fa";
+import { BiLogOut } from "react-icons/bi";
 import SearchBar from "../../components/searchbar";
 import Footer from "../../components/footer";
 import Head from "next/head";
 import Capitalize from "../../lib/capitalize";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/router";
+import PageLoading from "../../components/pageLoading";
 
 const Biodata = () => {
   //Modal Hook
@@ -75,6 +79,11 @@ const Biodata = () => {
     onOpen: onOpenGender,
     onClose: onCloseGender,
   } = useDisclosure();
+  const {
+    isOpen: isOpenLogout,
+    onOpen: onOpenLogout,
+    onClose: onCloseLogout,
+  } = useDisclosure();
 
   //Toggle password
   const [show, setShow] = useState(false);
@@ -94,6 +103,9 @@ const Biodata = () => {
   const [disablePhonenumber, setDisablePhonenumber] = useState(false);
   const [disableGender, setDisableGender] = useState(false);
   const [disableDOB, setDisableDOB] = useState(false);
+
+  const router = useRouter();
+  const dispatch = useDispatch();
 
   //User Data state
   const [userData, setUserData] = useState({
@@ -147,6 +159,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -159,6 +172,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -193,6 +207,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -205,6 +220,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -239,6 +255,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -251,6 +268,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -285,6 +303,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -297,6 +316,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -335,6 +355,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -347,6 +368,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -384,6 +406,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -396,6 +419,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     } finally {
       getUserData();
@@ -515,6 +539,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -527,6 +552,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
   };
@@ -548,6 +574,7 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#48BB78" },
       });
     } catch (error) {
       console.log(error);
@@ -560,8 +587,26 @@ const Biodata = () => {
         draggable: true,
         progress: undefined,
         theme: "colored",
+        style: { backgroundColor: "#e85362" },
       });
     }
+  };
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
+
+  //Logout
+  const logout = () => {
+    Cookies.remove("token");
+    dispatch({ type: "LOGOUT" });
+    router.push("/");
+    onCloseLogout();
   };
 
   const renderUserprofileData = () => {
@@ -707,15 +752,22 @@ const Biodata = () => {
                 </div>
               </Link>
 
-              <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
+              {/* <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                 <BsCashStack /> Metode Pembayaran
-              </div>
+              </div> */}
 
               <Link href="/userprofile/address">
                 <div className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer">
                   <IoLocationSharp /> Alamat Pengiriman
                 </div>
               </Link>
+
+              <div
+                onClick={onOpenLogout}
+                className="w-[220px] mx-[40px] pt-[28px] flex items-center gap-[48px] text-[14px] hover:cursor-pointer"
+              >
+                <BiLogOut /> Keluar
+              </div>
             </div>
           </div>
           <div>
@@ -1091,6 +1143,32 @@ const Biodata = () => {
                     </Button>
                   </ModalFooter>
                 </form>
+              </ModalContent>
+            </Modal>
+
+            {/* Modal Logout */}
+            <Modal isOpen={isOpenLogout} onClose={onCloseLogout}>
+              <ModalOverlay />
+              <ModalContent>
+                <ModalHeader>Keluar</ModalHeader>
+                <ModalCloseButton />
+                <ModalBody>
+                  <div>Apakah anda yakin untuk keluar?</div>
+                </ModalBody>
+
+                <ModalFooter>
+                  <Button variant="fillCustom" mr={3} onClick={onCloseLogout}>
+                    Batal
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      logout();
+                    }}
+                    variant="outlineCustom"
+                  >
+                    Ya
+                  </Button>
+                </ModalFooter>
               </ModalContent>
             </Modal>
           </div>

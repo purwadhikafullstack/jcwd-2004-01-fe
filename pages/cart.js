@@ -29,6 +29,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { isInteger } from "lodash";
+import PageLoading from "../components/pageLoading";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
@@ -40,6 +41,7 @@ const Cart = ({ getCartAction }) => {
   const token = Cookies.get("token");
 
   const [userAddress, setUserAddress] = useState();
+  const [pageLoading, setPageLoading] = useState(true);
   //Get User Address
   const getUserAddress = async () => {
     let res = await axios.get(`${API_URL}/profile/getuseraddresses`, {
@@ -95,6 +97,7 @@ const Cart = ({ getCartAction }) => {
     dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
+    setPageLoading(false);
   }, []);
 
   const settingsProdukTerkait = {
@@ -132,6 +135,10 @@ const Cart = ({ getCartAction }) => {
     () => {
       router.push("/login");
     };
+  }
+
+  if (pageLoading) {
+    return <PageLoading />;
   }
 
   return (
@@ -188,11 +195,20 @@ const Cart = ({ getCartAction }) => {
           </div>
         </div>
         <MobileHeader
-          firstProp={<IoIosArrowBack className="text-base ml-8" />}
+          firstProp={
+            <IoIosArrowBack
+              className="text-base ml-8"
+              onClick={() => router.back()}
+            />
+          }
           secondProp={
             <p className="text-base mr-[110px] w-[120px]">Keranjang Saya</p>
           }
-          thirdProp={<FaShoppingCart className="text-xl" />}
+          thirdProp={
+            <Link href="/cart">
+              <FaShoppingCart />
+            </Link>
+          }
           fourthProp={<HiOutlineDotsVertical className="mr-5 text-xl" />}
           classExtend={"flex shadow-xl lg:hidden"}
         />
@@ -200,7 +216,7 @@ const Cart = ({ getCartAction }) => {
       <div className="hidden md:inline md:text-2xl md:font-bold ">
         <p className="pl-[96px] mt-[57px] "> Keranjang Saya </p>
       </div>
-      <div className="flex">
+      <div className="flex mb-[200px] md:mb-0">
         {/* Card Cart */}
         <div>
           <CardCart cartData={cart} selected_product={selected_product} />

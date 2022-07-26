@@ -13,12 +13,14 @@ import * as Yup from "yup";
 import axios from "axios";
 import API_URL from "../../helpers/apiurl";
 import { toast } from "react-toastify";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
+import PageLoading from "../../components/pageLoading";
 
 const ResetPassword = () => {
   const imageRegisterLogin = "/Frame.svg";
   const logo = "/LogoHealthymed.svg";
+  const [loading, setLoading] = useState(true);
 
   const [disable, setDisable] = useState(false);
 
@@ -66,6 +68,7 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#48BB78" },
         });
         router.push("/login");
       } catch (error) {
@@ -79,12 +82,21 @@ const ResetPassword = () => {
           draggable: true,
           progress: undefined,
           theme: "colored",
+          style: { backgroundColor: "#e85362" },
         });
       } finally {
         setDisable(false);
       }
     },
   });
+
+  useEffect(() => {
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <PageLoading />;
+  }
 
   return (
     <div className="flex">
