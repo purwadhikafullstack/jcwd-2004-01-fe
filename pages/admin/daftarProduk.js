@@ -5,9 +5,22 @@ import { MdOutlineFileDownload } from "react-icons/md";
 import { IoDocumentText } from "react-icons/io5";
 import MedicineTable from "../../components/MedicineTable";
 import { debounce } from "lodash";
+import PageLoading from "../../components/pageLoading";
+import { useState } from "react";
+import { useEffect } from "react";
 
 // import DetailTableObat from "../../components/DetailTableObat";
 const daftarProduk = () => {
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+    setPageLoading(false);
+  }, []);
+
+  if (pageLoading) {
+    return <PageLoading />;
+  }
+
   return (
     <>
       {/* navbar admin */}

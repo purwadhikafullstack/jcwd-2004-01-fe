@@ -53,6 +53,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Link from "next/link";
+import PageLoading from "../components/pageLoading";
 // import Router from "next/router";
 
 const Checkout = ({ getCartAction }) => {
@@ -64,6 +65,7 @@ const Checkout = ({ getCartAction }) => {
 
   const [checkoutProduct, setCheckoutProduct] = useState([]);
   const [bankData, setBankData] = useState([]);
+  const [pageLoading, setPageLoading] = useState(true);
   console.log(bankData, "ini bank data");
 
   console.log(checkoutProduct);
@@ -161,6 +163,7 @@ const Checkout = ({ getCartAction }) => {
     if (selected_product.length < 1) {
       router.push("/");
     }
+    setPageLoading(false);
   }, []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -251,6 +254,10 @@ const Checkout = ({ getCartAction }) => {
     () => {
       router.push("/login");
     };
+  }
+
+  if (pageLoading) {
+    return <PageLoading />;
   }
 
   return (
@@ -468,7 +475,7 @@ const Checkout = ({ getCartAction }) => {
                       <div className="flex items-center justify-between hover:cursor-pointer">
                         <div className="flex items-center gap-[34px]">
                           <img
-                            src={`${API_URL}${val.image}`}
+                            src={`${val.image}`}
                             alt=""
                             className="w-[42px] h-[42px] object-scale-down"
                           />
@@ -489,7 +496,7 @@ const Checkout = ({ getCartAction }) => {
                 <div className="flex items-center justify-between">
                   <p className="font-bold">{bankData[selectBank].name}</p>
                   <img
-                    src={`${API_URL}${bankData[selectBank].image}`}
+                    src={`${bankData[selectBank].image}`}
                     alt=""
                     className="w-[42px] h-[42px] object-scale-down"
                   />

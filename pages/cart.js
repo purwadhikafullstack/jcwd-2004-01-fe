@@ -29,6 +29,7 @@ import Head from "next/head";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { isInteger } from "lodash";
+import PageLoading from "../components/pageLoading";
 // import Router from "next/router";
 
 const Cart = ({ getCartAction }) => {
@@ -40,6 +41,7 @@ const Cart = ({ getCartAction }) => {
   const token = Cookies.get("token");
 
   const [userAddress, setUserAddress] = useState();
+  const [pageLoading, setPageLoading] = useState(true);
   //Get User Address
   const getUserAddress = async () => {
     let res = await axios.get(`${API_URL}/profile/getuseraddresses`, {
@@ -95,6 +97,7 @@ const Cart = ({ getCartAction }) => {
     dispatch({ type: "REFRESH_SELECTED_PRODUCT" });
     getCartAction();
     getProdcutTerkait();
+    setPageLoading(false);
   }, []);
 
   const settingsProdukTerkait = {
@@ -132,6 +135,10 @@ const Cart = ({ getCartAction }) => {
     () => {
       router.push("/login");
     };
+  }
+
+  if (pageLoading) {
+    return <PageLoading />;
   }
 
   return (
