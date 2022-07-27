@@ -85,7 +85,7 @@ const Checkout = ({ getCartAction }) => {
   const getProdcutTerkait = async (idSymptom) => {
     try {
       let response = await axios.get(
-        `${API_URL}/product/get-product-terkait?symptom_id=${17}`
+        `${API_URL}/product/get-product-terkait?symptom_id=${18}`
       );
       let data = response.data;
 
