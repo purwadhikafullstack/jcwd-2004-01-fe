@@ -9,10 +9,7 @@ import {
   MenuButton,
   MenuList,
   MenuItem,
-  MenuItemOption,
-  MenuGroup,
-  MenuOptionGroup,
-  MenuDivider,
+  Spinner,
   useToast,
   Modal,
   ModalOverlay,
@@ -27,13 +24,7 @@ import { HiOutlineDownload, HiOutlineDotsVertical } from "react-icons/hi";
 import { debounce } from "lodash";
 import DetailTableObat from "./DetailTableObat";
 import ModalInputDrugs from "./ModalInputProduct";
-import {
-  useState,
-  useMemo,
-  useTransition,
-  useCallback,
-  useEffect,
-} from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import PaginationProductAdmin from "./PaginationProductAdmin";
 import API_URL from "../helpers/apiurl";
 import axios from "axios";
@@ -47,6 +38,8 @@ const MedicineTable = () => {
   const [input, setInput] = useState({
     search: "",
     category: "",
+    order: "",
+    price: "",
   });
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
@@ -54,6 +47,7 @@ const MedicineTable = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [limit, setLimit] = useState(10);
   const [component, setComponent] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   console.log(data, "inidata");
 
@@ -229,7 +223,7 @@ const MedicineTable = () => {
 
   const getDaftarProduk = async (page, input, limit, cb) => {
     let response = await axios.get(
-      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=&orderPrice=`
+      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=${input.order}&orderPrice=${input.price}`
     );
     console.log(response);
     cb(response);
@@ -246,6 +240,7 @@ const MedicineTable = () => {
 
   useEffect(() => {
     getComponent();
+    setLoading(false);
   }, []);
 
   const debounceAll = () => {
@@ -295,6 +290,30 @@ const MedicineTable = () => {
                 );
               })}
             </Select>
+            <Select
+              w="100px"
+              h="42px"
+              focusBorderColor="blackPrimary"
+              placeholder="Sort"
+              name="order"
+              value={input.order}
+              onChange={(e) => handleInput(e)}
+            >
+              <option value="ASC">A-Z</option>
+              <option value="DESC">Z-A</option>
+            </Select>
+            <Select
+              w="100px"
+              h="42px"
+              focusBorderColor="blackPrimary"
+              placeholder="Harga"
+              name="price"
+              value={input.price}
+              onChange={(e) => handleInput(e)}
+            >
+              <option value="ASC">Termurah</option>
+              <option value="DESC">Termahal</option>
+            </Select>
           </div>
           <Button
             onClick={onOpen}
@@ -323,6 +342,7 @@ const MedicineTable = () => {
             setLimit={setLimit}
             updateLimit={updateLimit}
             pageChangeHandler={setPage}
+            isAdmin={true}
           />
         </div>
       </div>

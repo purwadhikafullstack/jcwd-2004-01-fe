@@ -77,7 +77,7 @@ const Dashboard = () => {
     labels: [],
     datasets: [],
   });
-  const [filterProfit, setFilterProfit] = useState("bulan");
+  const [filterProfit, setFilterProfit] = useState("");
 
   const getProfitChart = async (chart) => {
     let response = await axios.get(
@@ -110,7 +110,7 @@ const Dashboard = () => {
     labels: [],
     datasets: [],
   });
-  const [filterPenjualan, setFilterPenjualan] = useState("bulan");
+  const [filterPenjualan, setFilterPenjualan] = useState("");
 
   const getPenjualanChart = async (chart) => {
     let response = await axios.get(
@@ -152,6 +152,8 @@ const Dashboard = () => {
   useEffect(() => {
     getTodayReport();
     setPageLoading(false);
+    setFilterPenjualan("bulan");
+    setFilterProfit("bulan");
   }, []);
 
   if (pageLoading) {
@@ -545,9 +547,6 @@ const Dashboard = () => {
               <div className="flex justify-between pt-4 mx-4">
                 <div className="">
                   <div className="text-xl font-bold">Profit</div>
-                  <div className="text-xs font-[#737A8D]">
-                    Data dinyatakan dalam jutaan rupiah
-                  </div>
                 </div>
                 <Select
                   w="141px"
@@ -561,7 +560,7 @@ const Dashboard = () => {
                   <option value="tahun">Tahun</option>
                 </Select>
               </div>
-              <div className="mt-9 mx-4">
+              <div className="mt-12 mx-4">
                 <Chart
                   ref={chartRef}
                   type="bar"

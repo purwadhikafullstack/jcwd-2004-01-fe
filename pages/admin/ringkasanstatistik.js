@@ -122,7 +122,7 @@ const RingkasanStatistik = () => {
     labels: [],
     datasets: [],
   });
-  const [filterProfit, setFilterProfit] = useState("bulan");
+  const [filterProfit, setFilterProfit] = useState("");
 
   const getProfitChart = async (chart) => {
     let response = await axios.get(
@@ -158,7 +158,7 @@ const RingkasanStatistik = () => {
     labels: [],
     datasets: [],
   });
-  const [filterPenjualan, setFilterPenjualan] = useState("bulan");
+  const [filterPenjualan, setFilterPenjualan] = useState("");
   const [average, setAverage] = useState(0);
 
   const getPenjualanChart = async (chart) => {
@@ -194,7 +194,7 @@ const RingkasanStatistik = () => {
     labels: [],
     datasets: [],
   });
-  const [filterPembatalan, setFilterPembatalan] = useState("bulan");
+  const [filterPembatalan, setFilterPembatalan] = useState("");
 
   const getPembatalanChart = async (chart) => {
     let response = await axios.get(
@@ -235,6 +235,9 @@ const RingkasanStatistik = () => {
   useEffect(() => {
     getTodayReport();
     setPageLoading(false);
+    setFilterPembatalan("bulan");
+    setFilterPenjualan("bulan");
+    setFilterProfit("bulan");
   }, []);
 
   if (pageLoading) {
