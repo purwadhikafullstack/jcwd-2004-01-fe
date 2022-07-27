@@ -384,7 +384,7 @@ const DetailProdukUserSide = ({ product, productTerkaitData, host }) => {
                             key={i}
                             src={`${API_URL}${val.image}`}
                             alt=""
-                            className="object-cover"
+                            className="w-[250px] h-[250px] object-cover"
                           />
                         )}
                       </>
