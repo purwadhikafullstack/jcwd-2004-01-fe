@@ -214,7 +214,7 @@ const Products = () => {
         </div>
       </div>
 
-      <div className="w-[1244px] h-[2497px] mx-16 pt-10 flex justify-between">
+      <div className="w-[1244px] h-fit mx-16 pt-10 pb-10 flex justify-between">
         <div className="w-[300px] h-[60px]">
           {/* Category Menu */}
           <div className="collapse collapse-arrow rounded-box drop-shadow-lg">
@@ -272,7 +272,10 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Keluhan
               </div>
-              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div
+                className="collapse-content text-black bg-white text-[14px] h-[200px] scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
+        scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex flex-col gap-1 items-start"
+              >
                 {categoryList.symptom?.map((val, index) => {
                   return (
                     <Checkbox
@@ -328,7 +331,10 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Jenis Obat
               </div>
-              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div
+                className="collapse-content text-black bg-white text-[14px] h-[200px] scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
+        scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex flex-col gap-1 items-start"
+              >
                 {categoryList.type?.map((val, index) => {
                   return (
                     <Checkbox
@@ -351,7 +357,10 @@ const Products = () => {
               <div className="collapse-title text-black bg-white text-[16px] font-bold">
                 Brand Obat
               </div>
-              <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
+              <div
+                className="collapse-content text-black bg-white text-[14px] h-[200px] scrollbar-thin scroll scrollbar-thumb-blackPrimary scrollbar-track-slate-300 overflow-y-scroll 
+        scrollbar-thumb-rounded-full scrollbar-track-rounded-full flex flex-col gap-1 items-start"
+              >
                 {categoryList.brand?.map((val, index) => {
                   return (
                     <Checkbox
@@ -371,7 +380,7 @@ const Products = () => {
           </div>
         </div>
 
-        <div className="w-[900px] h-[2283px]">
+        <div className="w-[900px] h-fit pb-10">
           <div className="w-full h-[50px] text-[24px] font-bold border-b-2 border-[#D5D7DD]">
             {/* {cat ? <div hidden={input.category}>{capitalize(cat)}</div> : null}
             {input.category ? (
