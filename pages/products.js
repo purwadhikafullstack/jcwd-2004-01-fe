@@ -47,7 +47,9 @@ const Products = () => {
     symptom: [],
     brand: [],
     orderName: "asc",
-    orderPrice: "asc",
+    orderPrice: "",
+    minPrice: "",
+    maxPrice: "",
   });
   const [loading, setLoading] = useState(true);
 
@@ -90,6 +92,12 @@ const Products = () => {
     if (input.orderPrice) {
       url += `&orderPrice=${input.orderPrice}`;
     }
+    if (input.minPrice) {
+      url += `&minPrice=${input.minPrice}`;
+    }
+    if (input.maxPrice) {
+      url += `&maxPrice=${input.maxPrice}`;
+    }
     let response = await axios.get(url); //! Dipersingkat querynya (dibuat conditional)
     console.log(response, "ini response");
     console.log(cat, "inicat");
@@ -105,10 +113,15 @@ const Products = () => {
 
   const handleInput = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
+    // if (e.target.name == "orderPrice") {
+    //   setInput({ ...input, orderName: "" });
+    // } else if (e.target.name == "orderName") {
+    //   setInput({ ...input, orderPrice: "" });
+    // }
     setPage(0);
     // console.log(input);
-    console.log(data, "ini data");
-    console.log(input.orderPrice);
+    // console.log(data, "ini data");
+    // console.log(input.orderPrice);
   };
 
   const handleCheckbox = (e, prop) => {
@@ -236,7 +249,18 @@ const Products = () => {
                 h={"46px"}
                 w={"211px"}
                 onClick={() => {
-                  setInput({ ...input, type: [], symptom: [], brand: [] });
+                  setInput({
+                    ...input,
+                    type: [],
+                    symptom: [],
+                    brand: [],
+                    orderName: "asc",
+                    orderPrice: "",
+                    minPrice: "",
+                    maxPrice: "",
+                    search: "",
+                    category: "",
+                  });
                 }}
               >
                 Hapus semua filter
@@ -273,12 +297,28 @@ const Products = () => {
               </div>
               <div className="collapse-content text-black bg-white text-[14px] flex flex-col gap-1 items-start">
                 <InputGroup>
-                  {/* <InputLeftAddon children="Rp" /> */}
-                  <Input type="tel" placeholder="Harga Minimum" />
+                  <InputLeftAddon>
+                    <div>Rp</div>
+                  </InputLeftAddon>
+                  <Input
+                    value={input.minPrice}
+                    onChange={(e) => handleInput(e)}
+                    name="minPrice"
+                    type="tel"
+                    placeholder="Harga Minimum"
+                  />
                 </InputGroup>
                 <InputGroup>
-                  {/* <InputLeftAddon children="Rp" /> */}
-                  <Input type="tel" placeholder="Harga Maksimal" />
+                  <InputLeftAddon>
+                    <div>Rp</div>
+                  </InputLeftAddon>
+                  <Input
+                    value={input.maxPrice}
+                    onChange={(e) => handleInput(e)}
+                    name="maxPrice"
+                    type="tel"
+                    placeholder="Harga Maksimal"
+                  />
                 </InputGroup>
               </div>
             </div>
@@ -367,22 +407,26 @@ const Products = () => {
                 value={input.orderPrice}
                 name="orderPrice"
                 fontSize={"14px"}
+                onClick={() => setInput({ ...input, orderName: "" })}
                 onChange={(e) => {
                   handleInput(e);
                 }}
                 width="120px"
+                placeholder="Harga"
               >
                 <option value="asc">Termurah</option>
                 <option value="desc">Termahal</option>
               </Select>
               <Select
                 value={input.orderName}
+                onClick={() => setInput({ ...input, orderPrice: "" })}
                 name="orderName"
                 fontSize={"14px"}
                 onChange={(e) => {
                   handleInput(e);
                 }}
                 width="90px"
+                placeholder="Nama"
               >
                 <option value="asc">A - Z</option>
                 <option value="desc">Z - A</option>

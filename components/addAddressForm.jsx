@@ -89,8 +89,9 @@ const AddAddress = ({ getCartAction }) => {
         if (selected_product.length > 0) {
           router.push("/checkout");
           dispatch({ type: "CHECKOUT" });
+        } else {
+          router.push("/uploadprescription");
         }
-        router.back("/uploadprescription");
       } catch (error) {
         console.log(error);
         toast.error(error.response.data.message || "Network Error", {
