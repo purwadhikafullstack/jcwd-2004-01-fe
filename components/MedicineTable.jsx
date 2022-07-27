@@ -38,6 +38,7 @@ const MedicineTable = () => {
   const [input, setInput] = useState({
     search: "",
     category: "",
+    order: "",
   });
   const [page, setPage] = useState(0);
   const [data, setData] = useState([]);
@@ -221,7 +222,7 @@ const MedicineTable = () => {
 
   const getDaftarProduk = async (page, input, limit, cb) => {
     let response = await axios.get(
-      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=&orderPrice=`
+      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=${input.order}`
     );
     console.log(response);
     cb(response);
@@ -287,6 +288,18 @@ const MedicineTable = () => {
                   </option>
                 );
               })}
+            </Select>
+            <Select
+              w="156px"
+              h="42px"
+              focusBorderColor="blackPrimary"
+              placeholder="Sort"
+              name="order"
+              value={input.order}
+              onChange={(e) => handleInput(e)}
+            >
+              <option value="ASC">A-Z</option>
+              <option value="DESC">Z-A</option>
             </Select>
           </div>
           <Button
