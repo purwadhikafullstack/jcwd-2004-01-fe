@@ -31,7 +31,7 @@ import { BsPlusCircle } from "react-icons/bs";
 import { AiOutlinePlusCircle, AiOutlineMinusCircle } from "react-icons/ai";
 import Image from "next/image";
 
-const ModalEditProduct = ({ isOpen, onClose, id }) => {
+const ModalEditProduct = ({ isOpen, onClose, id, debounceAll }) => {
   const toast = useToast();
   const [page, setPage] = useState(0);
   let token = Cookies.get("token");
@@ -182,6 +182,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
       });
     } finally {
       setButtonLoadingSubmit(false);
+      debounceAll();
     }
   };
 
@@ -299,7 +300,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
         <ModalOverlay />
         <form onSubmit={formik.handleSubmit}>
           <ModalContent maxWidth="792px">
-            <ModalHeader>{page == 4 ? null : `Edit Produk ${id}`}</ModalHeader>
+            <ModalHeader>{page == 4 ? null : `Edit Produk`}</ModalHeader>
             <ModalCloseButton
               _focus={{ boxShadow: "none" }}
               onClick={() => {
@@ -311,7 +312,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
               {/* Bread Crumbs */}
               <div
                 className={`flex items-center pb-[28px] ${
-                  page == 4 ? "hidden" : null
+                  page == 3 ? "hidden" : null
                 }`}
               >
                 <div className="flex items-center">
@@ -832,12 +833,12 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                       />
                       {selectedImage.length < 3 ? (
                         <label htmlFor="image">
-                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-white hover:cursor-pointer" />
+                          <AiOutlinePlusCircle className="navBtn absolute left-9 top-3 text-black hover:cursor-pointer" />
                         </label>
                       ) : null}
                       <AiOutlineMinusCircle
                         z={10}
-                        className="navBtn absolute left-3 top-3 text-white hover:cursor-pointer"
+                        className="navBtn absolute left-3 top-3 text-black hover:cursor-pointer"
                         onClick={() => {
                           setselectedImage(
                             selectedImage.filter((e) => e !== val)
@@ -897,7 +898,7 @@ const ModalEditProduct = ({ isOpen, onClose, id }) => {
                 </Button>
               ) : (
                 <Button
-                  hidden={page == 2}
+                  hidden={page == 2 || page == 3}
                   variant="fillCustom"
                   w="156px"
                   h="42px"

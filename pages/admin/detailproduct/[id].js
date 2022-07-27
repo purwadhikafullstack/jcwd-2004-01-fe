@@ -170,8 +170,11 @@ const DetailProduct = () => {
         {/* navbar admin */}
         <div className="flex w-full bg-white h-16 drop-shadow-md sticky items-center">
           <span className="flex items-center text-xl font-bold gap-4 ml-12">
-            <GrFormPrevious className="text-lg" /> Obat Detail:{" "}
-            {detailProduct?.name}
+            <GrFormPrevious
+              className="text-lg hover:cursor-pointer"
+              onClick={() => router.push("/admin/daftarProduk")}
+            />{" "}
+            Obat Detail: {detailProduct?.name}
           </span>
         </div>
         {/* card detail prodyct */}
@@ -186,6 +189,7 @@ const DetailProduct = () => {
                   h="30px"
                   name="month"
                   onChange={(e) => handleInput(e)}
+                  disabled={input.year == ""}
                 >
                   <option value="1">Januari</option>
                   <option value="2">Februari</option>
@@ -232,6 +236,12 @@ const DetailProduct = () => {
                   <option value="TRANSACTION_BY_USER">
                     Transaction by User
                   </option>
+                  <option value="REJECTED ORDER BY SYSTEM">
+                    Rejected Order by System
+                  </option>
+                  <option value="TRANSACTION BY PRESCRIPTION">
+                    Transaction by Prescription
+                  </option>
                 </Select>
               </div>
               <div className="pb-[6px]">
@@ -274,7 +284,12 @@ const DetailProduct = () => {
 
         {/* ini modal edit gitu deh hehehehehe */}
 
-        <ModalEditProduct isOpen={isOpen} onClose={onClose} id={id} />
+        <ModalEditProduct
+          isOpen={isOpen}
+          onClose={onClose}
+          id={id}
+          debounceAll={debounceAll}
+        />
         <ModalEditQuantityProduct
           isOpen={isQuantityOpen}
           onClose={onQuantityClose}
