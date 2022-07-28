@@ -228,9 +228,9 @@ const MedicineTable = () => {
       if (input.category === "vitamin & suplemen") {
         url += `&category=vitamin%20%26%20suplemen`;
       } else if (input.category === "ibu & anak") {
-        url = +`&category=ibu%20%26%20anak`;
+        url += `&category=ibu%20%26%20anak`;
       } else {
-        url += `&category=${input.category || cat}`;
+        url += `&category=${input.category}`;
       }
     }
 

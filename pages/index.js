@@ -97,7 +97,7 @@ export default function Home() {
       <div className="mx-8">
         <MobileHeader
           firstProp={null}
-          secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
+          secondProp={<SearchBar placeholder={"Search"} />}
           thirdProp={<IoNotificationsSharp />}
           fourthProp={<FaShoppingCart href="/cart" />}
           classExtend={"flex lg:hidden"}
@@ -185,9 +185,11 @@ export default function Home() {
       <div className="w-[1244px] mx-auto mt-10">
         <div className="flex justify-between">
           <div className="font-bold text-[24px]">Popular Product</div>
-          <button className="text-[14px] font-bold text-[#3C5ABC] underline">
-            Lihat semua
-          </button>
+          <Link href="/products">
+            <button className="text-[14px] font-bold text-[#3C5ABC] underline">
+              Lihat semua
+            </button>
+          </Link>
         </div>
       </div>
 
