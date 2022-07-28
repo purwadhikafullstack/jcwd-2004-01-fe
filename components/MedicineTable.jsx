@@ -222,9 +222,20 @@ const MedicineTable = () => {
   };
 
   const getDaftarProduk = async (page, input, limit, cb) => {
-    let response = await axios.get(
-      `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&category=${input.category}&orderName=${input.order}&orderPrice=${input.price}`
-    );
+    let url = `${API_URL}/product/get-all-product?page=${page}&limit=${limit}&search=${input.search}&orderPrice=${input.price}`;
+
+    if (input.category) {
+      if (input.category === "vitamin & suplemen") {
+        url += `&category=vitamin%20%26%20suplemen`;
+      } else if (input.category === "ibu & anak") {
+        url = +`&category=ibu%20%26%20anak`;
+      } else {
+        url += `&category=${input.category || cat}`;
+      }
+    }
+
+    let response = await axios.get(url);
+
     console.log(response);
     cb(response);
   };
