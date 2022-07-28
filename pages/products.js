@@ -78,8 +78,19 @@ const Products = () => {
       url += `&symptom=${input.symptom}`;
     }
     if (input.category) {
-      url += `&category=${input.category || cat}`;
+      if (input.category === "vitamin & suplemen") {
+        url += `&category=vitamin%20%26%20suplemen`;
+      } else if (input.category === "ibu & anak") {
+        url = +`&category=ibu%20%26%20anak`;
+      } else {
+        url += `&category=${input.category || cat}`;
+      }
     }
+    // else if (input.category == "vitamin & suplemen") {
+    //   url += `&category=vitamin%20%26%20suplemen`;
+    // } else if (input.category == "ibu & anak") {
+    //   url = +`&category=ibu%20%26%20anak`;
+    // }
     if (input.type) {
       url += `&type=${input.type}`;
     }
@@ -101,6 +112,7 @@ const Products = () => {
     let response = await axios.get(url); //! Dipersingkat querynya (dibuat conditional)
     console.log(response, "ini response");
     console.log(cat, "inicat");
+    console.log(input.category, "ini input caategory");
     cb(response);
   };
 
@@ -119,7 +131,7 @@ const Products = () => {
     //   setInput({ ...input, orderPrice: "" });
     // }
     setPage(0);
-    // console.log(input);
+    console.log(input.category);
     // console.log(data, "ini data");
     // console.log(input.orderPrice);
   };
@@ -380,7 +392,7 @@ const Products = () => {
           </div>
         </div>
 
-        <div className="w-[900px] h-fit pb-10">
+        <div className="w-[900px] h-[1245px] pb-10">
           <div className="w-full h-[50px] text-[24px] font-bold border-b-2 border-[#D5D7DD]">
             {/* {cat ? <div hidden={input.category}>{capitalize(cat)}</div> : null}
             {input.category ? (
