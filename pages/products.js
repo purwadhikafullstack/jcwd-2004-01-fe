@@ -81,7 +81,7 @@ const Products = () => {
       if (input.category === "vitamin & suplemen") {
         url += `&category=vitamin%20%26%20suplemen`;
       } else if (input.category === "ibu & anak") {
-        url = +`&category=ibu%20%26%20anak`;
+        url += `&category=ibu%20%26%20anak`;
       } else {
         url += `&category=${input.category || cat}`;
       }
@@ -186,14 +186,16 @@ const Products = () => {
         <div className="mx-8">
           <MobileHeader
             firstProp={null}
-            secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
+            secondProp={<SearchBar placeholder={"Search"} />}
             thirdProp={
               isLogin ? (
                 <FaShoppingCart />
               ) : (
-                <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
-                  Masuk
-                </Button>
+                <Link href={"/login"}>
+                  <Button variant={"outlineCustom"} h={"44px"} w={"114px"}>
+                    Masuk
+                  </Button>
+                </Link>
               )
             }
             fourthProp={

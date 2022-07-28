@@ -151,7 +151,7 @@ const Cart = ({ getCartAction }) => {
           <div className="mx-8">
             <MobileHeader
               firstProp={null}
-              secondProp={<SearchBar placeholder={"Hayo mau cari apa"} />}
+              secondProp={<SearchBar placeholder={"Search"} />}
               thirdProp={
                 isLogin ? (
                   <Link href="/cart">
